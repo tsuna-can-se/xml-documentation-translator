@@ -1,0 +1,88 @@
+---
+name: ドキュメントのリント
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ドキュメントのリント
+    runs-on: ubuntu-latest
+    steps:
+      - name: ブランチのチェックアウト
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Node.js のセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21
+
+      - name: npm パッケージのインストール
+        shell: bash
+        run: npm ci
+  
+      - name: Linter の処理開始
+        shell: bash
+        run: echo '# Linter Result :newspaper:' >> $GITHUB_STEP_SUMMARY
+
+      - name: cSpell の実行
+        id: run-cspell
+        continue-on-error: true
+        shell: bash
+        run: |
+          echo '## cSpell Result' >> $GITHUB_STEP_SUMMARY
+          npm run lint:cspell-all > cspell-result.txt 2>&1
+          echo ':heavy_check_mark: cSpell に成功しました。' >> $GITHUB_STEP_SUMMARY
+
+      - name: cSpell 失敗時の結果表示
+        shell: bash
+        if: ${{ steps.run-cspell.outcome == 'failure' }}
+        run: |
+          echo ':x: cSpell に失敗しました。  ' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat cspell-result.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo 'LINT_STATUS=Error' >> $GITHUB_ENV
+
+      - name: Markdownlint の実行
+        id: run-markdownlint
+        continue-on-error: true
+        shell: bash
+        run: |
+          echo '## Markdownlint Result' >> $GITHUB_STEP_SUMMARY
+          npm run lint:markdownlint-all > markdownlint-result.txt 2>&1
+          echo ':heavy_check_mark: Markdownlint に成功しました。' >> $GITHUB_STEP_SUMMARY
+
+      - name: Markdownlint 失敗時の結果表示
+        shell: bash
+        if: ${{ steps.run-markdownlint.outcome == 'failure' }}
+        run: |
+          echo ':x: Markdownlint に失敗しました。  ' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat markdownlint-result.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo 'LINT_STATUS=Error' >> $GITHUB_ENV
+
+      - name: textlint の実行
+        shell: bash
+        run: |
+          echo '## textlint Result' >> $GITHUB_STEP_SUMMARY
+          npm run lint:textlint-all -- --output-file textlint-result.txt --format compact
+          if [ -f textlint-result.txt ]; then
+            echo ':x: textlint に失敗しました。  ' >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            cat textlint-result.txt >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo 'LINT_STATUS=Error' >> $GITHUB_ENV
+          else
+            echo ':heavy_check_mark: textlint に成功しました。' >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Lint 結果の確認
+        shell: bash
+        if: ${{ env.LINT_STATUS == 'Error' }}
+        run: exit 1
