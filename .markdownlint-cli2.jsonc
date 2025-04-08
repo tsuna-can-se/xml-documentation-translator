@@ -1,0 +1,9 @@
+{
+    "gitignore": true,
+    "globs": [
+        "*.md",
+        "**/*.md",
+        "!**/.github/ISSUE_TEMPLATE/**/*.md",
+        "!**/.github/pull_request_template.md"
+    ]
+}
