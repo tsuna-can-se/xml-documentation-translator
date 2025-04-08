@@ -1,0 +1,21 @@
+gitignore: true
+
+line-length:
+  line_length: 120
+  heading_line_length: 120
+  code_block_line_length: 120
+  code_blocks: false
+  tables: false
+  headings: true
+  strict: false
+  stern: false
+
+ol-prefix:
+  style: "one"
+ul-style:
+  style: "dash"
+
+ol-indent:
+  indent: 4
+ul-indent:
+  indent: 4

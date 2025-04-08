@@ -1,0 +1,19 @@
+{
+    "ignorePaths": [
+        ".git",
+        ".gitignore",
+        ".markdownlint-cli2.jsonc",
+        ".markdownlint.yaml",
+        ".textlintignore",
+        ".textlintrc",
+        ".vscode",
+        "cspell.json",
+        "xml-documentation-translator.code-workspace",
+        "package.json",
+        "package-lock.json",
+        "**/node_modules/**"
+    ],
+    "words": [
+        "tsuna"
+    ]
+}
