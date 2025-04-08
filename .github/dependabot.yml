@@ -1,0 +1,41 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 50
+    commit-message:
+      prefix: "[Dependabot] github-actions"
+    labels:
+      - "CI/CD"
+      - "dependencies"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 50
+    commit-message:
+      prefix: "[Dependabot] npm"
+    labels:
+      - "npm"
+      - "dependencies"
+
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 50
+    commit-message:
+      prefix: "[Dependabot] nuget"
+    labels:
+      - "nuget"
+      - "dependencies"
+    groups:
+      dotnet-packages:
+        patterns:
+          - "Microsoft.Extensions*"
+      xunit-packages:
+        patterns:
+          - "xunit*"
