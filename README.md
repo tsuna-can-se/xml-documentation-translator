@@ -1,1 +1,1 @@
-# xml-documentation-translator
+# TsunaCan.XmlDocumentationTranslator
