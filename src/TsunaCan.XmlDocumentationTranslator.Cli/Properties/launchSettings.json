@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TsunaCan.XmlDocumentationTranslator.Cli": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
