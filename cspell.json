@@ -1,5 +1,22 @@
 {
+    "languageSettings": [
+        {
+            // VSCode languageId. i.e. typescript, java, go, cpp, javascript, markdown, latex
+            // * will match against any file type.
+            "languageId": "*",
+            // Language locale. i.e. en-US, de-AT, or ru. * will match all locales.
+            // Multiple locales can be specified like: "en, en-US" to match both English and English US.
+            "locale": "*",
+            // To exclude patterns, add them to "ignoreRegExpList"
+            "ignoreRegExpList": [],
+            // List of dictionaries to enable by name in `dictionaryDefinitions`
+            "dictionaries": ["csharp"],
+            // Dictionary definitions can also be supplied here. They are only used if "languageId" and "locale" match.
+            "dictionaryDefinitions": []
+        }
+    ],
     "ignorePaths": [
+        ".editorconfig",
         ".git",
         ".gitignore",
         ".markdownlint-cli2.jsonc",
@@ -14,6 +31,8 @@
         "**/node_modules/**"
     ],
     "words": [
+        "masatsuna",
+        "stylecop",
         "textlint",
         "tsuna",
         "xunit"
