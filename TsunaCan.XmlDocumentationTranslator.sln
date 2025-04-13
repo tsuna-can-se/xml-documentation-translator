@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsunaCan.XmlDocumentationTr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsunaCan.XmlDocumentationTranslator.Core", "src\TsunaCan.XmlDocumentationTranslator.Core\TsunaCan.XmlDocumentationTranslator.Core.csproj", "{6E205A59-3424-4826-951B-D5687E27421C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.TsunaCan.XmlDocumentationTranslator.Core", "tests\Test.TsunaCan.XmlDocumentationTranslator.Core\Test.TsunaCan.XmlDocumentationTranslator.Core.csproj", "{093B96CF-E1D1-4BD9-9A59-AF584FF1BF76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{6E205A59-3424-4826-951B-D5687E27421C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E205A59-3424-4826-951B-D5687E27421C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E205A59-3424-4826-951B-D5687E27421C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{093B96CF-E1D1-4BD9-9A59-AF584FF1BF76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093B96CF-E1D1-4BD9-9A59-AF584FF1BF76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093B96CF-E1D1-4BD9-9A59-AF584FF1BF76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093B96CF-E1D1-4BD9-9A59-AF584FF1BF76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C391E092-DFDF-4ECE-A6A9-1CB591545C8E} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
 		{6E205A59-3424-4826-951B-D5687E27421C} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
+		{093B96CF-E1D1-4BD9-9A59-AF584FF1BF76} = {A9391D9A-8E18-4986-8868-EB2C36CB1CA6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91AD4797-47A5-4D5A-95CF-5FD8333F9141}
