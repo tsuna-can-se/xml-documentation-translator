@@ -9,7 +9,7 @@ on:
 
 jobs:
   ci:
-    name: ビルドとテスト
+    name: ビルドと単体テスト
   
     permissions:
       contents: read
