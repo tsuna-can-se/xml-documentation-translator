@@ -1,0 +1,109 @@
+# cspell:ignore danielpalme, dorny, NOLOGO, OPTOUT, reporttypes, targetdir
+
+name: ビルドと単体テスト
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  ci:
+    name: ビルドとテスト
+  
+    permissions:
+      contents: read
+
+    runs-on: 'ubuntu-latest'
+   
+    env:
+      BUILD_CONFIGURATION: Debug
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+      DOTNET_NOLOGO: true
+      FRAMEWORK_VERSION: net9.0
+  
+    steps:
+      - name: ブランチのチェックアウト
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+  
+      - name: dotnet SDK のセットアップ
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+          dotnet-quality: 'ga'
+
+      - name: アプリケーションのビルド
+        id: application-build
+        shell: bash
+        continue-on-error: true
+        run: |
+          echo '## Build Result :gear:' >> $GITHUB_STEP_SUMMARY
+          dotnet build --nologo --configuration ${{ env.BUILD_CONFIGURATION }} --verbosity minimal > build-result.txt
+          echo ':heavy_check_mark: アプリケーションのビルドに成功しました。' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat build-result.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+  
+      - name: ビルド失敗時の結果表示
+        shell: bash
+        if: ${{ steps.application-build.outcome == 'failure' }}
+        run: |
+          echo ':x: アプリケーションのビルドに失敗しました。  ' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat build-result.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          exit 1
+  
+      - name: 単体テストの実行
+        id: run-unit-test
+        shell: bash
+        continue-on-error: true
+        run: |
+          echo '## Test Result :memo:' >> $GITHUB_STEP_SUMMARY
+          dotnet test --no-build --nologo --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ env.FRAMEWORK_VERSION }} -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename ${{ runner.os }}-${{ env.FRAMEWORK_VERSION }}.trx
+
+      - id: create-test-result-report
+        name: テスト結果ページの作成
+        uses: dorny/test-reporter@v2
+        with:
+          name: 'Test results ${{ env.FRAMEWORK_VERSION }} on ${{ runner.os }}'
+          path: '**/TestResults/${{ runner.os }}-${{ env.FRAMEWORK_VERSION }}.trx'
+          path-replace-backslashes: 'true'
+          reporter: 'dotnet-trx'
+          only-summary: 'false'
+          use-actions-summary: 'true'
+          badge-title: 'tests'
+          list-suites: 'failed'
+          list-tests: 'failed'
+          max-annotations: '10'
+          fail-on-error: 'false'
+          fail-on-empty: 'true'
+
+      - id: create-coverage-report
+        name: コードカバレッジレポートの解析
+        uses: danielpalme/ReportGenerator-GitHub-Action@5
+        with:
+          reports: '**/TestResults/coverage.cobertura.xml'
+          targetdir: 'CoverageReport'
+          reporttypes: 'MarkdownSummaryGithub'
+    
+      - name: コードカバレッジの結果表示
+        shell: bash
+        run: |
+          echo '## Coverage :triangular_ruler:' >> $GITHUB_STEP_SUMMARY
+          sed -i s/'# Summary'/'Coverage report of ${{ env.FRAMEWORK_VERSION }} on ${{ runner.os }}.'/g CoverageReport/SummaryGithub.md
+          sed -i -e '/^#/d' CoverageReport/SummaryGithub.md
+          cat CoverageReport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+    
+      - name: テスト結果のアップロード
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results-${{ runner.os }}-${{ env.FRAMEWORK_VERSION }}
+          path: tests/**/TestResults/
+          retention-days: 1
+
+      - name: 単体テスト結果の確認
+        if: ${{ steps.create-test-result-report.outputs.conclusion == 'failure' }}
+        run: exit 1
