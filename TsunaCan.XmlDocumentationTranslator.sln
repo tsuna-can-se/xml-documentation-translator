@@ -29,6 +29,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsunaCan.XmlDocumentationTr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.TsunaCan.XmlDocumentationTranslator.Core", "tests\Test.TsunaCan.XmlDocumentationTranslator.Core\Test.TsunaCan.XmlDocumentationTranslator.Core.csproj", "{093B96CF-E1D1-4BD9-9A59-AF584FF1BF76}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{05F92BD9-9EAD-4E08-85EC-6E760AE7077D}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{2350FECD-56C4-461F-8F5D-254049A4D295}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-pr.yml = .github\workflows\build-pr.yml
+		.github\workflows\lint-documents.yml = .github\workflows\lint-documents.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +66,8 @@ Global
 		{C391E092-DFDF-4ECE-A6A9-1CB591545C8E} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
 		{6E205A59-3424-4826-951B-D5687E27421C} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
 		{093B96CF-E1D1-4BD9-9A59-AF584FF1BF76} = {A9391D9A-8E18-4986-8868-EB2C36CB1CA6}
+		{05F92BD9-9EAD-4E08-85EC-6E760AE7077D} = {2022CB0F-8BAF-F49E-0C48-8EF4C96EC109}
+		{2350FECD-56C4-461F-8F5D-254049A4D295} = {05F92BD9-9EAD-4E08-85EC-6E760AE7077D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91AD4797-47A5-4D5A-95CF-5FD8333F9141}
