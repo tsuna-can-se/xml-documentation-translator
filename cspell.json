@@ -29,7 +29,9 @@
         "xml-documentation-translator.code-workspace",
         "package.json",
         "package-lock.json",
-        "**/node_modules/**"
+        "**/node_modules/**",
+        "**/*.resx",
+        "**/*.Designer.cs"
     ],
     "words": [
         "masatsuna",
