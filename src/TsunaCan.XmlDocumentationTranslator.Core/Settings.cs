@@ -29,7 +29,7 @@ public class Settings
     public required string OutputFilePath { get; set; }
 
     /// <summary>
-    ///  Gets or internally sets the locale of the output file.
+    ///  Gets or sets the locale of the output file.
     /// </summary>
     public required CultureInfo OutputFileLocale { get; set; }
 
