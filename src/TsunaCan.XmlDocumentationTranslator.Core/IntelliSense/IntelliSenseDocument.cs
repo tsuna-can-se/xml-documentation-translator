@@ -50,7 +50,6 @@ public partial class IntelliSenseDocument
             internalXmlDoc.LoadXml($"<{Constants.MembersElement}>{xml}</{Constants.MembersElement}>");
 
             // Set members element.
-            var elements = new List<XmlElement>();
             if (internalXmlDoc.DocumentElement == null)
             {
                 this.MembersElement = new XmlDocument().CreateElement(Constants.MembersElement);
