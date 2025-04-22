@@ -319,6 +319,7 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
                     <assembly>
                         <name />
                     </assembly>
+                    <members />
                 </doc>
                 """,
                 writtenContent);

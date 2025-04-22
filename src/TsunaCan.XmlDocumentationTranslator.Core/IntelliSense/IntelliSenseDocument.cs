@@ -21,10 +21,10 @@ public partial class IntelliSenseDocument
     public required Assembly Assembly { get; set; }
 
     /// <summary>
-    ///  Gets or sets the members elements in the documentation.
+    ///  Gets or sets the members element in the documentation.
     /// </summary>
     [XmlAnyElement(Name = Constants.MembersElement)]
-    public XmlElement[] MembersElements { get; set; } = [];
+    public XmlElement MembersElement { get; set; } = new XmlDocument().CreateElement(Constants.MembersElement);
 
     /// <summary>
     ///  Sets the members elements in the documentation from an XML string.
@@ -39,7 +39,7 @@ public partial class IntelliSenseDocument
     {
         if (string.IsNullOrEmpty(xml))
         {
-            this.MembersElements = [];
+            this.MembersElement = new XmlDocument().CreateElement(Constants.MembersElement);
             return;
         }
 
@@ -47,25 +47,17 @@ public partial class IntelliSenseDocument
         {
             // XML文書のルート要素を作成
             XmlDocument internalXmlDoc = new();
-            internalXmlDoc.LoadXml($"<root><{Constants.MembersElement}>{xml}</{Constants.MembersElement}></root>");
+            internalXmlDoc.LoadXml($"<{Constants.MembersElement}>{xml}</{Constants.MembersElement}>");
 
             // ルート要素の子要素をすべて取得
             var elements = new List<XmlElement>();
             if (internalXmlDoc.DocumentElement == null)
             {
-                this.MembersElements = [];
+                this.MembersElement = new XmlDocument().CreateElement(Constants.MembersElement);
             }
             else
             {
-                foreach (XmlNode node in internalXmlDoc.DocumentElement.ChildNodes)
-                {
-                    if (node is XmlElement element)
-                    {
-                        elements.Add(element);
-                    }
-                }
-
-                this.MembersElements = [.. elements];
+                this.MembersElement = internalXmlDoc.DocumentElement;
             }
         }
         catch (XmlException ex)
