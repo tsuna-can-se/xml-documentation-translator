@@ -42,6 +42,9 @@ public class IntelliSenseDocumentManager
         this.logger.LogDebug(Messages.XmlDocumentLoading, intelliSenseDocumentPath);
 
         // XML file format check.
+        // Deserialize the XML to validate its format.
+        // The result is not used as we only care about validation here.
+        // https://github.com/tsuna-can-se/xml-documentation-translator/issues/14
         using var reader = XmlReader.Create(intelliSenseDocumentPath);
         _ = this.serializer.Deserialize(reader);
 
