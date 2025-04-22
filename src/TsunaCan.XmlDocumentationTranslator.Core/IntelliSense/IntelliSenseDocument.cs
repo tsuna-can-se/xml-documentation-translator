@@ -9,13 +9,13 @@ namespace TsunaCan.XmlDocumentationTranslator.IntelliSense;
 [Serializable]
 [DesignerCategory("code")]
 [XmlType(AnonymousType = true)]
-[XmlRoot(ElementName = "doc", Namespace = null, IsNullable = false)]
+[XmlRoot(ElementName = Constants.DocElement, Namespace = null, IsNullable = false)]
 public partial class IntelliSenseDocument
 {
     /// <summary>
     ///  Gets or sets the assembly information in the documentation.
     /// </summary>
-    [XmlElement("assembly")]
+    [XmlElement(Constants.AssemblyElement)]
     public required Assembly Assembly { get; set; }
 
     /// <summary>
