@@ -120,6 +120,9 @@
   <data name="DirectoryCreated" xml:space="preserve">
     <value>Directory {directory} was created.</value>
   </data>
+  <data name="InvalidXmlString" xml:space="preserve">
+    <value>XML string is invalid.</value>
+  </data>
   <data name="UnableToConvertObjectToXml" xml:space="preserve">
     <value>Unable to convert object to XML.</value>
   </data>

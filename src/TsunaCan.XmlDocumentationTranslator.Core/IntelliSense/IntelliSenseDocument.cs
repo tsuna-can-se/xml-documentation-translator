@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using System.Xml;
 using System.Xml.Serialization;
+using TsunaCan.XmlDocumentationTranslator.Resources;
 
 namespace TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
@@ -19,9 +21,56 @@ public partial class IntelliSenseDocument
     public required Assembly Assembly { get; set; }
 
     /// <summary>
-    ///  Gets or sets the collection of members described in the documentation.
+    ///  Gets or sets the members elements in the documentation.
     /// </summary>
-    [XmlArrayItem("member", IsNullable = false)]
-    [XmlArray("members")]
-    public required Member[] Members { get; set; }
+    [XmlAnyElement(Name = Constants.MembersElement)]
+    public XmlElement[] MembersElements { get; set; } = [];
+
+    /// <summary>
+    ///  Sets the members elements in the documentation from an XML string.
+    /// </summary>
+    /// <param name="xml">XML string.</param>
+    /// <exception cref="ArgumentException">
+    ///  <list type="bullet">
+    ///   <item>XML string is invalid.</item>
+    ///  </list>
+    /// </exception>
+    internal void SetMembersInnerXml(string? xml)
+    {
+        if (string.IsNullOrEmpty(xml))
+        {
+            this.MembersElements = [];
+            return;
+        }
+
+        try
+        {
+            // XML文書のルート要素を作成
+            XmlDocument internalXmlDoc = new();
+            internalXmlDoc.LoadXml($"<root><{Constants.MembersElement}>{xml}</{Constants.MembersElement}></root>");
+
+            // ルート要素の子要素をすべて取得
+            var elements = new List<XmlElement>();
+            if (internalXmlDoc.DocumentElement == null)
+            {
+                this.MembersElements = [];
+            }
+            else
+            {
+                foreach (XmlNode node in internalXmlDoc.DocumentElement.ChildNodes)
+                {
+                    if (node is XmlElement element)
+                    {
+                        elements.Add(element);
+                    }
+                }
+
+                this.MembersElements = [.. elements];
+            }
+        }
+        catch (XmlException ex)
+        {
+            throw new ArgumentException(Messages.InvalidXmlString, nameof(xml), ex);
+        }
+    }
 }
