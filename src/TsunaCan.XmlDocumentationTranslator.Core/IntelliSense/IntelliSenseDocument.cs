@@ -45,11 +45,11 @@ public partial class IntelliSenseDocument
 
         try
         {
-            // XML文書のルート要素を作成
+            // Create xml document root.
             XmlDocument internalXmlDoc = new();
             internalXmlDoc.LoadXml($"<{Constants.MembersElement}>{xml}</{Constants.MembersElement}>");
 
-            // ルート要素の子要素をすべて取得
+            // Set members element.
             var elements = new List<XmlElement>();
             if (internalXmlDoc.DocumentElement == null)
             {
