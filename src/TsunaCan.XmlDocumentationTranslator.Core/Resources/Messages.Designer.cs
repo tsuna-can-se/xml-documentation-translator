@@ -70,6 +70,15 @@ namespace TsunaCan.XmlDocumentationTranslator.Resources {
         }
         
         /// <summary>
+        ///   XML string is invalid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InvalidXmlString {
+            get {
+                return ResourceManager.GetString("InvalidXmlString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Unable to convert object to XML. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string UnableToConvertObjectToXml {

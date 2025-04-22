@@ -14,6 +14,6 @@ public partial class Assembly
     /// <summary>
     ///  Gets or sets the name element value of the assembly.
     /// </summary>
-    [XmlElement("name")]
+    [XmlElement(Constants.NameElement)]
     public required string Name { get; set; }
 }

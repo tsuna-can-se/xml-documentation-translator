@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using Microsoft.Extensions.Logging;
 using TsunaCan.XmlDocumentationTranslator.Resources;
@@ -28,7 +29,7 @@ public class IntelliSenseDocumentManager
     ///  Reads an IntelliSense XML documentation file and deserializes it into an <see cref="IntelliSenseDocument"/> object.
     /// </summary>
     /// <param name="intelliSenseDocumentPath">The path to the IntelliSense XML documentation file.</param>
-    /// <returns>The deserialized <see cref="IntelliSenseDocument"/> object, or <c>null</c> if the file could not be read.</returns>
+    /// <returns><see cref="IntelliSenseDocumentAccessor"/> object.</returns>
     /// <exception cref="FileNotFoundException">Thrown if <paramref name="intelliSenseDocumentPath"/> file not found.</exception>
     /// <exception cref="InvalidOperationException">
     ///  <list type="bullet">
@@ -36,13 +37,20 @@ public class IntelliSenseDocumentManager
     ///   <item>Thrown if <paramref name="intelliSenseDocumentPath"/> file is empty.</item>
     ///  </list>
     /// </exception>
-    internal IntelliSenseDocument? Read(string intelliSenseDocumentPath)
+    internal IntelliSenseDocumentAccessor Read(string intelliSenseDocumentPath)
     {
         this.logger.LogDebug(Messages.XmlDocumentLoading, intelliSenseDocumentPath);
-        using var intelliSenseDocumentStreamReader = new StreamReader(intelliSenseDocumentPath);
-        var document = this.serializer.Deserialize(intelliSenseDocumentStreamReader) as IntelliSenseDocument;
+
+        // XML file format check.
+        // Deserialize the XML to validate its format.
+        // The result is not used as we only care about validation here.
+        // https://github.com/tsuna-can-se/xml-documentation-translator/issues/14
+        using var reader = XmlReader.Create(intelliSenseDocumentPath);
+        _ = this.serializer.Deserialize(reader);
+
+        var document = XDocument.Load(intelliSenseDocumentPath);
         this.logger.LogInformation(Messages.XmlDocumentLoaded, intelliSenseDocumentPath);
-        return document;
+        return new IntelliSenseDocumentAccessor(document);
     }
 
     /// <summary>
