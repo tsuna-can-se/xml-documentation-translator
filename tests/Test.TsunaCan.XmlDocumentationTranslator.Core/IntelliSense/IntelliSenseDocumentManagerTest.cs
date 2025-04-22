@@ -33,10 +33,9 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
 
             // Assert
             Assert.NotNull(document);
-            Assert.NotNull(document.Assembly);
-            Assert.Equal("TestAssembly", document.Assembly.Name);
-            Assert.NotNull(document.Members);
-            Assert.Empty(document.Members);
+            Assert.NotNull(document.GetAssemblyName());
+            Assert.Equal("TestAssembly", document.GetAssemblyName());
+            Assert.Empty(document.GetMembers());
         }
         finally
         {
@@ -74,11 +73,10 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
 
             // Assert
             Assert.NotNull(document);
-            Assert.NotNull(document.Assembly);
-            Assert.Equal("TestAssembly", document.Assembly.Name);
-            Assert.NotNull(document.Members);
-            Assert.Single(document.Members);
-            Assert.Equal("T:TestClass", document.Members[0].Name);
+            Assert.Equal("TestAssembly", document.GetAssemblyName());
+            var members = document.GetMembers();
+            Assert.Single(members);
+            Assert.Equal("<member name=\"T:TestClass\"><summary>Test class summary</summary></member>", members.First());
         }
         finally
         {
@@ -122,22 +120,16 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
 
             // Assert
             Assert.NotNull(document);
-            Assert.NotNull(document.Assembly);
-            Assert.Equal("TestAssembly", document.Assembly.Name);
-            Assert.NotNull(document.Members);
+            Assert.Equal("TestAssembly", document.GetAssemblyName());
             Assert.Collection(
-                document.Members,
+                document.GetMembers(),
                 member =>
                 {
-                    Assert.Equal("T:TestClass", member.Name);
-                    Assert.Equal("<summary>Test class summary</summary>", member.InnerXml);
+                    Assert.Equal("<member name=\"T:TestClass\"><summary>Test class summary</summary></member>", member);
                 },
                 member =>
                 {
-                    Assert.Equal("M:TestClass.Add(int a, int b)", member.Name);
-                    Assert.Equal(
-                        "<summary>Add method summary.</summary><param name=\"a\"><see cref=\"T:System.Int32\" /> value 1.</param><param name=\"b\"><see cref=\"T:System.Int32\" /> value 2.</param><returns>result value.</returns>",
-                        member.InnerXml);
+                    Assert.Equal("<member name=\"M:TestClass.Add(int a, int b)\"><summary>Add method summary.</summary><param name=\"a\"><see cref=\"T:System.Int32\" /> value 1.</param><param name=\"b\"><see cref=\"T:System.Int32\" /> value 2.</param><returns>result value.</returns></member>", member);
                 });
         }
         finally
@@ -259,14 +251,12 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
         var document = new IntelliSenseDocument
         {
             Assembly = new Assembly { Name = "TestAssembly" },
-            Members = [
-                new Member
-                {
-                    Name = "T:TestClass",
-                    InnerXml = "<summary>Test class summary</summary>",
-                },
-            ],
         };
+        document.SetMembersInnerXml("""
+            <member name="T:TestClass">
+              <summary>Test class summary</summary>
+            </member>
+            """);
         var tempFilePath = Path.GetTempFileName();
         try
         {
@@ -309,7 +299,6 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
         var document = new IntelliSenseDocument()
         {
             Assembly = new() { Name = string.Empty },
-            Members = [],
         };
         var tempFilePath = Path.GetTempFileName();
         try
@@ -330,7 +319,6 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
                     <assembly>
                         <name />
                     </assembly>
-                    <members />
                 </doc>
                 """,
                 writtenContent);
@@ -350,7 +338,6 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
         var document = new IntelliSenseDocument()
         {
             Assembly = new() { Name = string.Empty },
-            Members = [],
         };
         var tempFilePath = string.Empty;
 
@@ -368,7 +355,6 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
         var document = new IntelliSenseDocument()
         {
             Assembly = new() { Name = string.Empty },
-            Members = [],
         };
         var tempFilePath = Path.GetTempFileName();
         try
@@ -400,7 +386,6 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
         var document = new IntelliSenseDocument()
         {
             Assembly = new() { Name = string.Empty },
-            Members = [],
         };
         var tempFilePath = Path.Combine(Path.GetTempPath(), "DUMMY_DIR", Path.GetRandomFileName());
         var directoryPath = Path.GetDirectoryName(tempFilePath);
