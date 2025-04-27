@@ -368,7 +368,7 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
 
             // Assert
             var logCollector = this.loggerManager.LogCollector;
-            Assert.Equal(1, logCollector.Count);
+            Assert.Equal(2, logCollector.Count);
             var record = logCollector.LatestRecord;
             Assert.Equal(LogLevel.Information, record.Level);
             Assert.Equal($"Xml document {tempFilePath} was created.", record.Message);
@@ -401,8 +401,8 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
 
             // Assert
             var logCollector = this.loggerManager.LogCollector;
-            Assert.Equal(2, logCollector.Count);
-            var record = logCollector.GetSnapshot()[0];
+            Assert.Equal(3, logCollector.Count);
+            var record = logCollector.GetSnapshot()[1];
             Assert.Equal(LogLevel.Information, record.Level);
             Assert.Equal($"Directory {directoryPath} was created.", record.Message);
         }
