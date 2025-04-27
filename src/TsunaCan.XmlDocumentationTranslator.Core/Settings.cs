@@ -16,22 +16,22 @@ public class Settings
     /// <summary>
     ///  Gets or sets the path to the IntelliSense document.
     /// </summary>
-    public required string IntelliSenseDocumentPath { get; set; }
+    public required string SourceDocumentPath { get; set; }
 
     /// <summary>
-    ///  Gets or sets the locale of the IntelliSense document.
+    ///  Gets or sets the language of the IntelliSense document.
     /// </summary>
-    public required CultureInfo IntelliSenseDocumentLocale { get; set; }
+    public required CultureInfo SourceDocumentLanguage { get; set; }
 
     /// <summary>
-    ///  Gets or sets the output file path.
+    ///  Gets or sets the output directory path.
     /// </summary>
-    public required string OutputFilePath { get; set; }
+    public required string OutputDirectoryPath { get; set; }
 
     /// <summary>
-    ///  Gets or sets the locale of the output file.
+    ///  Gets or sets the laguage of the output files.
     /// </summary>
-    public required CultureInfo OutputFileLocale { get; set; }
+    public required CultureInfo[] OutputFileLanguages { get; set; }
 
     /// <summary>
     ///  Gets or sets the log level.
@@ -55,10 +55,10 @@ public class Settings
             ? $"{new string('*', this.Token.Length - 5)}{this.Token[^5..]}"
             : new string('*', this.Token.Length);
         return $"{nameof(this.Token)}: {tokenDisplay}, " +
-            $"{nameof(this.IntelliSenseDocumentPath)}: {this.IntelliSenseDocumentPath}, " +
-            $"{nameof(this.IntelliSenseDocumentLocale)}: {this.IntelliSenseDocumentLocale}, " +
-            $"{nameof(this.OutputFilePath)}: {this.OutputFilePath}, " +
-            $"{nameof(this.OutputFileLocale)}: {this.OutputFileLocale}, " +
+            $"{nameof(this.SourceDocumentPath)}: {this.SourceDocumentPath}, " +
+            $"{nameof(this.SourceDocumentLanguage)}: {this.SourceDocumentLanguage}, " +
+            $"{nameof(this.OutputDirectoryPath)}: {this.OutputDirectoryPath}, " +
+            $"{nameof(this.OutputFileLanguages)}: {this.OutputFileLanguages}, " +
             $"{nameof(this.LogLevel)}: {this.LogLevel}, " +
             $"{nameof(this.ChatEndPointUrl)}: {this.ChatEndPointUrl}, " +
             $"{nameof(this.ModelId)}: {this.ModelId}";
