@@ -32,6 +32,9 @@ public class TranslationServiceTest(ITestOutputHelper testOutputHelper)
         documentManagerMock
             .Setup(dm => dm.Read(It.IsAny<string>()))
             .Returns(documentAccessor);
+        documentManagerMock
+            .Setup(dm => dm.Write(It.IsAny<string>(), It.IsAny<IntelliSenseDocument>()))
+            .Verifiable();
         var translatorMock = new Mock<ITranslator>();
         translatorMock.Setup(t => t.TranslateAsync(It.IsAny<IntelliSenseDocumentAccessor>(), It.IsAny<CultureInfo>(), It.IsAny<IReadOnlyList<CultureInfo>>()))
             .ReturnsAsync(new Dictionary<CultureInfo, IntelliSenseDocument>
@@ -60,6 +63,13 @@ public class TranslationServiceTest(ITestOutputHelper testOutputHelper)
         Assert.Equal(2, this.loggerManager.LogCollector.Count);
         var record = this.loggerManager.LogCollector.LatestRecord;
         Assert.Equal(LogLevel.Information, record.Level);
-        Assert.Contains("[output\\fr\\source.xml, output\\es\\source.xml]", record.Message);
+        Assert.Contains($"[{Path.Combine("output", "fr", "source.xml")}, {Path.Combine("output", "es", "source.xml")}]", record.Message);
+
+        documentManagerMock.Verify(
+            dm => dm.Write(Path.Combine("output", "fr", "source.xml"), It.IsAny<IntelliSenseDocument>()),
+            Times.Once);
+        documentManagerMock.Verify(
+            dm => dm.Write(Path.Combine("output", "es", "source.xml"), It.IsAny<IntelliSenseDocument>()),
+            Times.Once);
     }
 }
