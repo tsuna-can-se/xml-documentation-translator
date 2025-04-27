@@ -70,11 +70,29 @@ namespace TsunaCan.XmlDocumentationTranslator.Resources {
         }
         
         /// <summary>
+        ///   Setting variavles: {Variables} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DumpSettings {
+            get {
+                return ResourceManager.GetString("DumpSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   XML string is invalid. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InvalidXmlString {
             get {
                 return ResourceManager.GetString("InvalidXmlString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The following {OutputFileCount} files were output: {OutputFiles} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string Translated {
+            get {
+                return ResourceManager.GetString("Translated", resourceCulture);
             }
         }
         
@@ -93,6 +111,15 @@ namespace TsunaCan.XmlDocumentationTranslator.Resources {
         internal static string XmlDocumentCreated {
             get {
                 return ResourceManager.GetString("XmlDocumentCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Xml document {OutputFileName} is now creating. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string XmlDocumentCreating {
+            get {
+                return ResourceManager.GetString("XmlDocumentCreating", resourceCulture);
             }
         }
         

@@ -12,10 +12,10 @@ public class SettingsTest
         var settings = new Settings
         {
             Token = "1234567890a",
-            IntelliSenseDocumentPath = "path/to/document",
-            IntelliSenseDocumentLocale = new CultureInfo("en-US"),
-            OutputFilePath = "path/to/output",
-            OutputFileLocale = new CultureInfo("ja-JP"),
+            SourceDocumentPath = "path/to/document",
+            SourceDocumentLanguage = new CultureInfo("en-US"),
+            OutputDirectoryPath = "path/to/output",
+            OutputFileLanguages = [new CultureInfo("ja-JP")],
             LogLevel = LogLevel.Information,
             ChatEndPointUrl = new Uri("https://example.com/"),
             ModelId = "model-id",
@@ -26,10 +26,10 @@ public class SettingsTest
 
         // Assert
         var expected = "Token: ******7890a, " +
-                       "IntelliSenseDocumentPath: path/to/document, " +
-                       "IntelliSenseDocumentLocale: en-US, " +
-                       "OutputFilePath: path/to/output, " +
-                       "OutputFileLocale: ja-JP, " +
+                       "SourceDocumentPath: path/to/document, " +
+                       "SourceDocumentLanguage: en-US, " +
+                       "OutputDirectoryPath: path/to/output, " +
+                       "OutputFileLanguages: [Japanese (Japan)], " +
                        "LogLevel: Information, " +
                        "ChatEndPointUrl: https://example.com/, " +
                        "ModelId: model-id";
@@ -43,10 +43,10 @@ public class SettingsTest
         var settings = new Settings
         {
             Token = "1234567890",
-            IntelliSenseDocumentPath = "path/to/document",
-            IntelliSenseDocumentLocale = new CultureInfo("en-US"),
-            OutputFilePath = "path/to/output",
-            OutputFileLocale = new CultureInfo("ja-JP"),
+            SourceDocumentPath = "path/to/document",
+            SourceDocumentLanguage = new CultureInfo("en-US"),
+            OutputDirectoryPath = "path/to/output",
+            OutputFileLanguages = [new CultureInfo("ja-JP")],
             LogLevel = LogLevel.Information,
             ChatEndPointUrl = new Uri("https://example.com/"),
             ModelId = "model-id",
@@ -57,10 +57,41 @@ public class SettingsTest
 
         // Assert
         var expected = "Token: **********, " +
-                       "IntelliSenseDocumentPath: path/to/document, " +
-                       "IntelliSenseDocumentLocale: en-US, " +
-                       "OutputFilePath: path/to/output, " +
-                       "OutputFileLocale: ja-JP, " +
+                       "SourceDocumentPath: path/to/document, " +
+                       "SourceDocumentLanguage: en-US, " +
+                       "OutputDirectoryPath: path/to/output, " +
+                       "OutputFileLanguages: [Japanese (Japan)], " +
+                       "LogLevel: Information, " +
+                       "ChatEndPointUrl: https://example.com/, " +
+                       "ModelId: model-id";
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void ToString_MultipleOutputFileLanguages()
+    {
+        // Arrange
+        var settings = new Settings
+        {
+            Token = "1234567890",
+            SourceDocumentPath = "path/to/document",
+            SourceDocumentLanguage = new CultureInfo("en-US"),
+            OutputDirectoryPath = "path/to/output",
+            OutputFileLanguages = [new CultureInfo("ja"), new CultureInfo("es")],
+            LogLevel = LogLevel.Information,
+            ChatEndPointUrl = new Uri("https://example.com/"),
+            ModelId = "model-id",
+        };
+
+        // Act
+        var result = settings.ToString();
+
+        // Assert
+        var expected = "Token: **********, " +
+                       "SourceDocumentPath: path/to/document, " +
+                       "SourceDocumentLanguage: en-US, " +
+                       "OutputDirectoryPath: path/to/output, " +
+                       "OutputFileLanguages: [Japanese,Spanish], " +
                        "LogLevel: Information, " +
                        "ChatEndPointUrl: https://example.com/, " +
                        "ModelId: model-id";
@@ -74,10 +105,10 @@ public class SettingsTest
         var settings = new Settings
         {
             Token = "test-token",
-            IntelliSenseDocumentPath = "test-path",
-            IntelliSenseDocumentLocale = new CultureInfo("fr-FR"),
-            OutputFilePath = "output-path",
-            OutputFileLocale = new CultureInfo("de-DE"),
+            SourceDocumentPath = "test-path",
+            SourceDocumentLanguage = new CultureInfo("fr-FR"),
+            OutputDirectoryPath = "output-path",
+            OutputFileLanguages = [new CultureInfo("de-DE")],
             LogLevel = LogLevel.Debug,
             ChatEndPointUrl = new Uri("https://test.com"),
             ModelId = "test-model",
@@ -85,10 +116,10 @@ public class SettingsTest
 
         // Assert
         Assert.Equal("test-token", settings.Token);
-        Assert.Equal("test-path", settings.IntelliSenseDocumentPath);
-        Assert.Equal(new CultureInfo("fr-FR"), settings.IntelliSenseDocumentLocale);
-        Assert.Equal("output-path", settings.OutputFilePath);
-        Assert.Equal(new CultureInfo("de-DE"), settings.OutputFileLocale);
+        Assert.Equal("test-path", settings.SourceDocumentPath);
+        Assert.Equal(new CultureInfo("fr-FR"), settings.SourceDocumentLanguage);
+        Assert.Equal("output-path", settings.OutputDirectoryPath);
+        Assert.Single(settings.OutputFileLanguages, new CultureInfo("de-DE"));
         Assert.Equal(LogLevel.Debug, settings.LogLevel);
         Assert.Equal(new Uri("https://test.com"), settings.ChatEndPointUrl);
         Assert.Equal("test-model", settings.ModelId);

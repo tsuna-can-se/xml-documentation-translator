@@ -368,7 +368,7 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
 
             // Assert
             var logCollector = this.loggerManager.LogCollector;
-            Assert.Equal(1, logCollector.Count);
+            Assert.Equal(2, logCollector.Count);
             var record = logCollector.LatestRecord;
             Assert.Equal(LogLevel.Information, record.Level);
             Assert.Equal($"Xml document {tempFilePath} was created.", record.Message);
@@ -388,8 +388,9 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
         {
             Assembly = new() { Name = string.Empty },
         };
-        var tempFilePath = Path.Combine(Path.GetTempPath(), "DUMMY_DIR", Path.GetRandomFileName());
+        var tempFilePath = Path.Combine(Path.GetTempPath(), "DUMMY_DIR", "SUB_DIR", Path.GetRandomFileName());
         var directoryPath = Path.GetDirectoryName(tempFilePath);
+        var rootDirectory = Path.GetDirectoryName(directoryPath);
         try
         {
             var logger = this.loggerManager.CreateLogger<IntelliSenseDocumentManager>();
@@ -400,8 +401,8 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
 
             // Assert
             var logCollector = this.loggerManager.LogCollector;
-            Assert.Equal(2, logCollector.Count);
-            var record = logCollector.GetSnapshot()[0];
+            Assert.Equal(3, logCollector.Count);
+            var record = logCollector.GetSnapshot()[1];
             Assert.Equal(LogLevel.Information, record.Level);
             Assert.Equal($"Directory {directoryPath} was created.", record.Message);
         }
@@ -409,9 +410,9 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
         {
             // Cleanup
             File.Delete(tempFilePath);
-            if (Directory.Exists(directoryPath))
+            if (Directory.Exists(rootDirectory))
             {
-                Directory.Delete(directoryPath, true);
+                Directory.Delete(rootDirectory, true);
             }
         }
     }

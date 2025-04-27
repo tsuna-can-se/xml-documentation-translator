@@ -10,7 +10,7 @@ namespace TsunaCan.XmlDocumentationTranslator.IntelliSense;
 /// <summary>
 ///  Manages the reading and writing of IntelliSense XML documentation files.
 /// </summary>
-public class IntelliSenseDocumentManager
+public class IntelliSenseDocumentManager : IIntelliSenseDocumentManager
 {
     private readonly XmlSerializer serializer;
     private readonly ILogger<IntelliSenseDocumentManager> logger;
@@ -37,7 +37,7 @@ public class IntelliSenseDocumentManager
     ///   <item>Thrown if <paramref name="intelliSenseDocumentPath"/> file is empty.</item>
     ///  </list>
     /// </exception>
-    internal IntelliSenseDocumentAccessor Read(string intelliSenseDocumentPath)
+    public IntelliSenseDocumentAccessor Read(string intelliSenseDocumentPath)
     {
         this.logger.LogDebug(Messages.XmlDocumentLoading, intelliSenseDocumentPath);
 
@@ -63,9 +63,10 @@ public class IntelliSenseDocumentManager
     ///   <item>Thrown if <paramref name="outputFilePath"/> is null or empty.</item>
     ///  </list>
     /// </exception>
-    internal void Write(string outputFilePath, IntelliSenseDocument document)
+    public void Write(string outputFilePath, IntelliSenseDocument document)
     {
         ArgumentException.ThrowIfNullOrEmpty(outputFilePath);
+        this.logger.LogInformation(Messages.XmlDocumentCreating, outputFilePath);
 
         // Ensure the directory exists
         var directory = Path.GetDirectoryName(outputFilePath);
