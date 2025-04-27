@@ -68,7 +68,7 @@ public class SettingsTest
     }
 
     [Fact]
-    public void ToString_MultipleOutputFileLnaguages()
+    public void ToString_MultipleOutputFileLanguages()
     {
         // Arrange
         var settings = new Settings
