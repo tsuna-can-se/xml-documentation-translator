@@ -58,9 +58,12 @@ public class Settings
             $"{nameof(this.SourceDocumentPath)}: {this.SourceDocumentPath}, " +
             $"{nameof(this.SourceDocumentLanguage)}: {this.SourceDocumentLanguage}, " +
             $"{nameof(this.OutputDirectoryPath)}: {this.OutputDirectoryPath}, " +
-            $"{nameof(this.OutputFileLanguages)}: {this.OutputFileLanguages}, " +
+            $"{nameof(this.OutputFileLanguages)}: {this.OutputFileLanguagesString()}, " +
             $"{nameof(this.LogLevel)}: {this.LogLevel}, " +
             $"{nameof(this.ChatEndPointUrl)}: {this.ChatEndPointUrl}, " +
             $"{nameof(this.ModelId)}: {this.ModelId}";
     }
+
+    private string OutputFileLanguagesString()
+        => $"[{string.Join(',', this.OutputFileLanguages.Select(c => c.Name))}]";
 }
