@@ -29,7 +29,7 @@ public class SettingsTest
                        "SourceDocumentPath: path/to/document, " +
                        "SourceDocumentLanguage: en-US, " +
                        "OutputDirectoryPath: path/to/output, " +
-                       "OutputFileLanguages: [ja-JP], " +
+                       "OutputFileLanguages: [Japanese (Japan)], " +
                        "LogLevel: Information, " +
                        "ChatEndPointUrl: https://example.com/, " +
                        "ModelId: model-id";
@@ -60,7 +60,7 @@ public class SettingsTest
                        "SourceDocumentPath: path/to/document, " +
                        "SourceDocumentLanguage: en-US, " +
                        "OutputDirectoryPath: path/to/output, " +
-                       "OutputFileLanguages: [ja-JP], " +
+                       "OutputFileLanguages: [Japanese (Japan)], " +
                        "LogLevel: Information, " +
                        "ChatEndPointUrl: https://example.com/, " +
                        "ModelId: model-id";
@@ -91,7 +91,7 @@ public class SettingsTest
                        "SourceDocumentPath: path/to/document, " +
                        "SourceDocumentLanguage: en-US, " +
                        "OutputDirectoryPath: path/to/output, " +
-                       "OutputFileLanguages: [ja,es], " +
+                       "OutputFileLanguages: [Japanese,Spanish], " +
                        "LogLevel: Information, " +
                        "ChatEndPointUrl: https://example.com/, " +
                        "ModelId: model-id";

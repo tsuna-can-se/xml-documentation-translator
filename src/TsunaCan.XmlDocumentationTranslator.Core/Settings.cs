@@ -65,5 +65,5 @@ public class Settings
     }
 
     private string OutputFileLanguagesString()
-        => $"[{string.Join(',', this.OutputFileLanguages.Select(c => c.Name))}]";
+        => $"[{string.Join(',', this.OutputFileLanguages.Select(c => c.EnglishName))}]";
 }
