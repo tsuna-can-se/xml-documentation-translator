@@ -119,9 +119,7 @@ public class SettingsTest
         Assert.Equal("test-path", settings.SourceDocumentPath);
         Assert.Equal(new CultureInfo("fr-FR"), settings.SourceDocumentLanguage);
         Assert.Equal("output-path", settings.OutputDirectoryPath);
-        Assert.Collection(
-            settings.OutputFileLanguages,
-            item => Assert.Equal(new CultureInfo("de-DE"), item));
+        Assert.Single(settings.OutputFileLanguages, new CultureInfo("de-DE"));
         Assert.Equal(LogLevel.Debug, settings.LogLevel);
         Assert.Equal(new Uri("https://test.com"), settings.ChatEndPointUrl);
         Assert.Equal("test-model", settings.ModelId);
