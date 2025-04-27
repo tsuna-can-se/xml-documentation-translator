@@ -29,7 +29,7 @@ public class Settings
     public required string OutputDirectoryPath { get; set; }
 
     /// <summary>
-    ///  Gets or sets the laguage of the output files.
+    ///  Gets or sets the language of the output files.
     /// </summary>
     public required CultureInfo[] OutputFileLanguages { get; set; }
 
