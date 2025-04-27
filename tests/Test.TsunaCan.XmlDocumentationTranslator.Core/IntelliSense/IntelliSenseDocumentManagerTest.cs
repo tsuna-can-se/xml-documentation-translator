@@ -388,8 +388,9 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
         {
             Assembly = new() { Name = string.Empty },
         };
-        var tempFilePath = Path.Combine(Path.GetTempPath(), "DUMMY_DIR", Path.GetRandomFileName());
+        var tempFilePath = Path.Combine(Path.GetTempPath(), "DUMMY_DIR", "SUB_DIR", Path.GetRandomFileName());
         var directoryPath = Path.GetDirectoryName(tempFilePath);
+        var rootDirectory = Path.GetDirectoryName(directoryPath);
         try
         {
             var logger = this.loggerManager.CreateLogger<IntelliSenseDocumentManager>();
@@ -409,9 +410,9 @@ public class IntelliSenseDocumentManagerTest(ITestOutputHelper testOutputHelper)
         {
             // Cleanup
             File.Delete(tempFilePath);
-            if (Directory.Exists(directoryPath))
+            if (Directory.Exists(rootDirectory))
             {
-                Directory.Delete(directoryPath, true);
+                Directory.Delete(rootDirectory, true);
             }
         }
     }
