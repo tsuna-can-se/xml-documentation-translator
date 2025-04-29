@@ -35,7 +35,7 @@ public partial class IntelliSenseDocument
     ///   <item>XML string is invalid.</item>
     ///  </list>
     /// </exception>
-    internal void SetMembersInnerXml(string? xml)
+    public void SetMembersInnerXml(string? xml)
     {
         if (string.IsNullOrEmpty(xml))
         {
