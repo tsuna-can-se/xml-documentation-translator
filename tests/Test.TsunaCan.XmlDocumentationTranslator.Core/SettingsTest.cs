@@ -19,6 +19,7 @@ public class SettingsTest
             LogLevel = LogLevel.Information,
             ChatEndPointUrl = new Uri("https://example.com/"),
             ModelId = "model-id",
+            ChunkSize = 1000,
         };
 
         // Act
@@ -32,7 +33,8 @@ public class SettingsTest
                        "OutputFileLanguages: [Japanese (Japan)], " +
                        "LogLevel: Information, " +
                        "ChatEndPointUrl: https://example.com/, " +
-                       "ModelId: model-id";
+                       "ModelId: model-id, " +
+                       "ChunkSize: 1000";
         Assert.Equal(expected, result);
     }
 
@@ -50,6 +52,7 @@ public class SettingsTest
             LogLevel = LogLevel.Information,
             ChatEndPointUrl = new Uri("https://example.com/"),
             ModelId = "model-id",
+            ChunkSize = 1000,
         };
 
         // Act
@@ -63,7 +66,8 @@ public class SettingsTest
                        "OutputFileLanguages: [Japanese (Japan)], " +
                        "LogLevel: Information, " +
                        "ChatEndPointUrl: https://example.com/, " +
-                       "ModelId: model-id";
+                       "ModelId: model-id, " +
+                       "ChunkSize: 1000";
         Assert.Equal(expected, result);
     }
 
@@ -81,6 +85,7 @@ public class SettingsTest
             LogLevel = LogLevel.Information,
             ChatEndPointUrl = new Uri("https://example.com/"),
             ModelId = "model-id",
+            ChunkSize = 1000,
         };
 
         // Act
@@ -94,7 +99,8 @@ public class SettingsTest
                        "OutputFileLanguages: [Japanese,Spanish], " +
                        "LogLevel: Information, " +
                        "ChatEndPointUrl: https://example.com/, " +
-                       "ModelId: model-id";
+                       "ModelId: model-id, " +
+                       "ChunkSize: 1000";
         Assert.Equal(expected, result);
     }
 
@@ -112,6 +118,7 @@ public class SettingsTest
             LogLevel = LogLevel.Debug,
             ChatEndPointUrl = new Uri("https://test.com"),
             ModelId = "test-model",
+            ChunkSize = 500,
         };
 
         // Assert

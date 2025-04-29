@@ -48,6 +48,11 @@ public class Settings
     /// </summary>
     public required string ModelId { get; set; }
 
+    /// <summary>
+    ///  Gets or sets the chunk size for the translation process.
+    /// </summary>
+    public required int ChunkSize { get; set; } = 1000;
+
     /// <inheritdoc/>
     public override string ToString()
     {
@@ -61,7 +66,8 @@ public class Settings
             $"{nameof(this.OutputFileLanguages)}: {this.OutputFileLanguagesString()}, " +
             $"{nameof(this.LogLevel)}: {this.LogLevel}, " +
             $"{nameof(this.ChatEndPointUrl)}: {this.ChatEndPointUrl}, " +
-            $"{nameof(this.ModelId)}: {this.ModelId}";
+            $"{nameof(this.ModelId)}: {this.ModelId}, " +
+            $"{nameof(this.ChunkSize)}: {this.ChunkSize}";
     }
 
     private string OutputFileLanguagesString()
