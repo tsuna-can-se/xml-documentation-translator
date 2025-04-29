@@ -40,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\lint-documents.yml = .github\workflows\lint-documents.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsunaCan.XmlDocumentationTranslator.AI", "src\TsunaCan.XmlDocumentationTranslator.AI\TsunaCan.XmlDocumentationTranslator.AI.csproj", "{32E9FEC4-E964-4258-8E4C-09F089CC435A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{093B96CF-E1D1-4BD9-9A59-AF584FF1BF76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{093B96CF-E1D1-4BD9-9A59-AF584FF1BF76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{093B96CF-E1D1-4BD9-9A59-AF584FF1BF76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32E9FEC4-E964-4258-8E4C-09F089CC435A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32E9FEC4-E964-4258-8E4C-09F089CC435A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32E9FEC4-E964-4258-8E4C-09F089CC435A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32E9FEC4-E964-4258-8E4C-09F089CC435A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +74,7 @@ Global
 		{093B96CF-E1D1-4BD9-9A59-AF584FF1BF76} = {A9391D9A-8E18-4986-8868-EB2C36CB1CA6}
 		{05F92BD9-9EAD-4E08-85EC-6E760AE7077D} = {2022CB0F-8BAF-F49E-0C48-8EF4C96EC109}
 		{2350FECD-56C4-461F-8F5D-254049A4D295} = {05F92BD9-9EAD-4E08-85EC-6E760AE7077D}
+		{32E9FEC4-E964-4258-8E4C-09F089CC435A} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91AD4797-47A5-4D5A-95CF-5FD8333F9141}

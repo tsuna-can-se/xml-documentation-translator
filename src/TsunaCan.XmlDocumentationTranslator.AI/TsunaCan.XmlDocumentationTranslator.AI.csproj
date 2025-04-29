@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.AI.AzureAIInference" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TsunaCan.XmlDocumentationTranslator.Core\TsunaCan.XmlDocumentationTranslator.Core.csproj" />
+  </ItemGroup>
+</Project>
