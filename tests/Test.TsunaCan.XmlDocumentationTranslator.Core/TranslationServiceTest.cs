@@ -52,6 +52,7 @@ public class TranslationServiceTest(ITestOutputHelper testOutputHelper)
             ChatEndPointUrl = new Uri("https://example.com"),
             ModelId = "model-id",
             LogLevel = LogLevel.Information,
+            ChunkSize = 1000,
         };
         var logger = this.loggerManager.CreateLogger<TranslationService>();
         var service = new TranslationService(documentManagerMock.Object, translatorMock.Object, settings, logger);
