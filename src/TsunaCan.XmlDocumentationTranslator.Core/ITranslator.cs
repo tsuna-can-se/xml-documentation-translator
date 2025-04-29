@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Xml.Linq;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
 namespace TsunaCan.XmlDocumentationTranslator;
@@ -7,7 +6,7 @@ namespace TsunaCan.XmlDocumentationTranslator;
 /// <summary>
 ///  Interface for translating XML documentation files.
 /// </summary>
-public interface ITranslator
+public interface ITranslator : IDisposable
 {
     /// <summary>
     ///  Translates the XML documentation file to a different languages.
