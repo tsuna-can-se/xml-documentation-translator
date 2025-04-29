@@ -78,4 +78,61 @@ public class IntelliSenseDocumentAccessorTest
         // Assert
         Assert.Empty(result);
     }
+
+    [Fact]
+    public void GetMembers_ChunkSizeIsSmallerThanMemberElement()
+    {
+        // Arrange
+        var xml = """
+            <doc>
+                <members>
+                    <member>123</member>
+                    <member>456</member>
+                </members>
+            </doc>
+            """;
+        var document = XDocument.Parse(xml);
+        var accessor = new IntelliSenseDocumentAccessor(document);
+
+        // Act
+        var result = accessor.GetMembers(20);
+
+        // Assert
+        Assert.Collection(
+            result,
+            item => Assert.Equal("<member>123</member>", item),
+            item => Assert.Equal("<member>456</member>", item));
+    }
+
+    [Fact]
+    public void GetMembers_ChunkSizeComplexPattern()
+    {
+        // Arrange
+        var xml = """
+            <doc>
+                <members>
+                    <member>1</member>
+                    <member>2</member>
+                    <member>12312345678901234567890</member>
+                    <member>3</member>
+                    <member>45612345678901234567890</member>
+                    <member>4</member>
+                </members>
+            </doc>
+            """;
+        var document = XDocument.Parse(xml);
+        var accessor = new IntelliSenseDocumentAccessor(document);
+
+        // Act
+        var result = accessor.GetMembers(40);
+
+        // Assert
+        Assert.Collection(
+            result,
+            item => Assert.Equal("<member>1</member><member>2</member>", item),
+            item => Assert.Equal("<member>12312345678901234567890</member>", item),
+            item => Assert.Equal("<member>3</member>", item),
+            item => Assert.Equal("<member>45612345678901234567890</member>", item),
+            item => Assert.Equal("<member>4</member>", item));
+    }
 }
