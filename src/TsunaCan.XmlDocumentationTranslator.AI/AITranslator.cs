@@ -14,7 +14,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI;
 public partial class AITranslator : ITranslator
 {
     private static readonly Regex XmlCodeBlock = XmlCodeBlockRegex();
-    private static readonly SemaphoreSlim AiSemaphoe = new(4);
+    private static readonly SemaphoreSlim AiSemaphore = new(4);
     private readonly Settings settings;
     private readonly ILogger<AITranslator> logger;
     private IChatClient chatClient;
@@ -174,7 +174,7 @@ public partial class AITranslator : ITranslator
             [prompt, new TextContent(xml)]);
         try
         {
-            AiSemaphoe.Wait();
+            AiSemaphore.Wait();
             var response = await this.chatClient.GetResponseAsync(chatMessage, options);
             if (XmlCodeBlock.IsMatch(response.Text))
             {
@@ -189,7 +189,7 @@ public partial class AITranslator : ITranslator
         }
         finally
         {
-            AiSemaphoe.Release();
+            AiSemaphore.Release();
         }
     }
 
