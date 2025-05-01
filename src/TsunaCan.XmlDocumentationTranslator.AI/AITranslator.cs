@@ -158,10 +158,12 @@ public partial class AITranslator : ITranslator
         return tasks;
     }
 
-    private async Task<TranslateResult> TranslateXmlAsync(string xml, CultureInfo sourceLanguage, CultureInfo targetLanguage)
+    private Task<TranslateResult> TranslateXmlAsync(string xml, CultureInfo sourceLanguage, CultureInfo targetLanguage)
     {
-        var options = new ChatOptions() { Temperature = 0.01f };
-        var prompt = new TextContent($"""
+        return Task.Run<TranslateResult>(async () =>
+        {
+            var options = new ChatOptions() { Temperature = 0.01f };
+            var prompt = new TextContent($"""
             You are a professional .NET library developer.
             The following XML document is part of the IntelliSense XML documentation that is included in the NuGet package.
             It represents class and method descriptions, parameters, return values, and exception descriptions.
@@ -169,28 +171,29 @@ public partial class AITranslator : ITranslator
             Please translate this XML document into {targetLanguage.EnglishName}.
             Please return only the translated XML document.
             """);
-        var chatMessage = new ChatMessage(
-            ChatRole.Assistant,
-            [prompt, new TextContent(xml)]);
-        try
-        {
-            AiSemaphore.Wait();
-            var response = await this.chatClient.GetResponseAsync(chatMessage, options);
-            if (XmlCodeBlock.IsMatch(response.Text))
+            var chatMessage = new ChatMessage(
+                ChatRole.Assistant,
+                [prompt, new TextContent(xml)]);
+            try
             {
-                return new(
-                    targetLanguage,
-                    XmlCodeBlock.Match(response.Text).Groups[1].Value);
+                AiSemaphore.Wait();
+                var response = await this.chatClient.GetResponseAsync(chatMessage, options);
+                if (XmlCodeBlock.IsMatch(response.Text))
+                {
+                    return new(
+                        targetLanguage,
+                        XmlCodeBlock.Match(response.Text).Groups[1].Value);
+                }
+                else
+                {
+                    return new(targetLanguage, response.Text);
+                }
             }
-            else
+            finally
             {
-                return new(targetLanguage, response.Text);
+                AiSemaphore.Release();
             }
-        }
-        finally
-        {
-            AiSemaphore.Release();
-        }
+        });
     }
 
     private record TranslateResult(CultureInfo TargetLanguage, string TranslatedXml);
