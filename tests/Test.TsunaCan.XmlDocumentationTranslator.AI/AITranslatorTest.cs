@@ -24,7 +24,7 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
     {
         // Arrange
         var settings = CreateDefaultSettings();
-        var chatClient = new ChatClientStub();
+        var chatClient = new ChatClientStub(this.loggerManager.CreateLogger<ChatClientStub>());
         var logger = this.loggerManager.CreateLogger<AITranslator>();
         var translator = new AITranslator(settings, chatClient, logger);
 
@@ -56,7 +56,7 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
     {
         // Arrange
         var settings = CreateDefaultSettings();
-        var chatClient = new ChatClientStub();
+        var chatClient = new ChatClientStub(this.loggerManager.CreateLogger<ChatClientStub>());
         var logger = this.loggerManager.CreateLogger<AITranslator>();
         var translator = new AITranslator(settings, chatClient, logger);
 
@@ -92,6 +92,72 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
         Assert.Equal("TestAssembly", es.Assembly.Name);
         Assert.Equal(2, es.MembersElement.ChildNodes.Count);
         Assert.Equal("Spanish", es.MembersElement.ChildNodes[1]?.InnerText); // Set by ChatClientStub.
+    }
+
+    [Fact]
+    public async Task TranslateAsync_MaxParallelCountIs4()
+    {
+        // Arrange
+        var settings = CreateDefaultSettings();
+        settings.ChunkSize = 10;
+        var chatClient = new ChatClientStub(this.loggerManager.CreateLogger<ChatClientStub>(), 100);
+        var logger = this.loggerManager.CreateLogger<AITranslator>();
+        var translator = new AITranslator(settings, chatClient, logger);
+
+        var xDocument = XDocument.Parse("""
+            <doc>
+                <assembly>
+                    <name>TestAssembly</name>
+                </assembly>
+                <members>
+                    <member name="T:TestClass1">
+                        <summary>Test class summary</summary>
+                    </member>
+                    <member name="T:TestClass2">
+                        <summary>Test class summary</summary>
+                    </member>
+                    <member name="T:TestClass3">
+                        <summary>Test class summary</summary>
+                    </member>
+                    <member name="T:TestClass4">
+                        <summary>Test class summary</summary>
+                    </member>
+                    <member name="T:TestClass5">
+                        <summary>Test class summary</summary>
+                    </member>
+                    <member name="T:TestClass6">
+                        <summary>Test class summary</summary>
+                    </member>
+                    <member name="T:TestClass7">
+                        <summary>Test class summary</summary>
+                    </member>
+                    <member name="T:TestClass8">
+                        <summary>Test class summary</summary>
+                    </member>
+                    <member name="T:TestClass9">
+                        <summary>Test class summary</summary>
+                    </member>
+                    <member name="T:TestClass10">
+                        <summary>Test class summary</summary>
+                    </member>
+                    <member name="T:TestClass11">
+                        <summary>Test class summary</summary>
+                    </member>
+                    <member name="T:TestClass12">
+                        <summary>Test class summary</summary>
+                    </member>
+                </members>
+            </doc>
+            """);
+        var document = new IntelliSenseDocumentAccessor(xDocument);
+        var sourceLanguage = settings.SourceDocumentLanguage;
+        IEnumerable<CultureInfo> targetLanguages = settings.OutputFileLanguages;
+
+        // Act
+        _ = await translator.TranslateAsync(document, sourceLanguage, targetLanguages);
+
+        // Assert
+        Assert.Equal(4, chatClient.MaxParallelCount);
     }
 
     private static Settings CreateDefaultSettings()
