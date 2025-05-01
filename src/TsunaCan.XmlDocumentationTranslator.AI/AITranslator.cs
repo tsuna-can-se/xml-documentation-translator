@@ -176,7 +176,7 @@ public partial class AITranslator : ITranslator
                 [prompt, new TextContent(xml)]);
             try
             {
-                AiSemaphore.Wait();
+                await AiSemaphore.WaitAsync();
                 var response = await this.chatClient.GetResponseAsync(chatMessage, options);
                 if (XmlCodeBlock.IsMatch(response.Text))
                 {
