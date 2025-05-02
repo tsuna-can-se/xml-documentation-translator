@@ -86,5 +86,14 @@ namespace TsunaCan.XmlDocumentationTranslator.AI.Resources {
                 return ResourceManager.GetString("TargetLanguagesCannotBeEmpty", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   AI char return unexpected value: {chatReturnValue} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string UnexpectedReturnValue {
+            get {
+                return ResourceManager.GetString("UnexpectedReturnValue", resourceCulture);
+            }
+        }
     }
 }

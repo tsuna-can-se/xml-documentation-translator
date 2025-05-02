@@ -186,6 +186,7 @@ public partial class AITranslator : ITranslator
                 }
                 else
                 {
+                    this.logger.LogWarning(Messages.UnexpectedReturnValue, response.Text);
                     return new(targetLanguage, response.Text);
                 }
             }

@@ -126,4 +126,7 @@
   <data name="TargetLanguagesCannotBeEmpty" xml:space="preserve">
     <value>Target languages cannot be empty.</value>
   </data>
+  <data name="UnexpectedReturnValue" xml:space="preserve">
+    <value>AI char return unexpected value: {chatReturnValue}</value>
+  </data>
 </root>
