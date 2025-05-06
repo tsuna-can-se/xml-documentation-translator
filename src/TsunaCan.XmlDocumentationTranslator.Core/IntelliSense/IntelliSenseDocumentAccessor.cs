@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Text;
+using System.Xml.Linq;
 
 namespace TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
@@ -24,10 +25,53 @@ public class IntelliSenseDocumentAccessor
         => this.document.Root?.Element(Constants.AssemblyElement)?.Element(Constants.NameElement)?.Value ?? string.Empty;
 
     /// <summary>
-    /// Gets the member elements xml string list from the XML document.
+    ///  Get the member element count from the XML document.
+    /// </summary>
+    /// <returns>Member element count.</returns>
+    public int GetMemberCount()
+        => this.GetMembersElements().Count();
+
+    /// <summary>
+    ///  Gets the member elements xml string list from the XML document.
+    /// </summary>
+    /// <param name="chunkSize">Chunk size.</param>
+    /// <returns>Chunked strings.</returns>
+    public IEnumerable<string> GetMembers(int chunkSize)
+    {
+        var current = new StringBuilder();
+        foreach (var member in this.GetMembers())
+        {
+            if (current.Length > 0 && current.Length + member.Length > chunkSize)
+            {
+                yield return current.ToString();
+                current.Clear();
+            }
+
+            if (member.Length > chunkSize)
+            {
+                // memberが大きすぎる場合、単独で返却
+                yield return member;
+            }
+            else
+            {
+                current.Append(member);
+            }
+        }
+
+        if (current.Length > 0)
+        {
+            yield return current.ToString();
+        }
+    }
+
+    /// <summary>
+    ///  Gets the member elements xml string list from the XML document.
     /// </summary>
     /// <returns>Member elements xml string list.</returns>
-    public IEnumerable<string> GetMembers()
-        => this.document.Descendants(Constants.MemberElement)
-            .Select(m => m.ToString(SaveOptions.DisableFormatting)); // get member element xml string.
+    internal IEnumerable<string> GetMembers()
+        => this.GetMembersElements()
+        .Select(m => m.ToString(SaveOptions.DisableFormatting));
+
+    private IEnumerable<XElement> GetMembersElements()
+        => this.document.Descendants(Constants.MemberElement);
 }

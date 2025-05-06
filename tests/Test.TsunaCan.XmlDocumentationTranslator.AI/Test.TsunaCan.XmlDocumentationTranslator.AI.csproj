@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TsunaCan.XmlDocumentationTranslator</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,13 +16,12 @@
     <PackageReference Include="Maris.Logging.Testing" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
-    <PackageReference Include="Moq" />
     <PackageReference Include="xunit.v3" />
     <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\TsunaCan.XmlDocumentationTranslator.Core\TsunaCan.XmlDocumentationTranslator.Core.csproj" />
+    <ProjectReference Include="..\..\src\TsunaCan.XmlDocumentationTranslator.AI\TsunaCan.XmlDocumentationTranslator.AI.csproj" />
   </ItemGroup>
 
 </Project>
