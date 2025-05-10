@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using TsunaCan.XmlDocumentationTranslator.AI.Resources;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
@@ -15,7 +16,7 @@ public partial class AITranslator : ITranslator, IDisposable
 {
     private static readonly Regex XmlCodeBlock = XmlCodeBlockRegex();
     private readonly SemaphoreSlim aiSemaphore;
-    private readonly Settings settings;
+    private readonly AISettings settings;
     private readonly ILogger<AITranslator> logger;
     private IChatClient chatClient;
     private bool disposedValue;
@@ -23,15 +24,15 @@ public partial class AITranslator : ITranslator, IDisposable
     /// <summary>
     ///  Initialize a new instance of the <see cref="AITranslator"/> class.
     /// </summary>
-    /// <param name="settings">Application settings.</param>
+    /// <param name="options">AI application options.</param>
     /// <param name="chatClient">Chat client of <see cref="Microsoft.Extensions.AI"/>.</param>
     /// <param name="logger">Logger.</param>
     public AITranslator(
-        Settings settings,
+        IOptionsSnapshot<AISettings> options,
         IChatClient chatClient,
         ILogger<AITranslator> logger)
     {
-        this.settings = settings;
+        this.settings = options.Value;
         this.chatClient = chatClient;
         this.logger = logger;
         this.aiSemaphore = new SemaphoreSlim(this.settings.MaxConcurrentRequests);
