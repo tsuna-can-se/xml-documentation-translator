@@ -44,15 +44,11 @@ public class TranslationServiceTest(ITestOutputHelper testOutputHelper)
             });
         var settings = new Settings
         {
-            Token = string.Empty,
             SourceDocumentPath = "source.xml",
             SourceDocumentLanguage = new CultureInfo("en"),
             OutputDirectoryPath = "output",
             OutputFileLanguages = [new CultureInfo("fr"), new CultureInfo("es")],
-            ChatEndPointUrl = new Uri("https://example.com"),
-            ModelId = "model-id",
             LogLevel = LogLevel.Information,
-            ChunkSize = 1000,
         };
         var logger = this.loggerManager.CreateLogger<TranslationService>();
         var service = new TranslationService(documentManagerMock.Object, translatorMock.Object, settings, logger);
