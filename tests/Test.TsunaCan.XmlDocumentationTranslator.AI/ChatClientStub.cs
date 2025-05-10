@@ -11,6 +11,7 @@ internal partial class ChatClientStub : IChatClient
 {
     private static readonly Regex TargetLanguage = TargetLanguageRegex();
     private readonly int delayMilliseconds = 0;
+    private readonly bool respondInCodeBlock;
     private readonly ILogger logger;
     private int parallelCount = 0;
 
@@ -22,10 +23,15 @@ internal partial class ChatClientStub : IChatClient
     ///  Delay milliseconds in <see cref="GetResponseAsync(IEnumerable{ChatMessage}, ChatOptions?, CancellationToken)"/> method.
     ///  Default is 0.
     /// </param>
-    internal ChatClientStub(ILogger<ChatClientStub> logger, int delayMilliseconds = 0)
+    /// <param name="respondInCodeBlock">
+    ///  If <see langword="true"/>, the response will be in a code block.
+    ///  Default is <see langword="true"/>.
+    /// </param>
+    internal ChatClientStub(ILogger<ChatClientStub> logger, int delayMilliseconds = 0, bool respondInCodeBlock = true)
     {
         this.logger = logger;
         this.delayMilliseconds = delayMilliseconds;
+        this.respondInCodeBlock = respondInCodeBlock;
     }
 
     public int MaxParallelCount { get; set; } = 0;
@@ -55,11 +61,12 @@ internal partial class ChatClientStub : IChatClient
 
             // Set the target language in the XML response.
             xml += targetLanguage;
-            var responseContent = $"""
+            var responseContent = this.respondInCodeBlock ?
+            $"""
             ```xml
             {xml}
             ```
-            """;
+            """ : xml;
             var chatMessage = new ChatMessage(
                 ChatRole.Assistant,
                 [new TextContent(responseContent)]);

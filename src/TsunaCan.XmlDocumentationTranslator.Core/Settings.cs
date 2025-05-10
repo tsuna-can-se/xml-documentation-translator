@@ -53,6 +53,11 @@ public class Settings
     /// </summary>
     public required int ChunkSize { get; set; } = 1000;
 
+    /// <summary>
+    ///  Gets or sets the maximum number of concurrent requests for AI translation.
+    /// </summary>
+    public int MaxConcurrentRequests { get; set; } = 4;
+
     /// <inheritdoc/>
     public override string ToString()
     {
@@ -67,7 +72,8 @@ public class Settings
             $"{nameof(this.LogLevel)}: {this.LogLevel}, " +
             $"{nameof(this.ChatEndPointUrl)}: {this.ChatEndPointUrl}, " +
             $"{nameof(this.ModelId)}: {this.ModelId}, " +
-            $"{nameof(this.ChunkSize)}: {this.ChunkSize}";
+            $"{nameof(this.ChunkSize)}: {this.ChunkSize}, " +
+            $"{nameof(this.MaxConcurrentRequests)}: {this.MaxConcurrentRequests}";
     }
 
     private string OutputFileLanguagesString()

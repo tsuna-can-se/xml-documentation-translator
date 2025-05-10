@@ -20,6 +20,7 @@ public class SettingsTest
             ChatEndPointUrl = new Uri("https://example.com/"),
             ModelId = "model-id",
             ChunkSize = 1000,
+            MaxConcurrentRequests = 4,
         };
 
         // Act
@@ -34,7 +35,8 @@ public class SettingsTest
                        "LogLevel: Information, " +
                        "ChatEndPointUrl: https://example.com/, " +
                        "ModelId: model-id, " +
-                       "ChunkSize: 1000";
+                       "ChunkSize: 1000, " +
+                       "MaxConcurrentRequests: 4";
         Assert.Equal(expected, result);
     }
 
@@ -53,6 +55,7 @@ public class SettingsTest
             ChatEndPointUrl = new Uri("https://example.com/"),
             ModelId = "model-id",
             ChunkSize = 1000,
+            MaxConcurrentRequests = 5,
         };
 
         // Act
@@ -67,7 +70,8 @@ public class SettingsTest
                        "LogLevel: Information, " +
                        "ChatEndPointUrl: https://example.com/, " +
                        "ModelId: model-id, " +
-                       "ChunkSize: 1000";
+                       "ChunkSize: 1000, " +
+                       "MaxConcurrentRequests: 5";
         Assert.Equal(expected, result);
     }
 
@@ -86,6 +90,7 @@ public class SettingsTest
             ChatEndPointUrl = new Uri("https://example.com/"),
             ModelId = "model-id",
             ChunkSize = 1000,
+            MaxConcurrentRequests = 4,
         };
 
         // Act
@@ -100,7 +105,8 @@ public class SettingsTest
                        "LogLevel: Information, " +
                        "ChatEndPointUrl: https://example.com/, " +
                        "ModelId: model-id, " +
-                       "ChunkSize: 1000";
+                       "ChunkSize: 1000, " +
+                       "MaxConcurrentRequests: 4";
         Assert.Equal(expected, result);
     }
 
@@ -119,6 +125,7 @@ public class SettingsTest
             ChatEndPointUrl = new Uri("https://test.com"),
             ModelId = "test-model",
             ChunkSize = 500,
+            MaxConcurrentRequests = 8,
         };
 
         // Assert
@@ -130,5 +137,7 @@ public class SettingsTest
         Assert.Equal(LogLevel.Debug, settings.LogLevel);
         Assert.Equal(new Uri("https://test.com"), settings.ChatEndPointUrl);
         Assert.Equal("test-model", settings.ModelId);
+        Assert.Equal(500, settings.ChunkSize);
+        Assert.Equal(8, settings.MaxConcurrentRequests);
     }
 }
