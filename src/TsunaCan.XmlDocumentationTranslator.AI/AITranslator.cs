@@ -11,7 +11,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI;
 /// <summary>
 ///  <see cref="ITranslator"/> implementation for translating XML documentation using <see cref="IChatClient"/>.
 /// </summary>
-public partial class AITranslator : ITranslator
+public partial class AITranslator : ITranslator, IDisposable
 {
     private static readonly Regex XmlCodeBlock = XmlCodeBlockRegex();
     private readonly SemaphoreSlim aiSemaphore;
