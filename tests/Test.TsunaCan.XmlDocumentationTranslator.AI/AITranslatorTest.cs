@@ -138,11 +138,12 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
     }
 
     [Fact]
-    public async Task TranslateAsync_MaxParallelCountIs4()
+    public async Task TranslateAsync_RespectsMaxConcurrentRequests()
     {
         // Arrange
         var settings = CreateDefaultSettings();
         settings.ChunkSize = 10;
+        settings.MaxConcurrentRequests = 6; // Explicitly set the maximum concurrent requests
         var chatClient = new ChatClientStub(this.loggerManager.CreateLogger<ChatClientStub>(), 100);
         var logger = this.loggerManager.CreateLogger<AITranslator>();
         var translator = new AITranslator(settings, chatClient, logger);
@@ -200,7 +201,7 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
         _ = await translator.TranslateAsync(document, sourceLanguage, targetLanguages);
 
         // Assert
-        Assert.Equal(4, chatClient.MaxParallelCount);
+        Assert.Equal(settings.MaxConcurrentRequests, chatClient.MaxParallelCount); // Verify the maximum parallel count matches the setting
     }
 
     private static Settings CreateDefaultSettings()
@@ -215,5 +216,6 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
             ModelId = "model-id",
             LogLevel = LogLevel.Information,
             ChunkSize = 1000,
+            MaxConcurrentRequests = 4,
         };
 }

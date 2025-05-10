@@ -14,7 +14,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI;
 public partial class AITranslator : ITranslator
 {
     private static readonly Regex XmlCodeBlock = XmlCodeBlockRegex();
-    private static readonly SemaphoreSlim AiSemaphore = new(4);
+    private readonly SemaphoreSlim aiSemaphore;
     private readonly Settings settings;
     private readonly ILogger<AITranslator> logger;
     private IChatClient chatClient;
@@ -34,6 +34,7 @@ public partial class AITranslator : ITranslator
         this.settings = settings;
         this.chatClient = chatClient;
         this.logger = logger;
+        this.aiSemaphore = new SemaphoreSlim(this.settings.MaxConcurrentRequests);
     }
 
     /// <inheritdoc />
@@ -176,7 +177,7 @@ public partial class AITranslator : ITranslator
                 [prompt, new TextContent(xml)]);
             try
             {
-                await AiSemaphore.WaitAsync();
+                await this.aiSemaphore.WaitAsync(); // Use instance field
                 var response = await this.chatClient.GetResponseAsync(chatMessage, options);
                 if (XmlCodeBlock.IsMatch(response.Text))
                 {
@@ -192,7 +193,7 @@ public partial class AITranslator : ITranslator
             }
             finally
             {
-                AiSemaphore.Release();
+                this.aiSemaphore.Release(); // Use instance field
             }
         });
     }
