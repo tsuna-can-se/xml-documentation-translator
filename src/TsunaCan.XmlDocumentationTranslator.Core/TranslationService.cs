@@ -25,7 +25,7 @@ public class TranslationService
     public TranslationService(
         IIntelliSenseDocumentManager documentManager,
         ITranslator translator,
-        IOptionsSnapshot<Settings> options,
+        IOptions<Settings> options,
         ILogger<TranslationService> logger)
     {
         this.documentManager = documentManager;

@@ -204,9 +204,9 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
         Assert.Equal(maxConcurrentRequests, chatClient.MaxParallelCount); // Verify the maximum parallel count matches the setting
     }
 
-    private static IOptionsSnapshot<AISettings> CreateDefaultSettings(int chunkSize = 1000, int maxConcurrentRequests = 4)
+    private static IOptions<AISettings> CreateDefaultSettings(int chunkSize = 1000, int maxConcurrentRequests = 4)
     {
-        var mock = new Mock<IOptionsSnapshot<AISettings>>();
+        var mock = new Mock<IOptions<AISettings>>();
         mock.Setup(x => x.Value)
             .Returns(new AISettings
             {

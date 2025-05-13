@@ -28,7 +28,7 @@ public partial class AITranslator : ITranslator, IDisposable
     /// <param name="chatClient">Chat client of <see cref="Microsoft.Extensions.AI"/>.</param>
     /// <param name="logger">Logger.</param>
     public AITranslator(
-        IOptionsSnapshot<AISettings> options,
+        IOptions<AISettings> options,
         IChatClient chatClient,
         ILogger<AITranslator> logger)
     {
