@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 using TsunaCan.XmlDocumentationTranslator.Resources;
 
@@ -19,17 +20,17 @@ public class TranslationService
     /// </summary>
     /// <param name="documentManager">IntelliSense XML documentation file manager.</param>
     /// <param name="translator">Translating XML documentation files.</param>
-    /// <param name="settings">Translating settings.</param>
+    /// <param name="options">Translating settings.</param>
     /// <param name="logger">Logger.</param>
     public TranslationService(
         IIntelliSenseDocumentManager documentManager,
         ITranslator translator,
-        Settings settings,
+        IOptionsSnapshot<Settings> options,
         ILogger<TranslationService> logger)
     {
         this.documentManager = documentManager;
         this.translator = translator;
-        this.settings = settings;
+        this.settings = options.Value;
         this.logger = logger;
     }
 
