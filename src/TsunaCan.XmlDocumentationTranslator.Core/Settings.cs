@@ -30,8 +30,9 @@ public class Settings
 
     /// <summary>
     ///  Gets or sets the log level.
+    ///  Default is <see cref="LogLevel.Information"/>.
     /// </summary>
-    public LogLevel LogLevel { get; set; }
+    public LogLevel LogLevel { get; set; } = LogLevel.Information;
 
     /// <inheritdoc/>
     public override string ToString()
