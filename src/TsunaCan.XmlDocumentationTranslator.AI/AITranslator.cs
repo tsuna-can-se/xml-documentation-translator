@@ -36,6 +36,7 @@ public partial class AITranslator : ITranslator, IDisposable
         this.chatClient = chatClient;
         this.logger = logger;
         this.aiSemaphore = new SemaphoreSlim(this.settings.MaxConcurrentRequests);
+        this.logger.LogInformation(Messages.DumpAISettings, this.settings.ToString());
     }
 
     /// <inheritdoc />
