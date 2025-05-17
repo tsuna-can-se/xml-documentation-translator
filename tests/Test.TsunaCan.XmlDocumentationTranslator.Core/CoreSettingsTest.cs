@@ -1,15 +1,14 @@
 ﻿using System.Globalization;
-using Microsoft.Extensions.Logging;
 
 namespace TsunaCan.XmlDocumentationTranslator;
 
-public class SettingsTest
+public class CoreSettingsTest
 {
     [Fact]
     public void ToString_MultipleOutputFileLanguages()
     {
         // Arrange
-        var settings = new Settings
+        var settings = new CoreSettings
         {
             SourceDocumentPath = "path/to/document",
             SourceDocumentLanguage = new CultureInfo("en-US"),
@@ -32,7 +31,7 @@ public class SettingsTest
     public void Properties_ShouldSetAndGetCorrectly()
     {
         // Arrange
-        var settings = new Settings
+        var settings = new CoreSettings
         {
             SourceDocumentPath = "test-path",
             SourceDocumentLanguage = new CultureInfo("fr-FR"),
@@ -52,7 +51,7 @@ public class SettingsTest
     public void OutputFileCultures_InvalidCultureName()
     {
         // Arrange
-        var settings = new Settings
+        var settings = new CoreSettings
         {
             SourceDocumentPath = "path/to/document",
             SourceDocumentLanguage = new CultureInfo("en-US"),

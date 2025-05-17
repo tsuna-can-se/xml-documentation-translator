@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using Microsoft.Extensions.Logging;
 using TsunaCan.XmlDocumentationTranslator.Resources;
 
 namespace TsunaCan.XmlDocumentationTranslator;
@@ -7,7 +6,7 @@ namespace TsunaCan.XmlDocumentationTranslator;
 /// <summary>
 ///  Represents the application settings.
 /// </summary>
-public class Settings
+public class CoreSettings
 {
     /// <summary>
     ///  Gets or sets the path to the IntelliSense document.

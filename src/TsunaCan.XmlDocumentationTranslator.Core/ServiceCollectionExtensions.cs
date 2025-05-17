@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
     /// <returns>Configured <see cref="IServiceCollection"/> object.</returns>
     public static IServiceCollection AddTranslatorServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddOptionsWithValidateOnStart<Settings>()
+        services.AddOptionsWithValidateOnStart<CoreSettings>()
             .Bind(configuration)
             .ValidateDataAnnotations();
         services.AddSingleton<TranslationService>();

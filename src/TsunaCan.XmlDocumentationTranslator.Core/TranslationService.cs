@@ -12,7 +12,7 @@ public class TranslationService
 {
     private readonly IIntelliSenseDocumentManager documentManager;
     private readonly ITranslator translator;
-    private readonly Settings settings;
+    private readonly CoreSettings settings;
     private readonly ILogger<TranslationService> logger;
 
     /// <summary>
@@ -25,7 +25,7 @@ public class TranslationService
     public TranslationService(
         IIntelliSenseDocumentManager documentManager,
         ITranslator translator,
-        IOptions<Settings> options,
+        IOptions<CoreSettings> options,
         ILogger<TranslationService> logger)
     {
         this.documentManager = documentManager;

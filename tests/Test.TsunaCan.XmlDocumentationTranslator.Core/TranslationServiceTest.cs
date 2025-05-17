@@ -43,8 +43,8 @@ public class TranslationServiceTest(ITestOutputHelper testOutputHelper)
                 [new CultureInfo("fr")] = new IntelliSenseDocument() { Assembly = new Assembly() { Name = "TestAssembly" } },
                 [new CultureInfo("es")] = new IntelliSenseDocument() { Assembly = new Assembly() { Name = "TestAssembly" } },
             });
-        var optionsMock = new Mock<IOptions<Settings>>();
-        optionsMock.Setup(o => o.Value).Returns(new Settings
+        var optionsMock = new Mock<IOptions<CoreSettings>>();
+        optionsMock.Setup(o => o.Value).Returns(new CoreSettings
         {
             SourceDocumentPath = "source.xml",
             SourceDocumentLanguage = new CultureInfo("en"),
