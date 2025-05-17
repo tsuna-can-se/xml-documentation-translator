@@ -42,7 +42,7 @@ public class TranslationService
     {
         this.logger.LogInformation(Messages.DumpSettings, this.settings.ToString());
         var document = this.documentManager.Read(this.settings.SourceDocumentPath);
-        var translatedDocument = await this.translator.TranslateAsync(document, this.settings.SourceDocumentLanguage, this.settings.OutputFileLanguages);
+        var translatedDocument = await this.translator.TranslateAsync(document, this.settings.SourceDocumentLanguage, this.settings.OutputFileCultures);
 
         var baseFilePath = this.settings.OutputDirectoryPath;
         List<string> outputFiles = [];
