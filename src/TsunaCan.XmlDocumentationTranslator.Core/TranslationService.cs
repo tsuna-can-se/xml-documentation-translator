@@ -32,6 +32,7 @@ public class TranslationService
         this.translator = translator;
         this.settings = options.Value;
         this.logger = logger;
+        this.logger.LogInformation(Messages.DumpCoreSettings, this.settings.ToString());
     }
 
     /// <summary>
@@ -40,7 +41,6 @@ public class TranslationService
     /// <returns>Task.</returns>
     public async Task ExecuteAsync()
     {
-        this.logger.LogInformation(Messages.DumpSettings, this.settings.ToString());
         var document = this.documentManager.Read(this.settings.SourceDocumentPath);
         var translatedDocument = await this.translator.TranslateAsync(document, this.settings.SourceDocumentLanguage, this.settings.OutputFileCultures);
 
