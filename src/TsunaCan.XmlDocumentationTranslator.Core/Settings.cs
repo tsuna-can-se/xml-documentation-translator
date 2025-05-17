@@ -35,7 +35,7 @@ public class Settings
     /// </summary>
     public CultureInfo[] OutputFileCultures =>
         this.OutputFileLanguages.Split(',')
-            .Select(c => this.ConvertTo(c.Trim()))
+            .Select(c => ConvertTo(c.Trim()))
             .ToArray();
 
     /// <inheritdoc/>
@@ -47,7 +47,7 @@ public class Settings
             $"{nameof(this.OutputFileLanguages)}: {this.OutputFileLanguages}";
     }
 
-    private CultureInfo ConvertTo(string name)
+    private static CultureInfo ConvertTo(string name)
     {
         try
         {
