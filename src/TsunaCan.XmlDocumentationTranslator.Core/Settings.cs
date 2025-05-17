@@ -25,8 +25,17 @@ public class Settings
 
     /// <summary>
     ///  Gets or sets the language of the output files.
+    ///  example: "en,ja,zh".
     /// </summary>
-    public required CultureInfo[] OutputFileLanguages { get; set; }
+    public required string OutputFileLanguages { get; set; }
+
+    /// <summary>
+    ///  Gets or sets the language of the output files.
+    /// </summary>
+    public CultureInfo[] OutputFileCultures =>
+        this.OutputFileLanguages.Split(',')
+            .Select(c => new CultureInfo(c.Trim()))
+            .ToArray();
 
     /// <summary>
     ///  Gets or sets the log level.
@@ -40,10 +49,7 @@ public class Settings
         return $"{nameof(this.SourceDocumentPath)}: {this.SourceDocumentPath}, " +
             $"{nameof(this.SourceDocumentLanguage)}: {this.SourceDocumentLanguage}, " +
             $"{nameof(this.OutputDirectoryPath)}: {this.OutputDirectoryPath}, " +
-            $"{nameof(this.OutputFileLanguages)}: {this.OutputFileLanguagesString()}, " +
+            $"{nameof(this.OutputFileLanguages)}: {this.OutputFileLanguages}, " +
             $"{nameof(this.LogLevel)}: {this.LogLevel}";
     }
-
-    private string OutputFileLanguagesString()
-        => $"[{string.Join(',', this.OutputFileLanguages.Select(c => c.EnglishName))}]";
 }
