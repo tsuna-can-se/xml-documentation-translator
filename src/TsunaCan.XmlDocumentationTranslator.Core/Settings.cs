@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using Microsoft.Extensions.Logging;
+using TsunaCan.XmlDocumentationTranslator.Resources;
 
 namespace TsunaCan.XmlDocumentationTranslator;
 
@@ -34,7 +35,7 @@ public class Settings
     /// </summary>
     public CultureInfo[] OutputFileCultures =>
         this.OutputFileLanguages.Split(',')
-            .Select(c => new CultureInfo(c.Trim()))
+            .Select(c => this.ConvertTo(c.Trim()))
             .ToArray();
 
     /// <summary>
@@ -51,5 +52,17 @@ public class Settings
             $"{nameof(this.OutputDirectoryPath)}: {this.OutputDirectoryPath}, " +
             $"{nameof(this.OutputFileLanguages)}: {this.OutputFileLanguages}, " +
             $"{nameof(this.LogLevel)}: {this.LogLevel}";
+    }
+
+    private CultureInfo ConvertTo(string name)
+    {
+        try
+        {
+            return new CultureInfo(name);
+        }
+        catch (Exception ex)
+        {
+            throw new ArgumentException(Messages.InvalidCultureName, nameof(name), ex);
+        }
     }
 }

@@ -79,6 +79,15 @@ namespace TsunaCan.XmlDocumentationTranslator.Resources {
         }
         
         /// <summary>
+        ///   Invalid culture name: {CultureName}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InvalidCultureName {
+            get {
+                return ResourceManager.GetString("InvalidCultureName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   XML string is invalid. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InvalidXmlString {

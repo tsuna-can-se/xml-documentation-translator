@@ -123,6 +123,9 @@
   <data name="DumpSettings" xml:space="preserve">
     <value>Setting variavles: {Variables}</value>
   </data>
+  <data name="InvalidCultureName" xml:space="preserve">
+    <value>Invalid culture name: {CultureName}.</value>
+  </data>
   <data name="InvalidXmlString" xml:space="preserve">
     <value>XML string is invalid.</value>
   </data>

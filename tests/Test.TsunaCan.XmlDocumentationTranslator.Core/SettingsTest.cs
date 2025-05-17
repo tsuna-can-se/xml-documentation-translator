@@ -51,4 +51,24 @@ public class SettingsTest
         Assert.Single(settings.OutputFileCultures, new CultureInfo("de-DE"));
         Assert.Equal(LogLevel.Debug, settings.LogLevel);
     }
+
+    [Fact]
+    public void OutputFileCultures_InvalidCultureName()
+    {
+        // Arrange
+        var settings = new Settings
+        {
+            SourceDocumentPath = "path/to/document",
+            SourceDocumentLanguage = new CultureInfo("en-US"),
+            OutputDirectoryPath = "path/to/output",
+            OutputFileLanguages = "dummy",
+            LogLevel = LogLevel.Information,
+        };
+
+        // Act
+        var action = () => settings.OutputFileCultures;
+
+        // Assert
+        Assert.Throws<ArgumentException>("name", action);
+    }
 }
