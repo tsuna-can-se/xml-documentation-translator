@@ -21,9 +21,9 @@ public class CoreSettingsTest
 
         // Assert
         var expected = "SourceDocumentPath: path/to/document, " +
-                       "SourceDocumentLanguage: en-US, " +
+                       "SourceDocumentLanguage: English (United States), " +
                        "OutputDirectoryPath: path/to/output, " +
-                       "OutputFileLanguages: ja,es";
+                       "OutputFileLanguages: [Japanese,Spanish]";
         Assert.Equal(expected, result);
     }
 

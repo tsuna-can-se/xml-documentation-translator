@@ -41,9 +41,9 @@ public class CoreSettings
     public override string ToString()
     {
         return $"{nameof(this.SourceDocumentPath)}: {this.SourceDocumentPath}, " +
-            $"{nameof(this.SourceDocumentLanguage)}: {this.SourceDocumentLanguage}, " +
+            $"{nameof(this.SourceDocumentLanguage)}: {this.SourceDocumentLanguage.EnglishName}, " +
             $"{nameof(this.OutputDirectoryPath)}: {this.OutputDirectoryPath}, " +
-            $"{nameof(this.OutputFileLanguages)}: {this.OutputFileLanguages}";
+            $"{nameof(this.OutputFileLanguages)}: {this.OutputFileCulturesToString()}";
     }
 
     private static CultureInfo ConvertTo(string name)
@@ -57,4 +57,7 @@ public class CoreSettings
             throw new ArgumentException(Messages.InvalidCultureName, nameof(name), ex);
         }
     }
+
+    private string OutputFileCulturesToString()
+        => $"[{string.Join(',', this.OutputFileCultures.Select(c => c.EnglishName))}]";
 }
