@@ -50,7 +50,6 @@ public class TranslationServiceTest(ITestOutputHelper testOutputHelper)
             SourceDocumentLanguage = new CultureInfo("en"),
             OutputDirectoryPath = "output",
             OutputFileLanguages = "fr,es",
-            LogLevel = LogLevel.Information,
         });
         var logger = this.loggerManager.CreateLogger<TranslationService>();
         var service = new TranslationService(documentManagerMock.Object, translatorMock.Object, optionsMock.Object, logger);

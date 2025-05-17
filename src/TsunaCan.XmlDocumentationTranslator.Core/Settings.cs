@@ -38,20 +38,13 @@ public class Settings
             .Select(c => this.ConvertTo(c.Trim()))
             .ToArray();
 
-    /// <summary>
-    ///  Gets or sets the log level.
-    ///  Default is <see cref="LogLevel.Information"/>.
-    /// </summary>
-    public LogLevel LogLevel { get; set; } = LogLevel.Information;
-
     /// <inheritdoc/>
     public override string ToString()
     {
         return $"{nameof(this.SourceDocumentPath)}: {this.SourceDocumentPath}, " +
             $"{nameof(this.SourceDocumentLanguage)}: {this.SourceDocumentLanguage}, " +
             $"{nameof(this.OutputDirectoryPath)}: {this.OutputDirectoryPath}, " +
-            $"{nameof(this.OutputFileLanguages)}: {this.OutputFileLanguages}, " +
-            $"{nameof(this.LogLevel)}: {this.LogLevel}";
+            $"{nameof(this.OutputFileLanguages)}: {this.OutputFileLanguages}";
     }
 
     private CultureInfo ConvertTo(string name)

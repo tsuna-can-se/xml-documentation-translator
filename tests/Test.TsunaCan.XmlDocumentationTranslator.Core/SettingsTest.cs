@@ -15,7 +15,6 @@ public class SettingsTest
             SourceDocumentLanguage = new CultureInfo("en-US"),
             OutputDirectoryPath = "path/to/output",
             OutputFileLanguages = "ja,es",
-            LogLevel = LogLevel.Information,
         };
 
         // Act
@@ -25,8 +24,7 @@ public class SettingsTest
         var expected = "SourceDocumentPath: path/to/document, " +
                        "SourceDocumentLanguage: en-US, " +
                        "OutputDirectoryPath: path/to/output, " +
-                       "OutputFileLanguages: ja,es, " +
-                       "LogLevel: Information";
+                       "OutputFileLanguages: ja,es";
         Assert.Equal(expected, result);
     }
 
@@ -40,7 +38,6 @@ public class SettingsTest
             SourceDocumentLanguage = new CultureInfo("fr-FR"),
             OutputDirectoryPath = "output-path",
             OutputFileLanguages = "de-DE",
-            LogLevel = LogLevel.Debug,
         };
 
         // Assert
@@ -49,7 +46,6 @@ public class SettingsTest
         Assert.Equal("output-path", settings.OutputDirectoryPath);
         Assert.Equal("de-DE", settings.OutputFileLanguages);
         Assert.Single(settings.OutputFileCultures, new CultureInfo("de-DE"));
-        Assert.Equal(LogLevel.Debug, settings.LogLevel);
     }
 
     [Fact]
@@ -62,7 +58,6 @@ public class SettingsTest
             SourceDocumentLanguage = new CultureInfo("en-US"),
             OutputDirectoryPath = "path/to/output",
             OutputFileLanguages = "dummy",
-            LogLevel = LogLevel.Information,
         };
 
         // Act
