@@ -49,7 +49,7 @@ public class TranslationServiceTest(ITestOutputHelper testOutputHelper)
             SourceDocumentPath = "source.xml",
             SourceDocumentLanguage = new CultureInfo("en"),
             OutputDirectoryPath = "output",
-            OutputFileLanguages = [new CultureInfo("fr"), new CultureInfo("es")],
+            OutputFileLanguages = "fr,es",
             LogLevel = LogLevel.Information,
         });
         var logger = this.loggerManager.CreateLogger<TranslationService>();
