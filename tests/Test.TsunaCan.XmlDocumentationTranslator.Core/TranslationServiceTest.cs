@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using Maris.Logging.Testing.Xunit;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
@@ -42,20 +43,16 @@ public class TranslationServiceTest(ITestOutputHelper testOutputHelper)
                 [new CultureInfo("fr")] = new IntelliSenseDocument() { Assembly = new Assembly() { Name = "TestAssembly" } },
                 [new CultureInfo("es")] = new IntelliSenseDocument() { Assembly = new Assembly() { Name = "TestAssembly" } },
             });
-        var settings = new Settings
+        var optionsMock = new Mock<IOptions<CoreSettings>>();
+        optionsMock.Setup(o => o.Value).Returns(new CoreSettings
         {
-            Token = string.Empty,
             SourceDocumentPath = "source.xml",
             SourceDocumentLanguage = new CultureInfo("en"),
             OutputDirectoryPath = "output",
-            OutputFileLanguages = [new CultureInfo("fr"), new CultureInfo("es")],
-            ChatEndPointUrl = new Uri("https://example.com"),
-            ModelId = "model-id",
-            LogLevel = LogLevel.Information,
-            ChunkSize = 1000,
-        };
+            OutputFileLanguages = "fr,es",
+        });
         var logger = this.loggerManager.CreateLogger<TranslationService>();
-        var service = new TranslationService(documentManagerMock.Object, translatorMock.Object, settings, logger);
+        var service = new TranslationService(documentManagerMock.Object, translatorMock.Object, optionsMock.Object, logger);
 
         // Act
         await service.ExecuteAsync();

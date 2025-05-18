@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 using TsunaCan.XmlDocumentationTranslator.Resources;
 
@@ -11,7 +12,7 @@ public class TranslationService
 {
     private readonly IIntelliSenseDocumentManager documentManager;
     private readonly ITranslator translator;
-    private readonly Settings settings;
+    private readonly CoreSettings settings;
     private readonly ILogger<TranslationService> logger;
 
     /// <summary>
@@ -19,18 +20,19 @@ public class TranslationService
     /// </summary>
     /// <param name="documentManager">IntelliSense XML documentation file manager.</param>
     /// <param name="translator">Translating XML documentation files.</param>
-    /// <param name="settings">Translating settings.</param>
+    /// <param name="options">Translating settings.</param>
     /// <param name="logger">Logger.</param>
     public TranslationService(
         IIntelliSenseDocumentManager documentManager,
         ITranslator translator,
-        Settings settings,
+        IOptions<CoreSettings> options,
         ILogger<TranslationService> logger)
     {
         this.documentManager = documentManager;
         this.translator = translator;
-        this.settings = settings;
+        this.settings = options.Value;
         this.logger = logger;
+        this.logger.LogInformation(Messages.DumpCoreSettings, this.settings.ToString());
     }
 
     /// <summary>
@@ -39,9 +41,8 @@ public class TranslationService
     /// <returns>Task.</returns>
     public async Task ExecuteAsync()
     {
-        this.logger.LogInformation(Messages.DumpSettings, this.settings.ToString());
         var document = this.documentManager.Read(this.settings.SourceDocumentPath);
-        var translatedDocument = await this.translator.TranslateAsync(document, this.settings.SourceDocumentLanguage, this.settings.OutputFileLanguages);
+        var translatedDocument = await this.translator.TranslateAsync(document, this.settings.SourceDocumentLanguage, this.settings.OutputFileCultures);
 
         var baseFilePath = this.settings.OutputDirectoryPath;
         List<string> outputFiles = [];

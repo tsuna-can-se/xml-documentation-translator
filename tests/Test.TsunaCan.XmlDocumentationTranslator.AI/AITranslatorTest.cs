@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using System.Xml.Linq;
 using Maris.Logging.Testing.Xunit;
-using Microsoft.Extensions.Logging;
-using TsunaCan.XmlDocumentationTranslator;
+using Microsoft.Extensions.Options;
+using Moq;
 using TsunaCan.XmlDocumentationTranslator.AI;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
@@ -41,7 +41,7 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
             </doc>
             """);
         var document = new IntelliSenseDocumentAccessor(xDocument);
-        var sourceLanguage = settings.SourceDocumentLanguage;
+        var sourceLanguage = new CultureInfo("en");
 
         // Act
         var action = () => translator.TranslateAsync(document, sourceLanguage, targetLanguages!);
@@ -73,8 +73,8 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
             </doc>
             """);
         var document = new IntelliSenseDocumentAccessor(xDocument);
-        var sourceLanguage = settings.SourceDocumentLanguage;
-        IEnumerable<CultureInfo> targetLanguages = settings.OutputFileLanguages;
+        var sourceLanguage = new CultureInfo("en");
+        IEnumerable<CultureInfo> targetLanguages = [new CultureInfo("fr"), new CultureInfo("es")];
 
         // Act
         var result = await translator.TranslateAsync(document, sourceLanguage, targetLanguages);
@@ -116,8 +116,8 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
             </doc>
             """);
         var document = new IntelliSenseDocumentAccessor(xDocument);
-        var sourceLanguage = settings.SourceDocumentLanguage;
-        IEnumerable<CultureInfo> targetLanguages = settings.OutputFileLanguages;
+        var sourceLanguage = new CultureInfo("en");
+        IEnumerable<CultureInfo> targetLanguages = [new CultureInfo("fr"), new CultureInfo("es")];
 
         // Act
         var result = await translator.TranslateAsync(document, sourceLanguage, targetLanguages);
@@ -141,9 +141,9 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
     public async Task TranslateAsync_RespectsMaxConcurrentRequests()
     {
         // Arrange
-        var settings = CreateDefaultSettings();
-        settings.ChunkSize = 10;
-        settings.MaxConcurrentRequests = 6; // Explicitly set the maximum concurrent requests
+        var chunkSize = 10;
+        var maxConcurrentRequests = 6;
+        var settings = CreateDefaultSettings(chunkSize, maxConcurrentRequests);
         var chatClient = new ChatClientStub(this.loggerManager.CreateLogger<ChatClientStub>(), 100);
         var logger = this.loggerManager.CreateLogger<AITranslator>();
         var translator = new AITranslator(settings, chatClient, logger);
@@ -194,28 +194,28 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
             </doc>
             """);
         var document = new IntelliSenseDocumentAccessor(xDocument);
-        var sourceLanguage = settings.SourceDocumentLanguage;
-        IEnumerable<CultureInfo> targetLanguages = settings.OutputFileLanguages;
+        var sourceLanguage = new CultureInfo("en");
+        IEnumerable<CultureInfo> targetLanguages = [new CultureInfo("fr"), new CultureInfo("es")];
 
         // Act
         _ = await translator.TranslateAsync(document, sourceLanguage, targetLanguages);
 
         // Assert
-        Assert.Equal(settings.MaxConcurrentRequests, chatClient.MaxParallelCount); // Verify the maximum parallel count matches the setting
+        Assert.Equal(maxConcurrentRequests, chatClient.MaxParallelCount); // Verify the maximum parallel count matches the setting
     }
 
-    private static Settings CreateDefaultSettings()
-        => new()
-        {
-            Token = string.Empty,
-            SourceDocumentPath = "source.xml",
-            SourceDocumentLanguage = new CultureInfo("en"),
-            OutputDirectoryPath = "output",
-            OutputFileLanguages = [new CultureInfo("fr"), new CultureInfo("es")],
-            ChatEndPointUrl = new Uri("https://example.com"),
-            ModelId = "model-id",
-            LogLevel = LogLevel.Information,
-            ChunkSize = 1000,
-            MaxConcurrentRequests = 4,
-        };
+    private static IOptions<AISettings> CreateDefaultSettings(int chunkSize = 1000, int maxConcurrentRequests = 4)
+    {
+        var mock = new Mock<IOptions<AISettings>>();
+        mock.Setup(x => x.Value)
+            .Returns(new AISettings
+            {
+                Token = string.Empty,
+                ChatEndPointUrl = new Uri("https://example.com"),
+                ModelId = "model-id",
+                ChunkSize = chunkSize,
+                MaxConcurrentRequests = maxConcurrentRequests,
+            });
+        return mock.Object;
+    }
 }

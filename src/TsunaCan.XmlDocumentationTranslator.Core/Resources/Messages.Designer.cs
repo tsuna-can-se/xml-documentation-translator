@@ -70,11 +70,20 @@ namespace TsunaCan.XmlDocumentationTranslator.Resources {
         }
         
         /// <summary>
-        ///   Setting variavles: {Variables} に類似しているローカライズされた文字列を検索します。
+        ///   CoreSetting variables: {Variables} に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string DumpSettings {
+        internal static string DumpCoreSettings {
             get {
-                return ResourceManager.GetString("DumpSettings", resourceCulture);
+                return ResourceManager.GetString("DumpCoreSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Invalid culture name: {CultureName}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InvalidCultureName {
+            get {
+                return ResourceManager.GetString("InvalidCultureName", resourceCulture);
             }
         }
         
