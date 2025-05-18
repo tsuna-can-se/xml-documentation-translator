@@ -50,7 +50,7 @@ public class CoreSettings
     {
         try
         {
-            return new CultureInfo(name);
+            return CultureInfo.GetCultureInfo(name, true);
         }
         catch (Exception ex)
         {
