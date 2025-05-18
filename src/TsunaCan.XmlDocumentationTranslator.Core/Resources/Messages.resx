@@ -121,7 +121,7 @@
     <value>Directory {directory} was created.</value>
   </data>
   <data name="DumpCoreSettings" xml:space="preserve">
-    <value>CoreSetting variavles: {Variables}</value>
+    <value>CoreSetting variables: {Variables}</value>
   </data>
   <data name="InvalidCultureName" xml:space="preserve">
     <value>Invalid culture name: {CultureName}.</value>

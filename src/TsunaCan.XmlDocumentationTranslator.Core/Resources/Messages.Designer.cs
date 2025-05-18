@@ -70,7 +70,7 @@ namespace TsunaCan.XmlDocumentationTranslator.Resources {
         }
         
         /// <summary>
-        ///   CoreSetting variavles: {Variables} に類似しているローカライズされた文字列を検索します。
+        ///   CoreSetting variables: {Variables} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DumpCoreSettings {
             get {

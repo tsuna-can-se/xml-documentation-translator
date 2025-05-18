@@ -61,7 +61,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI.Resources {
         }
         
         /// <summary>
-        ///   AISetting variavles: {Variables} に類似しているローカライズされた文字列を検索します。
+        ///   AISetting variables: {Variables} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DumpAISettings {
             get {
