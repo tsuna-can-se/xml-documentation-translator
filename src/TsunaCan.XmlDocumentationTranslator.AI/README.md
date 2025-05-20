@@ -14,7 +14,7 @@
 
 `TsunaCan.XmlDocumentationTranslator.AI` uses AI to translate .NET IntelliSense documentation files in your projects.
 It automates and streamlines the translation of code documentation.
-This makes your codebase more accessible to global developers, regardless of the any language used.
+This makes your codebase more accessible to global developers, regardless of any language used.
 
 ## Key Features
 
