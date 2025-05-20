@@ -34,6 +34,7 @@
         "**/*.Designer.cs"
     ],
     "words": [
+        "appsettings",
         "finalizer",
         "masatsuna",
         "resx",

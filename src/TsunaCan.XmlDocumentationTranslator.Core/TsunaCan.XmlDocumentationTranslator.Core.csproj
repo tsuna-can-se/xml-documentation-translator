@@ -2,6 +2,20 @@
 
   <PropertyGroup>
     <RootNamespace>TsunaCan.XmlDocumentationTranslator</RootNamespace>
+    <PackageId>TsunaCan.XmlDocumentationTranslator.Core</PackageId>
+    <Authors>masatsuna</Authors>
+    <Description>
+      XML documentation translator core project.
+    </Description>
+    <Copyright>Copyright (c) 2025 masatsuna</Copyright>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/tsuna-can-se/xml-documentation-translator/tree/main/src/TsunaCan.XmlDocumentationTranslator.Core</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>https://github.com/tsuna-can-se/xml-documentation-translator/releases</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/tsuna-can-se/xml-documentation-translator.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryBranch>main</RepositoryBranch>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +26,10 @@
     <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+  
   <ItemGroup>
     <Compile Update="Resources\Messages.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -30,4 +48,5 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Test.TsunaCan.XmlDocumentationTranslator.Core" />
   </ItemGroup>
+
 </Project>
