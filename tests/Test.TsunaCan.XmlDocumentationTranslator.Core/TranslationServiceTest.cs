@@ -2,7 +2,6 @@
 using System.Xml.Linq;
 using Maris.Logging.Testing.Xunit;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Moq;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
@@ -43,22 +42,19 @@ public class TranslationServiceTest(ITestOutputHelper testOutputHelper)
                 [new CultureInfo("fr")] = new IntelliSenseDocument() { Assembly = new Assembly() { Name = "TestAssembly" } },
                 [new CultureInfo("es")] = new IntelliSenseDocument() { Assembly = new Assembly() { Name = "TestAssembly" } },
             });
-        var optionsMock = new Mock<IOptions<CoreSettings>>();
-        optionsMock.Setup(o => o.Value).Returns(new CoreSettings
-        {
-            SourceDocumentPath = "source.xml",
-            SourceDocumentLanguage = new CultureInfo("en"),
-            OutputDirectoryPath = "output",
-            OutputFileLanguages = "fr,es",
-        });
+        string sourceDocumentPath = "source.xml";
+        var sourceDocumentLanguage = new CultureInfo("en");
+        string outputDirectoryPath = "output";
+        IEnumerable<CultureInfo> outputFileLanguages = [new CultureInfo("fr"), new CultureInfo("es")];
+
         var logger = this.loggerManager.CreateLogger<TranslationService>();
-        var service = new TranslationService(documentManagerMock.Object, translatorMock.Object, optionsMock.Object, logger);
+        var service = new TranslationService(documentManagerMock.Object, translatorMock.Object, logger);
 
         // Act
-        await service.ExecuteAsync();
+        await service.ExecuteAsync(sourceDocumentPath, sourceDocumentLanguage, outputDirectoryPath, outputFileLanguages);
 
         // Assert
-        Assert.Equal(2, this.loggerManager.LogCollector.Count);
+        Assert.Equal(1, this.loggerManager.LogCollector.Count);
         var record = this.loggerManager.LogCollector.LatestRecord;
         Assert.Equal(LogLevel.Information, record.Level);
         Assert.Contains($"[{Path.Combine("output", "fr", "source.xml")}, {Path.Combine("output", "es", "source.xml")}]", record.Message);

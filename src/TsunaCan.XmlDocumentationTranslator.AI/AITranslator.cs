@@ -42,7 +42,7 @@ public partial class AITranslator : ITranslator, IDisposable
     /// <inheritdoc />
     public async Task<Dictionary<CultureInfo, IntelliSenseDocument>> TranslateAsync(
         IntelliSenseDocumentAccessor document,
-        CultureInfo sourceLanguage,
+        CultureInfo? sourceLanguage,
         IEnumerable<CultureInfo> targetLanguages)
     {
         if (targetLanguages == null || !targetLanguages.Any())
@@ -136,6 +136,31 @@ public partial class AITranslator : ITranslator, IDisposable
     [GeneratedRegex(@"```(?:xml)\s*(.*?)\s*```", RegexOptions.Singleline)]
     private static partial Regex XmlCodeBlockRegex();
 
+    private static TextContent CreatePrompt(CultureInfo? sourceLanguage, CultureInfo targetLanguage)
+    {
+        if (sourceLanguage == null)
+        {
+            return new TextContent($"""
+                You are a professional .NET library developer.
+                The following XML document is part of the IntelliSense XML documentation that is included in the NuGet package.
+                It represents class and method descriptions, parameters, return values, and exception descriptions.
+                Please translate this XML document into {targetLanguage.EnglishName}.
+                Please return only the translated XML document.
+                """);
+        }
+        else
+        {
+            return new TextContent($"""
+                You are a professional .NET library developer.
+                The following XML document is part of the IntelliSense XML documentation that is included in the NuGet package.
+                It represents class and method descriptions, parameters, return values, and exception descriptions.
+                This XML document is written in {sourceLanguage.EnglishName}.
+                Please translate this XML document into {targetLanguage.EnglishName}.
+                Please return only the translated XML document.
+                """);
+        }
+    }
+
     private void LogDocumentDetails(IntelliSenseDocumentAccessor document)
     {
         var assemblyName = document.GetAssemblyName();
@@ -145,7 +170,7 @@ public partial class AITranslator : ITranslator, IDisposable
 
     private List<Task<TranslateResult>> StartTranslationTasks(
         IntelliSenseDocumentAccessor document,
-        CultureInfo sourceLanguage,
+        CultureInfo? sourceLanguage,
         IEnumerable<CultureInfo> targetLanguages)
     {
         var tasks = new List<Task<TranslateResult>>();
@@ -161,19 +186,12 @@ public partial class AITranslator : ITranslator, IDisposable
         return tasks;
     }
 
-    private Task<TranslateResult> TranslateXmlAsync(string xml, CultureInfo sourceLanguage, CultureInfo targetLanguage)
+    private Task<TranslateResult> TranslateXmlAsync(string xml, CultureInfo? sourceLanguage, CultureInfo targetLanguage)
     {
         return Task.Run<TranslateResult>(async () =>
         {
             var options = new ChatOptions() { Temperature = 0.01f };
-            var prompt = new TextContent($"""
-            You are a professional .NET library developer.
-            The following XML document is part of the IntelliSense XML documentation that is included in the NuGet package.
-            It represents class and method descriptions, parameters, return values, and exception descriptions.
-            This XML document is written in {sourceLanguage.EnglishName}.
-            Please translate this XML document into {targetLanguage.EnglishName}.
-            Please return only the translated XML document.
-            """);
+            var prompt = CreatePrompt(sourceLanguage, targetLanguage);
             var chatMessage = new ChatMessage(
                 ChatRole.Assistant,
                 [prompt, new TextContent(xml)]);

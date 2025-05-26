@@ -43,7 +43,7 @@ dotnet add package TsunaCan.XmlDocumentationTranslator.Core
 1. Register services in your .NET application's DI container:
 
    ```csharp
-   services.AddTranslatorServices(configuration);
+   services.AddTranslatorServices();
    ```
 
 1. Register an implementation of `ITranslator` in the DI container.
@@ -58,7 +58,7 @@ dotnet add package TsunaCan.XmlDocumentationTranslator.Core
    {
        public async Task<Dictionary<CultureInfo, IntelliSenseDocument>> TranslateAsync(
            IntelliSenseDocumentAccessor document,
-           CultureInfo sourceLanguage,
+           CultureInfo? sourceLanguage,
            IEnumerable<CultureInfo> targetLanguages)
        {
            var result = new Dictionary<CultureInfo, IntelliSenseDocument>();
@@ -76,7 +76,7 @@ dotnet add package TsunaCan.XmlDocumentationTranslator.Core
        }
 
        private Task<string> TranslateXmlAsync(
-           CultureInfo sourceLanguage,
+           CultureInfo? sourceLanguage,
            CultureInfo targetLanguage,
            IntelliSenseDocumentAccessor document)
        {
@@ -97,13 +97,16 @@ dotnet add package TsunaCan.XmlDocumentationTranslator.Core
    [`TsunaCan.XmlDocumentationTranslator.AI`][ai-nuget] package.
    This enables AI-powered translation.
 
-1. Configure `CoreSettings` with source document path, language, output directory, and target languages.
-
 1. Use `TranslationService` to execute the translation process:
 
    ```csharp
+   string sourceDocumentPath = "path/to/document.xml";
+   CultureInfo sourceDocumentLanguage = CultureInfo.GetCultureInfo("en", true);
+   string outputDirectoryPath = "path/to/output";
+   IEnumerable<CultureInfo> outputFileCultures = [ CultureInfo.GetCultureInfo("ja", true), CultureInfo.GetCultureInfo("es", true) ];
+
    var translationService = app.Services.GetRequiredService<TranslationService>();
-   await translationService.ExecuteAsync();
+   await translationService.ExecuteAsync(sourceDocumentPath, sourceDocumentLanguage, outputDirectoryPath, outputFileCultures);
    ```
 
 1. The translated XML files will be output to language-specific directories.

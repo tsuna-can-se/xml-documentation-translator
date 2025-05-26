@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TsunaCan.XmlDocumentationTranslator.Resources {
+namespace TsunaCan.XmlDocumentationTranslator.Cli.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TsunaCan.XmlDocumentationTranslator.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TsunaCan.XmlDocumentationTranslator.Resources.Messages", typeof(Messages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TsunaCan.XmlDocumentationTranslator.Cli.Resources.Messages", typeof(Messages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,74 +61,20 @@ namespace TsunaCan.XmlDocumentationTranslator.Resources {
         }
         
         /// <summary>
-        ///   Directory {directory} was created. に類似しているローカライズされた文字列を検索します。
+        ///   Invalid culture name: {CultureName}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string DirectoryCreated {
+        internal static string InvalidCultureName {
             get {
-                return ResourceManager.GetString("DirectoryCreated", resourceCulture);
+                return ResourceManager.GetString("InvalidCultureName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   XML string is invalid. に類似しているローカライズされた文字列を検索します。
+        ///   The parameter {0} is not set. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string InvalidXmlString {
+        internal static string ParameterNotSet {
             get {
-                return ResourceManager.GetString("InvalidXmlString", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The following {OutputFileCount} files were output: {OutputFiles} に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string Translated {
-            get {
-                return ResourceManager.GetString("Translated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Unable to convert object to XML. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string UnableToConvertObjectToXml {
-            get {
-                return ResourceManager.GetString("UnableToConvertObjectToXml", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Xml document {OutputFileName} was created. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string XmlDocumentCreated {
-            get {
-                return ResourceManager.GetString("XmlDocumentCreated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Xml document {OutputFileName} is now creating. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string XmlDocumentCreating {
-            get {
-                return ResourceManager.GetString("XmlDocumentCreating", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   &apos;{XmlDocumentPath}&apos; file was loaded. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string XmlDocumentLoaded {
-            get {
-                return ResourceManager.GetString("XmlDocumentLoaded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Loading &apos;{XmlDocumentPath}&apos; file. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string XmlDocumentLoading {
-            get {
-                return ResourceManager.GetString("XmlDocumentLoading", resourceCulture);
+                return ResourceManager.GetString("ParameterNotSet", resourceCulture);
             }
         }
     }
