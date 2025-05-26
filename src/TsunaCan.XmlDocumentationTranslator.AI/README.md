@@ -48,7 +48,7 @@ You may also need to add `TsunaCan.XmlDocumentationTranslator.Core` as required.
 
 ### 2. Prepare Configuration
 
-Configure `CoreSettings` and `AISettings` in your `appsettings.json` or via environment variables/command-line arguments.
+Configure `AISettings` in your `appsettings.json` or via environment variables/command-line arguments.
 
 ### 3. Example: Using from a CLI Application
 
@@ -68,18 +68,27 @@ builder.Configuration
     .AddEnvironmentVariables()
     .AddCommandLine(args);
 
+var sourceDocumentPath = builder.Configuration.GetValue("SourceDocumentPath", string.Empty);
+var sourceDocumentLanguage = builder.Configuration.GetValue<CultureInfo?>("SourceDocumentLanguage", null);
+var outputDirectoryPath = builder.Configuration.GetValue("OutputDirectoryPath", string.Empty);
+var outputFileLanguagesStr = builder.Configuration.GetValue("OutputFileLanguages", "ja,es");
+var outputFileCultures = outputFileLanguagesStr
+    .Split(',')
+    .Select(c => ConvertTo(c.Trim()))
+    .ToArray();
+
 // Register services
-builder.Services.AddTranslatorServices(builder.Configuration.GetSection("CoreSettings"));
+builder.Services.AddTranslatorServices();
 builder.Services.AddAITranslator(builder.Configuration.GetSection("AISettings"));
 
 var app = builder.Build();
 
 // Run TranslationService
 var translationService = app.Services.GetRequiredService<TranslationService>();
-await translationService.ExecuteAsync();
+await translationService.ExecuteAsync(sourceDocumentPath, sourceDocumentLanguage, outputDirectoryPath, outputFileCultures);
 ```
 
-- Required settings (`CoreSettings`, `AISettings`) should be provided via any configuration source.
+- Required settings (`AISettings`) should be provided via any configuration source.
 
 ## License
 
