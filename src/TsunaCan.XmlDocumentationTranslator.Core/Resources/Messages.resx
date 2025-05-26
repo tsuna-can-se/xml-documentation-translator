@@ -120,9 +120,6 @@
   <data name="DirectoryCreated" xml:space="preserve">
     <value>Directory {directory} was created.</value>
   </data>
-  <data name="DumpCoreSettings" xml:space="preserve">
-    <value>CoreSetting variables: {Variables}</value>
-  </data>
   <data name="InvalidXmlString" xml:space="preserve">
     <value>XML string is invalid.</value>
   </data>

@@ -70,15 +70,6 @@ namespace TsunaCan.XmlDocumentationTranslator.Resources {
         }
         
         /// <summary>
-        ///   CoreSetting variables: {Variables} に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DumpCoreSettings {
-            get {
-                return ResourceManager.GetString("DumpCoreSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   XML string is invalid. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InvalidXmlString {
