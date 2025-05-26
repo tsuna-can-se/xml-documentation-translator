@@ -20,8 +20,7 @@ ParameterNotSetException.ThrowIfNotSet(sourceDocumentPath, "SourceDocumentPath")
 var sourceDocumentLanguageStr = builder.Configuration.GetValue<string>("SourceDocumentLanguage");
 ParameterNotSetException.ThrowIfNotSet(sourceDocumentLanguageStr, "SourceDocumentLanguage");
 var sourceDocumentLanguage = ConvertTo(sourceDocumentLanguageStr.Trim());
-var outputDirectoryPath = builder.Configuration.GetValue<string>("OutputDirectoryPath");
-ParameterNotSetException.ThrowIfNotSet(outputDirectoryPath, "OutputDirectoryPath");
+var outputDirectoryPath = builder.Configuration.GetValue<string>("OutputDirectoryPath") ?? string.Empty;
 var outputFileLanguagesStr = builder.Configuration.GetValue<string>("OutputFileLanguages");
 ParameterNotSetException.ThrowIfNotSet(outputFileLanguagesStr, "OutputFileLanguages");
 var outputFileCultures = outputFileLanguagesStr
