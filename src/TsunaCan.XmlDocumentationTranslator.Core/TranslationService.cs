@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using System.Globalization;
+using Microsoft.Extensions.Logging;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 using TsunaCan.XmlDocumentationTranslator.Resources;
 
@@ -12,7 +12,6 @@ public class TranslationService
 {
     private readonly IIntelliSenseDocumentManager documentManager;
     private readonly ITranslator translator;
-    private readonly CoreSettings settings;
     private readonly ILogger<TranslationService> logger;
 
     /// <summary>
@@ -20,35 +19,34 @@ public class TranslationService
     /// </summary>
     /// <param name="documentManager">IntelliSense XML documentation file manager.</param>
     /// <param name="translator">Translating XML documentation files.</param>
-    /// <param name="options">Translating settings.</param>
     /// <param name="logger">Logger.</param>
     public TranslationService(
         IIntelliSenseDocumentManager documentManager,
         ITranslator translator,
-        IOptions<CoreSettings> options,
         ILogger<TranslationService> logger)
     {
         this.documentManager = documentManager;
         this.translator = translator;
-        this.settings = options.Value;
         this.logger = logger;
-        this.logger.LogInformation(Messages.DumpCoreSettings, this.settings.ToString());
     }
 
     /// <summary>
     ///  Execute the translation process.
     /// </summary>
+    /// <param name="sourceDocumentPath">Source document path.</param>
+    /// <param name="sourceDocumentLanguage">Source document language.</param>
+    /// <param name="outputDirectoryPath">Output directory path.</param>
+    /// <param name="outputFileCultures">Output file cultures.</param>
     /// <returns>Task.</returns>
-    public async Task ExecuteAsync()
+    public async Task ExecuteAsync(string sourceDocumentPath, CultureInfo? sourceDocumentLanguage, string outputDirectoryPath, IEnumerable<CultureInfo> outputFileCultures)
     {
-        var document = this.documentManager.Read(this.settings.SourceDocumentPath);
-        var translatedDocument = await this.translator.TranslateAsync(document, this.settings.SourceDocumentLanguage, this.settings.OutputFileCultures);
+        var document = this.documentManager.Read(sourceDocumentPath);
+        var translatedDocument = await this.translator.TranslateAsync(document, sourceDocumentLanguage, outputFileCultures);
 
-        var baseFilePath = this.settings.OutputDirectoryPath;
         List<string> outputFiles = [];
         foreach (var result in translatedDocument)
         {
-            var outputFilePath = Path.Combine(baseFilePath, result.Key.Name, this.settings.SourceDocumentPath);
+            var outputFilePath = Path.Combine(outputDirectoryPath, result.Key.Name, sourceDocumentPath);
             outputFiles.Add(outputFilePath);
             this.documentManager.Write(outputFilePath, result.Value);
         }

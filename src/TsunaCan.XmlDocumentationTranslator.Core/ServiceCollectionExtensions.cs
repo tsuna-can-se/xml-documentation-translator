@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
 namespace TsunaCan.XmlDocumentationTranslator;
@@ -13,13 +12,9 @@ public static class ServiceCollectionExtensions
     ///  Adds AI translation services to the service collection.
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/>.</param>
-    /// <param name="configuration"><see cref="IConfiguration"/> objects.</param>
     /// <returns>Configured <see cref="IServiceCollection"/> object.</returns>
-    public static IServiceCollection AddTranslatorServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddTranslatorServices(this IServiceCollection services)
     {
-        services.AddOptionsWithValidateOnStart<CoreSettings>()
-            .Bind(configuration)
-            .ValidateDataAnnotations();
         services.AddSingleton<TranslationService>();
         services.AddSingleton<IIntelliSenseDocumentManager, IntelliSenseDocumentManager>();
         return services;

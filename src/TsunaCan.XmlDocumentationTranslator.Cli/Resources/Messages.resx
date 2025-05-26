@@ -117,31 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DirectoryCreated" xml:space="preserve">
-    <value>Directory {directory} was created.</value>
+  <data name="InvalidCultureName" xml:space="preserve">
+    <value>Invalid culture name: {CultureName}.</value>
   </data>
-  <data name="DumpCoreSettings" xml:space="preserve">
-    <value>CoreSetting variables: {Variables}</value>
-  </data>
-  <data name="InvalidXmlString" xml:space="preserve">
-    <value>XML string is invalid.</value>
-  </data>
-  <data name="Translated" xml:space="preserve">
-    <value>The following {OutputFileCount} files were output: {OutputFiles}</value>
-  </data>
-  <data name="UnableToConvertObjectToXml" xml:space="preserve">
-    <value>Unable to convert object to XML.</value>
-  </data>
-  <data name="XmlDocumentCreated" xml:space="preserve">
-    <value>Xml document {OutputFileName} was created.</value>
-  </data>
-  <data name="XmlDocumentCreating" xml:space="preserve">
-    <value>Xml document {OutputFileName} is now creating.</value>
-  </data>
-  <data name="XmlDocumentLoaded" xml:space="preserve">
-    <value>'{XmlDocumentPath}' file was loaded.</value>
-  </data>
-  <data name="XmlDocumentLoading" xml:space="preserve">
-    <value>Loading '{XmlDocumentPath}' file.</value>
+  <data name="ParameterNotSet" xml:space="preserve">
+    <value>The parameter {0} is not set.</value>
   </data>
 </root>
