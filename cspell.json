@@ -37,6 +37,7 @@
         "appsettings",
         "finalizer",
         "masatsuna",
+        "netstandard",
         "resx",
         "stylecop",
         "textlint",
