@@ -1,4 +1,7 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 using TsunaCan.XmlDocumentationTranslator.Resources;

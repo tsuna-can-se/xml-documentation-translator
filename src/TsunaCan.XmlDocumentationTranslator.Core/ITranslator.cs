@@ -1,4 +1,7 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading.Tasks;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
 namespace TsunaCan.XmlDocumentationTranslator

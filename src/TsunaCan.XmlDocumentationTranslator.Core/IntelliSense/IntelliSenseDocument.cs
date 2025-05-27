@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Xml;
 using System.Xml.Serialization;
 using TsunaCan.XmlDocumentationTranslator.Resources;
