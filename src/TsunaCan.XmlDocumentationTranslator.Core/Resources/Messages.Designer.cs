@@ -61,6 +61,15 @@ namespace TsunaCan.XmlDocumentationTranslator.Resources {
         }
         
         /// <summary>
+        ///   Argument is null or empty. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ArgumentIsNullOrEmpty {
+            get {
+                return ResourceManager.GetString("ArgumentIsNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Directory {directory} was created. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DirectoryCreated {
