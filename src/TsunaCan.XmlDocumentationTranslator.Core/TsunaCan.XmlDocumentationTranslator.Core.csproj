@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>TsunaCan.XmlDocumentationTranslator</RootNamespace>
     <PackageId>TsunaCan.XmlDocumentationTranslator.Core</PackageId>
     <Authors>masatsuna</Authors>
