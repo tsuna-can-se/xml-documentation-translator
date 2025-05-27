@@ -19,7 +19,7 @@ public partial class IntelliSenseDocument
     ///  Gets or sets the assembly information in the documentation.
     /// </summary>
     [XmlElement(Constants.AssemblyElement)]
-    public required Assembly Assembly { get; set; }
+        public Assembly Assembly { get; set; }
 
     /// <summary>
     ///  Gets or sets the members element in the documentation.
