@@ -67,7 +67,11 @@ public class IntelliSenseDocumentManager : IIntelliSenseDocumentManager
     /// </exception>
     public void Write(string outputFilePath, IntelliSenseDocument document)
     {
-        ArgumentException.ThrowIfNullOrEmpty(outputFilePath);
+            if (string.IsNullOrEmpty(outputFilePath))
+            {
+                throw new ArgumentException(Messages.ArgumentIsNullOrEmpty, nameof(outputFilePath));
+            }
+
         this.logger.LogInformation(Messages.XmlDocumentCreating, outputFilePath);
 
         // Ensure the directory exists
