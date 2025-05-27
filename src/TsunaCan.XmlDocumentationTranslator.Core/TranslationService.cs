@@ -41,7 +41,7 @@ public class TranslationService
     /// <param name="outputDirectoryPath">Output directory path.</param>
     /// <param name="outputFileCultures">Output file cultures.</param>
     /// <returns>Task.</returns>
-    public async Task ExecuteAsync(string sourceDocumentPath, CultureInfo? sourceDocumentLanguage, string outputDirectoryPath, IEnumerable<CultureInfo> outputFileCultures)
+        public async Task ExecuteAsync(string sourceDocumentPath, CultureInfo sourceDocumentLanguage, string outputDirectoryPath, IEnumerable<CultureInfo> outputFileCultures)
     {
         var document = this.documentManager.Read(sourceDocumentPath);
         var translatedDocument = await this.translator.TranslateAsync(document, sourceDocumentLanguage, outputFileCultures);
