@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Xml.Serialization;
 
-namespace TsunaCan.XmlDocumentationTranslator.IntelliSense;
-
+namespace TsunaCan.XmlDocumentationTranslator.IntelliSense
+{
 /// <summary>
 ///  Represents an assembly in the XML documentation.
 /// </summary>
@@ -16,4 +16,5 @@ public partial class Assembly
     /// </summary>
     [XmlElement(Constants.NameElement)]
     public required string Name { get; set; }
+    }
 }

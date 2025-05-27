@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using System.Xml.Linq;
 
-namespace TsunaCan.XmlDocumentationTranslator.IntelliSense;
-
+namespace TsunaCan.XmlDocumentationTranslator.IntelliSense
+{
 /// <summary>
 ///  IntelliSense XML documentation file accessor.
 /// </summary>
@@ -74,4 +74,5 @@ public class IntelliSenseDocumentAccessor
 
     private IEnumerable<XElement> GetMembersElements()
         => this.document.Descendants(Constants.MemberElement);
+}
 }

@@ -3,8 +3,8 @@ using Microsoft.Extensions.Logging;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 using TsunaCan.XmlDocumentationTranslator.Resources;
 
-namespace TsunaCan.XmlDocumentationTranslator;
-
+namespace TsunaCan.XmlDocumentationTranslator
+{
 /// <summary>
 ///  Service for translating IntelliSense XML documentation files.
 /// </summary>
@@ -54,4 +54,5 @@ public class TranslationService
         var outputFilePaths = $"[{string.Join(", ", outputFiles)}]";
         this.logger.LogInformation(Messages.Translated, outputFiles.Count, outputFilePaths);
     }
+}
 }

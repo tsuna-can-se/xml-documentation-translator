@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
-namespace TsunaCan.XmlDocumentationTranslator;
-
+namespace TsunaCan.XmlDocumentationTranslator
+{
 /// <summary>
 ///  Interface for translating XML documentation files.
 /// </summary>
@@ -21,4 +21,5 @@ public interface ITranslator : IDisposable
     ///  </list>
     /// </exception>
     Task<Dictionary<CultureInfo, IntelliSenseDocument>> TranslateAsync(IntelliSenseDocumentAccessor document, CultureInfo? sourceLanguage, IEnumerable<CultureInfo> targetLanguages);
+    }
 }

@@ -3,8 +3,8 @@ using System.Xml;
 using System.Xml.Serialization;
 using TsunaCan.XmlDocumentationTranslator.Resources;
 
-namespace TsunaCan.XmlDocumentationTranslator.IntelliSense;
-
+namespace TsunaCan.XmlDocumentationTranslator.IntelliSense
+{
 /// <summary>
 ///  Represents the root element of an IntelliSense XML documentation file.
 /// </summary>
@@ -64,4 +64,5 @@ public partial class IntelliSenseDocument
             throw new ArgumentException(Messages.InvalidXmlString, nameof(xml), ex);
         }
     }
+}
 }

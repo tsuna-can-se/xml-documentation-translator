@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
-namespace TsunaCan.XmlDocumentationTranslator;
-
+namespace TsunaCan.XmlDocumentationTranslator
+{
 /// <summary>
 ///  Extension methods for adding translation core services.
 /// </summary>
@@ -19,4 +19,5 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IIntelliSenseDocumentManager, IntelliSenseDocumentManager>();
         return services;
     }
+}
 }

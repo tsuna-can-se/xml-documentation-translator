@@ -5,8 +5,8 @@ using System.Xml.Serialization;
 using Microsoft.Extensions.Logging;
 using TsunaCan.XmlDocumentationTranslator.Resources;
 
-namespace TsunaCan.XmlDocumentationTranslator.IntelliSense;
-
+namespace TsunaCan.XmlDocumentationTranslator.IntelliSense
+{
 /// <summary>
 ///  Manages the reading and writing of IntelliSense XML documentation files.
 /// </summary>
@@ -91,5 +91,7 @@ public class IntelliSenseDocumentManager : IIntelliSenseDocumentManager
 
         this.serializer.Serialize(writer, document, namespaces);
         this.logger.LogInformation(Messages.XmlDocumentCreated, outputFilePath);
+    }
+}
     }
 }
