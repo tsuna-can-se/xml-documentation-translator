@@ -203,14 +203,14 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
                     var response = await this.chatClient.GetResponseAsync(chatMessage, options);
                     if (XmlCodeBlock.IsMatch(response.Text))
                     {
-                        return new(
+                        return new TranslateResult(
                             targetLanguage,
                             XmlCodeBlock.Match(response.Text).Groups[1].Value);
                     }
                     else
                     {
                         this.logger.LogWarning(Messages.UnexpectedReturnValue, response.Text);
-                        return new(targetLanguage, response.Text);
+                        return new TranslateResult(targetLanguage, response.Text);
                     }
                 }
                 finally
@@ -220,6 +220,17 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
             });
         }
 
-        private record TranslateResult(CultureInfo TargetLanguage, string TranslatedXml);
+        private class TranslateResult
+        {
+            internal TranslateResult(CultureInfo targetLanguage, string translatedXml)
+            {
+                this.TargetLanguage = targetLanguage;
+                this.TranslatedXml = translatedXml;
+            }
+
+            internal CultureInfo TargetLanguage { get; }
+
+            internal string TranslatedXml { get; }
+        }
     }
 }
