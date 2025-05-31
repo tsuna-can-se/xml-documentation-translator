@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ChunkSizeMustBeGreaterThanZero" xml:space="preserve">
+    <value>Chunk size must be greater than zero.</value>
+  </data>
   <data name="DumpAISettings" xml:space="preserve">
     <value>AISetting variables: {Variables}</value>
   </data>
@@ -125,6 +128,9 @@
   </data>
   <data name="DumpMemberCount" xml:space="preserve">
     <value>XML document member count: {MemberCount}</value>
+  </data>
+  <data name="MaxConcurrentRequestsMustBeGreaterThanZero" xml:space="preserve">
+    <value>Max concurrent requests must be greater than zero.</value>
   </data>
   <data name="TargetLanguagesCannotBeEmpty" xml:space="preserve">
     <value>Target languages cannot be empty.</value>
