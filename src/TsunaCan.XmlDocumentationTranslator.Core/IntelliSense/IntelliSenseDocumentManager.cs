@@ -47,14 +47,12 @@ public class IntelliSenseDocumentManager : IIntelliSenseDocumentManager
         // Deserialize the XML to validate its format.
         // The result is not used as we only care about validation here.
         // https://github.com/tsuna-can-se/xml-documentation-translator/issues/14
-        using (var reader = XmlReader.Create(intelliSenseDocumentPath))
-        {
-            _ = this.serializer.Deserialize(reader);
+        using var reader = XmlReader.Create(intelliSenseDocumentPath);
+        _ = this.serializer.Deserialize(reader);
 
-            var document = XDocument.Load(intelliSenseDocumentPath);
-            this.logger.LogInformation(Messages.XmlDocumentLoaded, intelliSenseDocumentPath);
-            return new IntelliSenseDocumentAccessor(document);
-        }
+        var document = XDocument.Load(intelliSenseDocumentPath);
+        this.logger.LogInformation(Messages.XmlDocumentLoaded, intelliSenseDocumentPath);
+        return new IntelliSenseDocumentAccessor(document);
     }
 
     /// <summary>
@@ -91,14 +89,13 @@ public class IntelliSenseDocumentManager : IIntelliSenseDocumentManager
             Encoding = Encoding.UTF8,
         };
 
-        using (var writer = XmlWriter.Create(outputFilePath, settings))
-        {
-            // Specify empty namespaces
-            var namespaces = new XmlSerializerNamespaces();
-            namespaces.Add(string.Empty, string.Empty);
+        using var writer = XmlWriter.Create(outputFilePath, settings);
 
-            this.serializer.Serialize(writer, document, namespaces);
-            this.logger.LogInformation(Messages.XmlDocumentCreated, outputFilePath);
-        }
+        // Specify empty namespaces
+        var namespaces = new XmlSerializerNamespaces();
+        namespaces.Add(string.Empty, string.Empty);
+
+        this.serializer.Serialize(writer, document, namespaces);
+        this.logger.LogInformation(Messages.XmlDocumentCreated, outputFilePath);
     }
 }
