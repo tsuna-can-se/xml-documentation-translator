@@ -47,7 +47,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
         /// <inheritdoc />
         public async Task<Dictionary<CultureInfo, IntelliSenseDocument>> TranslateAsync(
             IntelliSenseDocumentAccessor document,
-            CultureInfo? sourceLanguage,
+            CultureInfo sourceLanguage,
             IEnumerable<CultureInfo> targetLanguages)
         {
             if (targetLanguages == null || !targetLanguages.Any())
@@ -90,7 +90,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
                     this.chatClient.Dispose();
                 }
 
-                this.chatClient = null!;
+                this.chatClient = null;
                 this.disposedValue = true;
             }
         }
@@ -138,7 +138,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
             return translatedXmlDic;
         }
 
-        private static TextContent CreatePrompt(CultureInfo? sourceLanguage, CultureInfo targetLanguage)
+        private static TextContent CreatePrompt(CultureInfo sourceLanguage, CultureInfo targetLanguage)
         {
             if (sourceLanguage == null)
             {
@@ -172,7 +172,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
 
         private List<Task<TranslateResult>> StartTranslationTasks(
             IntelliSenseDocumentAccessor document,
-            CultureInfo? sourceLanguage,
+            CultureInfo sourceLanguage,
             IEnumerable<CultureInfo> targetLanguages)
         {
             var tasks = new List<Task<TranslateResult>>();
@@ -188,7 +188,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
             return tasks;
         }
 
-        private Task<TranslateResult> TranslateXmlAsync(string xml, CultureInfo? sourceLanguage, CultureInfo targetLanguage)
+        private Task<TranslateResult> TranslateXmlAsync(string xml, CultureInfo sourceLanguage, CultureInfo targetLanguage)
         {
             return Task.Run<TranslateResult>(async () =>
             {
