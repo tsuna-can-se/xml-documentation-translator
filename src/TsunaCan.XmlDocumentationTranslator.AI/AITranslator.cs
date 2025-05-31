@@ -7,150 +7,150 @@ using Microsoft.Extensions.Options;
 using TsunaCan.XmlDocumentationTranslator.AI.Resources;
 using TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
-namespace TsunaCan.XmlDocumentationTranslator.AI;
-
-/// <summary>
-///  <see cref="ITranslator"/> implementation for translating XML documentation using <see cref="IChatClient"/>.
-/// </summary>
-public partial class AITranslator : ITranslator, IDisposable
+namespace TsunaCan.XmlDocumentationTranslator.AI
 {
-    private static readonly Regex XmlCodeBlock = XmlCodeBlockRegex();
-    private readonly SemaphoreSlim aiSemaphore;
-    private readonly AISettings settings;
-    private readonly ILogger<AITranslator> logger;
-    private IChatClient chatClient;
-    private bool disposedValue;
-
     /// <summary>
-    ///  Initialize a new instance of the <see cref="AITranslator"/> class.
+    ///  <see cref="ITranslator"/> implementation for translating XML documentation using <see cref="IChatClient"/>.
     /// </summary>
-    /// <param name="options">AI application options.</param>
-    /// <param name="chatClient">Chat client of <see cref="Microsoft.Extensions.AI"/>.</param>
-    /// <param name="logger">Logger.</param>
-    public AITranslator(
-        IOptions<AISettings> options,
-        IChatClient chatClient,
-        ILogger<AITranslator> logger)
+    public partial class AITranslator : ITranslator, IDisposable
     {
-        this.settings = options.Value;
-        this.chatClient = chatClient;
-        this.logger = logger;
-        this.aiSemaphore = new SemaphoreSlim(this.settings.MaxConcurrentRequests);
-        this.logger.LogInformation(Messages.DumpAISettings, this.settings.ToString());
-    }
+        private static readonly Regex XmlCodeBlock = XmlCodeBlockRegex();
+        private readonly SemaphoreSlim aiSemaphore;
+        private readonly AISettings settings;
+        private readonly ILogger<AITranslator> logger;
+        private IChatClient chatClient;
+        private bool disposedValue;
 
-    /// <inheritdoc />
-    public async Task<Dictionary<CultureInfo, IntelliSenseDocument>> TranslateAsync(
-        IntelliSenseDocumentAccessor document,
-        CultureInfo? sourceLanguage,
-        IEnumerable<CultureInfo> targetLanguages)
-    {
-        if (targetLanguages == null || !targetLanguages.Any())
+        /// <summary>
+        ///  Initialize a new instance of the <see cref="AITranslator"/> class.
+        /// </summary>
+        /// <param name="options">AI application options.</param>
+        /// <param name="chatClient">Chat client of <see cref="Microsoft.Extensions.AI"/>.</param>
+        /// <param name="logger">Logger.</param>
+        public AITranslator(
+            IOptions<AISettings> options,
+            IChatClient chatClient,
+            ILogger<AITranslator> logger)
         {
-            throw new ArgumentException(Messages.TargetLanguagesCannotBeEmpty, nameof(targetLanguages));
+            this.settings = options.Value;
+            this.chatClient = chatClient;
+            this.logger = logger;
+            this.aiSemaphore = new SemaphoreSlim(this.settings.MaxConcurrentRequests);
+            this.logger.LogInformation(Messages.DumpAISettings, this.settings.ToString());
         }
 
-        this.LogDocumentDetails(document);
-        var returnValue = InitializeReturnValue(document, targetLanguages);
-        var translationTasks = this.StartTranslationTasks(document, sourceLanguage, targetLanguages);
-        var translatedXmlDic = await WaitTranslationTasksAsync(translationTasks);
-        foreach (var translatedXmlItem in translatedXmlDic)
+        /// <inheritdoc />
+        public async Task<Dictionary<CultureInfo, IntelliSenseDocument>> TranslateAsync(
+            IntelliSenseDocumentAccessor document,
+            CultureInfo? sourceLanguage,
+            IEnumerable<CultureInfo> targetLanguages)
         {
-            returnValue[translatedXmlItem.Key].SetMembersInnerXml(translatedXmlItem.Value.ToString());
-        }
-
-        return returnValue;
-    }
-
-    /// <inheritdoc />
-    public void Dispose()
-    {
-        this.Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-    }
-
-    /// <summary>
-    ///  Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-    /// </summary>
-    /// <param name="disposing">
-    ///  This parameter should be <see langword="false"/> when called from a finalizer,
-    ///  and <see langword="true"/> when called from the <see cref="Dispose()"/> method.
-    /// </param>
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!this.disposedValue)
-        {
-            if (disposing)
+            if (targetLanguages == null || !targetLanguages.Any())
             {
-                this.chatClient.Dispose();
+                throw new ArgumentException(Messages.TargetLanguagesCannotBeEmpty, nameof(targetLanguages));
             }
 
-            this.chatClient = null!;
-            this.disposedValue = true;
-        }
-    }
-
-    private static Dictionary<CultureInfo, IntelliSenseDocument> InitializeReturnValue(
-        IntelliSenseDocumentAccessor document,
-        IEnumerable<CultureInfo> targetLanguages)
-    {
-        var assemblyName = document.GetAssemblyName();
-        var returnValue = new Dictionary<CultureInfo, IntelliSenseDocument>();
-
-        foreach (var target in targetLanguages)
-        {
-            var returnDocument = new IntelliSenseDocument
+            this.LogDocumentDetails(document);
+            var returnValue = InitializeReturnValue(document, targetLanguages);
+            var translationTasks = this.StartTranslationTasks(document, sourceLanguage, targetLanguages);
+            var translatedXmlDic = await WaitTranslationTasksAsync(translationTasks);
+            foreach (var translatedXmlItem in translatedXmlDic)
             {
-                Assembly = new Assembly
+                returnValue[translatedXmlItem.Key].SetMembersInnerXml(translatedXmlItem.Value.ToString());
+            }
+
+            return returnValue;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///  Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing">
+        ///  This parameter should be <see langword="false"/> when called from a finalizer,
+        ///  and <see langword="true"/> when called from the <see cref="Dispose()"/> method.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
                 {
-                    Name = assemblyName,
-                },
-            };
-            returnValue.Add(target, returnDocument);
-        }
+                    this.chatClient.Dispose();
+                }
 
-        return returnValue;
-    }
-
-    private static async Task<Dictionary<CultureInfo, StringBuilder>> WaitTranslationTasksAsync(
-        List<Task<TranslateResult>> translationTasks)
-    {
-        var translatedXmlDic = new Dictionary<CultureInfo, StringBuilder>();
-
-        await foreach (var task in Task.WhenEach(translationTasks))
-        {
-            var result = await task;
-            if (!translatedXmlDic.TryGetValue(result.TargetLanguage, out var value))
-            {
-                translatedXmlDic.Add(result.TargetLanguage, new StringBuilder(result.TranslatedXml));
-            }
-            else
-            {
-                value.Append(result.TranslatedXml);
+                this.chatClient = null!;
+                this.disposedValue = true;
             }
         }
 
-        return translatedXmlDic;
-    }
-
-    [GeneratedRegex(@"```(?:xml)\s*(.*?)\s*```", RegexOptions.Singleline)]
-    private static partial Regex XmlCodeBlockRegex();
-
-    private static TextContent CreatePrompt(CultureInfo? sourceLanguage, CultureInfo targetLanguage)
-    {
-        if (sourceLanguage == null)
+        private static Dictionary<CultureInfo, IntelliSenseDocument> InitializeReturnValue(
+            IntelliSenseDocumentAccessor document,
+            IEnumerable<CultureInfo> targetLanguages)
         {
-            return new TextContent($"""
+            var assemblyName = document.GetAssemblyName();
+            var returnValue = new Dictionary<CultureInfo, IntelliSenseDocument>();
+
+            foreach (var target in targetLanguages)
+            {
+                var returnDocument = new IntelliSenseDocument
+                {
+                    Assembly = new Assembly
+                    {
+                        Name = assemblyName,
+                    },
+                };
+                returnValue.Add(target, returnDocument);
+            }
+
+            return returnValue;
+        }
+
+        private static async Task<Dictionary<CultureInfo, StringBuilder>> WaitTranslationTasksAsync(
+            List<Task<TranslateResult>> translationTasks)
+        {
+            var translatedXmlDic = new Dictionary<CultureInfo, StringBuilder>();
+
+            await foreach (var task in Task.WhenEach(translationTasks))
+            {
+                var result = await task;
+                if (!translatedXmlDic.TryGetValue(result.TargetLanguage, out var value))
+                {
+                    translatedXmlDic.Add(result.TargetLanguage, new StringBuilder(result.TranslatedXml));
+                }
+                else
+                {
+                    value.Append(result.TranslatedXml);
+                }
+            }
+
+            return translatedXmlDic;
+        }
+
+        [GeneratedRegex(@"```(?:xml)\s*(.*?)\s*```", RegexOptions.Singleline)]
+        private static partial Regex XmlCodeBlockRegex();
+
+        private static TextContent CreatePrompt(CultureInfo? sourceLanguage, CultureInfo targetLanguage)
+        {
+            if (sourceLanguage == null)
+            {
+                return new TextContent($"""
                 You are a professional .NET library developer.
                 The following XML document is part of the IntelliSense XML documentation that is included in the NuGet package.
                 It represents class and method descriptions, parameters, return values, and exception descriptions.
                 Please translate this XML document into {targetLanguage.EnglishName}.
                 Please return only the translated XML document.
                 """);
-        }
-        else
-        {
-            return new TextContent($"""
+            }
+            else
+            {
+                return new TextContent($"""
                 You are a professional .NET library developer.
                 The following XML document is part of the IntelliSense XML documentation that is included in the NuGet package.
                 It represents class and method descriptions, parameters, return values, and exception descriptions.
@@ -158,65 +158,66 @@ public partial class AITranslator : ITranslator, IDisposable
                 Please translate this XML document into {targetLanguage.EnglishName}.
                 Please return only the translated XML document.
                 """);
-        }
-    }
-
-    private void LogDocumentDetails(IntelliSenseDocumentAccessor document)
-    {
-        var assemblyName = document.GetAssemblyName();
-        this.logger.LogInformation(Messages.DumpAssemblyName, assemblyName);
-        this.logger.LogInformation(Messages.DumpMemberCount, document.GetMemberCount());
-    }
-
-    private List<Task<TranslateResult>> StartTranslationTasks(
-        IntelliSenseDocumentAccessor document,
-        CultureInfo? sourceLanguage,
-        IEnumerable<CultureInfo> targetLanguages)
-    {
-        var tasks = new List<Task<TranslateResult>>();
-
-        foreach (var chunkedXml in document.GetMembers(this.settings.ChunkSize))
-        {
-            foreach (var targetLanguage in targetLanguages)
-            {
-                tasks.Add(this.TranslateXmlAsync(chunkedXml, sourceLanguage, targetLanguage));
             }
         }
 
-        return tasks;
-    }
-
-    private Task<TranslateResult> TranslateXmlAsync(string xml, CultureInfo? sourceLanguage, CultureInfo targetLanguage)
-    {
-        return Task.Run<TranslateResult>(async () =>
+        private void LogDocumentDetails(IntelliSenseDocumentAccessor document)
         {
-            var options = new ChatOptions() { Temperature = 0.01f };
-            var prompt = CreatePrompt(sourceLanguage, targetLanguage);
-            var chatMessage = new ChatMessage(
-                ChatRole.Assistant,
-                [prompt, new TextContent(xml)]);
-            try
-            {
-                await this.aiSemaphore.WaitAsync(); // Use instance field
-                var response = await this.chatClient.GetResponseAsync(chatMessage, options);
-                if (XmlCodeBlock.IsMatch(response.Text))
-                {
-                    return new(
-                        targetLanguage,
-                        XmlCodeBlock.Match(response.Text).Groups[1].Value);
-                }
-                else
-                {
-                    this.logger.LogWarning(Messages.UnexpectedReturnValue, response.Text);
-                    return new(targetLanguage, response.Text);
-                }
-            }
-            finally
-            {
-                this.aiSemaphore.Release(); // Use instance field
-            }
-        });
-    }
+            var assemblyName = document.GetAssemblyName();
+            this.logger.LogInformation(Messages.DumpAssemblyName, assemblyName);
+            this.logger.LogInformation(Messages.DumpMemberCount, document.GetMemberCount());
+        }
 
-    private record TranslateResult(CultureInfo TargetLanguage, string TranslatedXml);
+        private List<Task<TranslateResult>> StartTranslationTasks(
+            IntelliSenseDocumentAccessor document,
+            CultureInfo? sourceLanguage,
+            IEnumerable<CultureInfo> targetLanguages)
+        {
+            var tasks = new List<Task<TranslateResult>>();
+
+            foreach (var chunkedXml in document.GetMembers(this.settings.ChunkSize))
+            {
+                foreach (var targetLanguage in targetLanguages)
+                {
+                    tasks.Add(this.TranslateXmlAsync(chunkedXml, sourceLanguage, targetLanguage));
+                }
+            }
+
+            return tasks;
+        }
+
+        private Task<TranslateResult> TranslateXmlAsync(string xml, CultureInfo? sourceLanguage, CultureInfo targetLanguage)
+        {
+            return Task.Run<TranslateResult>(async () =>
+            {
+                var options = new ChatOptions() { Temperature = 0.01f };
+                var prompt = CreatePrompt(sourceLanguage, targetLanguage);
+                var chatMessage = new ChatMessage(
+                    ChatRole.Assistant,
+                    [prompt, new TextContent(xml)]);
+                try
+                {
+                    await this.aiSemaphore.WaitAsync(); // Use instance field
+                    var response = await this.chatClient.GetResponseAsync(chatMessage, options);
+                    if (XmlCodeBlock.IsMatch(response.Text))
+                    {
+                        return new(
+                            targetLanguage,
+                            XmlCodeBlock.Match(response.Text).Groups[1].Value);
+                    }
+                    else
+                    {
+                        this.logger.LogWarning(Messages.UnexpectedReturnValue, response.Text);
+                        return new(targetLanguage, response.Text);
+                    }
+                }
+                finally
+                {
+                    this.aiSemaphore.Release(); // Use instance field
+                }
+            });
+        }
+
+        private record TranslateResult(CultureInfo TargetLanguage, string TranslatedXml);
+    }
 }
