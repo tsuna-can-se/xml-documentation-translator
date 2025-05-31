@@ -1,6 +1,4 @@
-﻿using TsunaCan.XmlDocumentationTranslator.AI;
-
-namespace TsunaCan.XmlDocumentationTranslator;
+﻿namespace TsunaCan.XmlDocumentationTranslator.AI;
 
 public class AISettingsTest
 {
