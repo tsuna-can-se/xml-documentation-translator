@@ -61,6 +61,15 @@ namespace TsunaCan.XmlDocumentationTranslator.AI.Resources {
         }
         
         /// <summary>
+        ///   Chunk size must be greater than zero. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ChunkSizeMustBeGreaterThanZero {
+            get {
+                return ResourceManager.GetString("ChunkSizeMustBeGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   AISetting variables: {Variables} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DumpAISettings {
@@ -84,6 +93,15 @@ namespace TsunaCan.XmlDocumentationTranslator.AI.Resources {
         internal static string DumpMemberCount {
             get {
                 return ResourceManager.GetString("DumpMemberCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Max concurrent requests must be greater than zero. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MaxConcurrentRequestsMustBeGreaterThanZero {
+            get {
+                return ResourceManager.GetString("MaxConcurrentRequestsMustBeGreaterThanZero", resourceCulture);
             }
         }
         

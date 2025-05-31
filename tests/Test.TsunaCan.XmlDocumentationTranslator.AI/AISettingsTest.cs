@@ -5,6 +5,62 @@ namespace TsunaCan.XmlDocumentationTranslator;
 public class AISettingsTest
 {
     [Fact]
+    public void Token_ShouldThrowArgumentNullException_WhenSetToNull()
+    {
+        // Arrange
+        var settings = new AISettings();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>("Token", () => settings.Token = null!);
+    }
+
+    [Fact]
+    public void ChatEndPointUrl_ShouldThrowArgumentNullException_WhenSetToNull()
+    {
+        // Arrange
+        var settings = new AISettings();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>("ChatEndPointUrl", () => settings.ChatEndPointUrl = null!);
+    }
+
+    [Fact]
+    public void ModelId_ShouldThrowArgumentNullException_WhenSetToNull()
+    {
+        // Arrange
+        var settings = new AISettings();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>("ModelId", () => settings.ModelId = null!);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public void ChunkSize_ShouldThrowArgumentOutOfRangeException_WhenSetToZeroOrNegative(int value)
+    {
+        // Arrange
+        var settings = new AISettings();
+
+        // Act & Assert
+        var ex = Assert.Throws<ArgumentOutOfRangeException>("ChunkSize", () => settings.ChunkSize = value);
+        Assert.StartsWith("Chunk size must be greater than zero.", ex.Message);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public void MaxConcurrentRequests_ShouldThrowArgumentOutOfRangeException_WhenSetToZeroOrNegative(int value)
+    {
+        // Arrange
+        var settings = new AISettings();
+
+        // Act & Assert
+        var ex = Assert.Throws<ArgumentOutOfRangeException>("MaxConcurrentRequests", () => settings.MaxConcurrentRequests = value);
+        Assert.StartsWith("Max concurrent requests must be greater than zero.", ex.Message);
+    }
+
+    [Fact]
     public void ToString_ShouldReturnMaskedPartOfToken()
     {
         // Arrange
