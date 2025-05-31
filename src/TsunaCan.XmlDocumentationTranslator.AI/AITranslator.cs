@@ -19,6 +19,19 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
     /// </summary>
     public partial class AITranslator : ITranslator, IDisposable
     {
+        private const string NoSourceLangagePromptFronat = "You are a professional .NET library developer.\n" +
+                            "The following XML document is part of the IntelliSense XML documentation that is included in the NuGet package.\n" +
+                            "It represents class and method descriptions, parameters, return values, and exception descriptions.\n" +
+                            "Please translate this XML document into {0}.\n" +
+                            "Please return only the translated XML document.";
+
+        private const string PromptFormat = "You are a professional .NET library developer.\n" +
+                            "The following XML document is part of the IntelliSense XML documentation that is included in the NuGet package.\n" +
+                            "It represents class and method descriptions, parameters, return values, and exception descriptions.\n" +
+                            "This XML document is written in {0}.\n" +
+                            "Please translate this XML document into {1}.\n" +
+                            "Please return only the translated XML document.";
+
         private static readonly Regex XmlCodeBlock = new Regex(@"```(?:xml)\s*(.*?)\s*```", RegexOptions.Singleline);
         private readonly SemaphoreSlim aiSemaphore;
         private readonly AISettings settings;
@@ -142,24 +155,13 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
         {
             if (sourceLanguage == null)
             {
-                return new TextContent($"""
-                You are a professional .NET library developer.
-                The following XML document is part of the IntelliSense XML documentation that is included in the NuGet package.
-                It represents class and method descriptions, parameters, return values, and exception descriptions.
-                Please translate this XML document into {targetLanguage.EnglishName}.
-                Please return only the translated XML document.
-                """);
+                return new TextContent(
+                    string.Format(NoSourceLangagePromptFronat, targetLanguage.EnglishName));
             }
             else
             {
-                return new TextContent($"""
-                You are a professional .NET library developer.
-                The following XML document is part of the IntelliSense XML documentation that is included in the NuGet package.
-                It represents class and method descriptions, parameters, return values, and exception descriptions.
-                This XML document is written in {sourceLanguage.EnglishName}.
-                Please translate this XML document into {targetLanguage.EnglishName}.
-                Please return only the translated XML document.
-                """);
+                return new TextContent(
+                    string.Format(PromptFormat, sourceLanguage.EnglishName, targetLanguage.EnglishName));
             }
         }
 
