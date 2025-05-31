@@ -8,7 +8,7 @@
         /// <summary>
         ///  Gets or sets the authentication token.
         /// </summary>
-        public required string Token { get; set; }
+        public string Token { get; set; }
 
         /// <summary>
         ///  Gets or sets the chat endpoint URL.
