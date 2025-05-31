@@ -38,7 +38,7 @@
         public override string ToString()
         {
             string tokenDisplay = this.Token.Length > 10
-                ? $"{new string('*', this.Token.Length - 5)}{this.Token[^5..]}"
+                ? $"{new string('*', this.Token.Length - 5)}{this.Token.Substring(this.Token.Length - 5)}"
                 : new string('*', this.Token.Length);
             return $"{nameof(this.Token)}: {tokenDisplay}, " +
                 $"{nameof(this.ChatEndPointUrl)}: {this.ChatEndPointUrl}, " +
