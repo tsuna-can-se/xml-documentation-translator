@@ -196,7 +196,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
                 var prompt = CreatePrompt(sourceLanguage, targetLanguage);
                 var chatMessage = new ChatMessage(
                     ChatRole.Assistant,
-                    [prompt, new TextContent(xml)]);
+                    new List<AIContent>() { prompt, new TextContent(xml) });
                 try
                 {
                     await this.aiSemaphore.WaitAsync(); // Use instance field
