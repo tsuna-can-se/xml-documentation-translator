@@ -2,20 +2,19 @@
 using System.ComponentModel;
 using System.Xml.Serialization;
 
-namespace TsunaCan.XmlDocumentationTranslator.IntelliSense
+namespace TsunaCan.XmlDocumentationTranslator.IntelliSense;
+
+/// <summary>
+///  Represents an assembly in the XML documentation.
+/// </summary>
+[Serializable]
+[DesignerCategory("code")]
+[XmlType(AnonymousType = true)]
+public partial class Assembly
 {
     /// <summary>
-    ///  Represents an assembly in the XML documentation.
+    ///  Gets or sets the name element value of the assembly.
     /// </summary>
-    [Serializable]
-    [DesignerCategory("code")]
-    [XmlType(AnonymousType = true)]
-    public partial class Assembly
-    {
-        /// <summary>
-        ///  Gets or sets the name element value of the assembly.
-        /// </summary>
-        [XmlElement(Constants.NameElement)]
-        public string Name { get; set; }
-    }
+    [XmlElement(Constants.NameElement)]
+    public string Name { get; set; }
 }
