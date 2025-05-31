@@ -197,7 +197,7 @@ public partial class AITranslator : ITranslator, IDisposable
             var prompt = CreatePrompt(sourceLanguage, targetLanguage);
             var chatMessage = new ChatMessage(
                 ChatRole.Assistant,
-                new List<AIContent>() { prompt, new TextContent(xml) });
+                [prompt, new TextContent(xml)]);
             try
             {
                 await this.aiSemaphore.WaitAsync(); // Use instance field
