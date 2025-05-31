@@ -1,6 +1,11 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -14,7 +19,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
     /// </summary>
     public partial class AITranslator : ITranslator, IDisposable
     {
-        private static readonly Regex XmlCodeBlock = XmlCodeBlockRegex();
+        private static readonly Regex XmlCodeBlock = new Regex(@"```(?:xml)\s*(.*?)\s*```", RegexOptions.Singleline);
         private readonly SemaphoreSlim aiSemaphore;
         private readonly AISettings settings;
         private readonly ILogger<AITranslator> logger;
@@ -132,9 +137,6 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
 
             return translatedXmlDic;
         }
-
-        [GeneratedRegex(@"```(?:xml)\s*(.*?)\s*```", RegexOptions.Singleline)]
-        private static partial Regex XmlCodeBlockRegex();
 
         private static TextContent CreatePrompt(CultureInfo? sourceLanguage, CultureInfo targetLanguage)
         {

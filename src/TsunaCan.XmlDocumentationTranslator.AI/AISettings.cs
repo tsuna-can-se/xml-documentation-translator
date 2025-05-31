@@ -1,4 +1,6 @@
-﻿namespace TsunaCan.XmlDocumentationTranslator.AI
+﻿using System;
+
+namespace TsunaCan.XmlDocumentationTranslator.AI
 {
     /// <summary>
     ///  Represents the AI translator application settings.
