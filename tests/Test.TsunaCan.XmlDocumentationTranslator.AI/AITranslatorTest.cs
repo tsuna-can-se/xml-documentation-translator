@@ -13,7 +13,7 @@ public class AITranslatorTest(ITestOutputHelper testOutputHelper)
     public static IEnumerable<TheoryDataRow<IEnumerable<CultureInfo>?>> NullOrEmptyLanguages =
         [
             new TheoryDataRow<IEnumerable<CultureInfo>?>(null),
-            new TheoryDataRow<IEnumerable<CultureInfo>?>(Array.Empty<CultureInfo>()),
+            new TheoryDataRow<IEnumerable<CultureInfo>?>([]),
         ];
 
     private readonly TestLoggerManager loggerManager = new(testOutputHelper);
