@@ -19,7 +19,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
     /// </summary>
     public partial class AITranslator : ITranslator, IDisposable
     {
-        private const string NoSourceLangagePromptFronat = "You are a professional .NET library developer.\n" +
+        private const string NoSourceLangagePromptFromat = "You are a professional .NET library developer.\n" +
                             "The following XML document is part of the IntelliSense XML documentation that is included in the NuGet package.\n" +
                             "It represents class and method descriptions, parameters, return values, and exception descriptions.\n" +
                             "Please translate this XML document into {0}.\n" +
@@ -155,7 +155,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
             if (sourceLanguage == null)
             {
                 return new TextContent(
-                    string.Format(NoSourceLangagePromptFronat, targetLanguage.EnglishName));
+                    string.Format(NoSourceLangagePromptFromat, targetLanguage.EnglishName));
             }
             else
             {
