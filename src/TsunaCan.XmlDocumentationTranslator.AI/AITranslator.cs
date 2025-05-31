@@ -133,11 +133,10 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
         private static async Task<Dictionary<CultureInfo, StringBuilder>> WaitTranslationTasksAsync(
             List<Task<TranslateResult>> translationTasks)
         {
+            var results = await Task.WhenAll(translationTasks);
             var translatedXmlDic = new Dictionary<CultureInfo, StringBuilder>();
-
-            await foreach (var task in Task.WhenEach(translationTasks))
+            foreach (var result in results)
             {
-                var result = await task;
                 if (!translatedXmlDic.TryGetValue(result.TargetLanguage, out var value))
                 {
                     translatedXmlDic.Add(result.TargetLanguage, new StringBuilder(result.TranslatedXml));
