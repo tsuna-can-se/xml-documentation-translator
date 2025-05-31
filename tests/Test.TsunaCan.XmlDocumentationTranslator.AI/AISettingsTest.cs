@@ -5,6 +5,60 @@ namespace TsunaCan.XmlDocumentationTranslator;
 public class AISettingsTest
 {
     [Fact]
+    public void Token_ShouldThrowArgumentNullException_WhenSetToNull()
+    {
+        // Arrange
+        var settings = new AISettings();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>("value", () => settings.Token = null!);
+    }
+
+    [Fact]
+    public void ChatEndPointUrl_ShouldThrowArgumentNullException_WhenSetToNull()
+    {
+        // Arrange
+        var settings = new AISettings();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>("value", () => settings.ChatEndPointUrl = null!);
+    }
+
+    [Fact]
+    public void ModelId_ShouldThrowArgumentNullException_WhenSetToNull()
+    {
+        // Arrange
+        var settings = new AISettings();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>("value", () => settings.ModelId = null!);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public void ChunkSize_ShouldThrowArgumentOutOfRangeException_WhenSetToZeroOrNegative(int value)
+    {
+        // Arrange
+        var settings = new AISettings();
+
+        // Act & Assert
+        Assert.Throws<ArgumentOutOfRangeException>("value", () => settings.ChunkSize = value);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public void MaxConcurrentRequests_ShouldThrowArgumentOutOfRangeException_WhenSetToZeroOrNegative(int value)
+    {
+        // Arrange
+        var settings = new AISettings();
+
+        // Act & Assert
+        Assert.Throws<ArgumentOutOfRangeException>("value", () => settings.MaxConcurrentRequests = value);
+    }
+
+    [Fact]
     public void ToString_ShouldReturnMaskedPartOfToken()
     {
         // Arrange
