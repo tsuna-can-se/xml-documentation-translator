@@ -11,7 +11,7 @@ public class AISettingsTest
         var settings = new AISettings();
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>("value", () => settings.Token = null!);
+        Assert.Throws<ArgumentNullException>("Token", () => settings.Token = null!);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class AISettingsTest
         var settings = new AISettings();
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>("value", () => settings.ChatEndPointUrl = null!);
+        Assert.Throws<ArgumentNullException>("ChatEndPointUrl", () => settings.ChatEndPointUrl = null!);
     }
 
     [Fact]
@@ -31,7 +31,7 @@ public class AISettingsTest
         var settings = new AISettings();
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>("value", () => settings.ModelId = null!);
+        Assert.Throws<ArgumentNullException>("ModelId", () => settings.ModelId = null!);
     }
 
     [Theory]
@@ -43,7 +43,8 @@ public class AISettingsTest
         var settings = new AISettings();
 
         // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>("value", () => settings.ChunkSize = value);
+        var ex = Assert.Throws<ArgumentOutOfRangeException>("ChunkSize", () => settings.ChunkSize = value);
+        Assert.StartsWith("Chunk size must be greater than zero.", ex.Message);
     }
 
     [Theory]
@@ -55,7 +56,8 @@ public class AISettingsTest
         var settings = new AISettings();
 
         // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>("value", () => settings.MaxConcurrentRequests = value);
+        var ex = Assert.Throws<ArgumentOutOfRangeException>("MaxConcurrentRequests", () => settings.MaxConcurrentRequests = value);
+        Assert.StartsWith("Max concurrent requests must be greater than zero.", ex.Message);
     }
 
     [Fact]

@@ -25,7 +25,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
         public string Token
         {
             get => this.token;
-            set => this.token = value ?? throw new ArgumentNullException(nameof(value));
+            set => this.token = value ?? throw new ArgumentNullException(nameof(this.Token));
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
         public Uri ChatEndPointUrl
         {
             get => this.chatEndPointUrl;
-            set => this.chatEndPointUrl = value ?? throw new ArgumentNullException(nameof(value));
+            set => this.chatEndPointUrl = value ?? throw new ArgumentNullException(nameof(this.ChatEndPointUrl));
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
         public string ModelId
         {
             get => this.modelId;
-            set => this.modelId = value ?? throw new ArgumentNullException(nameof(value));
+            set => this.modelId = value ?? throw new ArgumentNullException(nameof(this.ModelId));
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), Messages.ChunkSizeMustBeGreaterThanZero);
+                    throw new ArgumentOutOfRangeException(nameof(this.ChunkSize), Messages.ChunkSizeMustBeGreaterThanZero);
                 }
 
                 this.chunkSize = value;
@@ -97,7 +97,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), Messages.MaxConcurrentRequestsMustBeGreaterThanZero);
+                    throw new ArgumentOutOfRangeException(nameof(this.MaxConcurrentRequests), Messages.MaxConcurrentRequestsMustBeGreaterThanZero);
                 }
 
                 this.maxConcurrentRequests = value;
