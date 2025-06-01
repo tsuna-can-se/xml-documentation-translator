@@ -22,7 +22,7 @@ public class AISettings
     ///   <item>Thrown when the value is null.</item>
     ///  </list>
     /// </exception>
-    public string Token
+    public required string Token
     {
         get => this.token;
         set => this.token = value ?? throw new ArgumentNullException(nameof(this.Token));
