@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
     <RootNamespace>TsunaCan.XmlDocumentationTranslator</RootNamespace>
     <PackageId>TsunaCan.XmlDocumentationTranslator.Core</PackageId>
     <Authors>masatsuna</Authors>

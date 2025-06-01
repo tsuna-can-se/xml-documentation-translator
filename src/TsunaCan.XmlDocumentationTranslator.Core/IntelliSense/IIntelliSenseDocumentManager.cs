@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TsunaCan.XmlDocumentationTranslator.IntelliSense;
+﻿namespace TsunaCan.XmlDocumentationTranslator.IntelliSense;
 
 /// <summary>
 ///  Interface of manages the reading and writing of IntelliSense XML documentation files.

@@ -1,5 +1,4 @@
-﻿using System;
-using TsunaCan.XmlDocumentationTranslator.AI.Resources;
+﻿using TsunaCan.XmlDocumentationTranslator.AI.Resources;
 
 namespace TsunaCan.XmlDocumentationTranslator.AI;
 
