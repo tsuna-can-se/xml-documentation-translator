@@ -14,13 +14,23 @@ jobs:
     permissions:
       contents: read
 
-    runs-on: 'ubuntu-latest'
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        dotnet-version: [8.0.x, 9.0.x]
+        include:
+          - dotnet-version: 8.0.x
+            framework-version: net8.0
+          - dotnet-version: 9.0.x
+            framework-version: net9.0
+
+    runs-on: ${{ matrix.os }}
    
     env:
       BUILD_CONFIGURATION: Debug
       DOTNET_CLI_TELEMETRY_OPTOUT: true
       DOTNET_NOLOGO: true
-      FRAMEWORK_VERSION: net9.0
+      FRAMEWORK_VERSION: ${{ matrix.framework-version }}
   
     steps:
       - name: ブランチのチェックアウト
@@ -31,7 +41,7 @@ jobs:
       - name: dotnet SDK のセットアップ
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.x
+          dotnet-version: ${{ matrix.dotnet-version }}
           dotnet-quality: 'ga'
 
       - name: アプリケーションのビルド
@@ -62,14 +72,14 @@ jobs:
         continue-on-error: true
         run: |
           echo '## Test Result :memo:' >> $GITHUB_STEP_SUMMARY
-          dotnet test --no-build --nologo --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ env.FRAMEWORK_VERSION }} -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename ${{ runner.os }}-${{ env.FRAMEWORK_VERSION }}.trx
+          dotnet test --no-build --nologo --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ env.FRAMEWORK_VERSION }} -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename ${{ matrix.os }}-${{ matrix.framework-version }}.trx
 
       - id: create-test-result-report
         name: テスト結果ページの作成
         uses: dorny/test-reporter@v2
         with:
-          name: 'Test results ${{ env.FRAMEWORK_VERSION }} on ${{ runner.os }}'
-          path: '**/TestResults/${{ runner.os }}-${{ env.FRAMEWORK_VERSION }}.trx'
+          name: 'Test results ${{ matrix.framework-version }} on ${{ matrix.os }}'
+          path: '**/TestResults/${{ matrix.os }}-${{ matrix.framework-version }}.trx'
           path-replace-backslashes: 'true'
           reporter: 'dotnet-trx'
           only-summary: 'false'
@@ -93,14 +103,14 @@ jobs:
         shell: bash
         run: |
           echo '## Coverage :triangular_ruler:' >> $GITHUB_STEP_SUMMARY
-          sed -i s/'# Summary'/'Coverage report of ${{ env.FRAMEWORK_VERSION }} on ${{ runner.os }}.'/g CoverageReport/SummaryGithub.md
+          sed -i s/'# Summary'/'Coverage report of ${{ matrix.framework-version }} on ${{ matrix.os }}.'/g CoverageReport/SummaryGithub.md
           sed -i -e '/^#/d' CoverageReport/SummaryGithub.md
           cat CoverageReport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
     
       - name: テスト結果のアップロード
         uses: actions/upload-artifact@v4
         with:
-          name: unit-test-results-${{ runner.os }}-${{ env.FRAMEWORK_VERSION }}
+          name: unit-test-results-${{ matrix.os }}-${{ matrix.framework-version }}
           path: tests/**/TestResults/
           retention-days: 1
 
