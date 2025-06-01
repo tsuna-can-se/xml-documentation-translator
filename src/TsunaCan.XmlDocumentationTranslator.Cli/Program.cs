@@ -18,8 +18,7 @@ var logLevel = builder.Configuration.GetValue(nameof(LogLevel), LogLevel.Informa
 var sourceDocumentPath = builder.Configuration.GetValue<string>("SourceDocumentPath");
 ParameterNotSetException.ThrowIfNotSet(sourceDocumentPath, "SourceDocumentPath");
 var sourceDocumentLanguageStr = builder.Configuration.GetValue<string>("SourceDocumentLanguage");
-ParameterNotSetException.ThrowIfNotSet(sourceDocumentLanguageStr, "SourceDocumentLanguage");
-var sourceDocumentLanguage = ConvertTo(sourceDocumentLanguageStr.Trim());
+var sourceDocumentLanguage = string.IsNullOrWhiteSpace(sourceDocumentLanguageStr) ? null : ConvertTo(sourceDocumentLanguageStr.Trim());
 var outputDirectoryPath = builder.Configuration.GetValue("OutputDirectoryPath", string.Empty);
 var outputFileLanguagesStr = builder.Configuration.GetValue<string>("OutputFileLanguages");
 ParameterNotSetException.ThrowIfNotSet(outputFileLanguagesStr, "OutputFileLanguages");
