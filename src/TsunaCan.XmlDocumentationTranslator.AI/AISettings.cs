@@ -9,7 +9,7 @@ namespace TsunaCan.XmlDocumentationTranslator.AI;
 public class AISettings
 {
     private string token = string.Empty;
-    private Uri chatEndPointUrl = new Uri("https://models.inference.ai.azure.com");
+    private Uri chatEndPointUrl = new("https://models.inference.ai.azure.com");
     private string modelId = "gpt-4.1-mini";
     private int chunkSize = 4000;
     private int maxConcurrentRequests = 5;

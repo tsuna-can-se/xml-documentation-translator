@@ -32,7 +32,7 @@ public partial class AITranslator : ITranslator, IDisposable
                         "Please translate this XML document into {1}.\n" +
                         "Please return only the translated XML document.";
 
-    private static readonly Regex XmlCodeBlock = new Regex(@"```(?:xml)\s*(.*?)\s*```", RegexOptions.Singleline);
+    private static readonly Regex XmlCodeBlock = new(@"```(?:xml)\s*(.*?)\s*```", RegexOptions.Singleline);
     private readonly SemaphoreSlim aiSemaphore;
     private readonly AISettings settings;
     private readonly ILogger<AITranslator> logger;
