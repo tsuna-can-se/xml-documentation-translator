@@ -1,6 +1,4 @@
-﻿using TsunaCan.XmlDocumentationTranslator.AI;
-
-namespace TsunaCan.XmlDocumentationTranslator;
+﻿namespace TsunaCan.XmlDocumentationTranslator.AI;
 
 public class AISettingsTest
 {
@@ -8,7 +6,7 @@ public class AISettingsTest
     public void Token_ShouldThrowArgumentNullException_WhenSetToNull()
     {
         // Arrange
-        var settings = new AISettings();
+        var settings = new AISettings() { Token = string.Empty };
 
         // Act & Assert
         Assert.Throws<ArgumentNullException>("Token", () => settings.Token = null!);
@@ -18,7 +16,7 @@ public class AISettingsTest
     public void ChatEndPointUrl_ShouldThrowArgumentNullException_WhenSetToNull()
     {
         // Arrange
-        var settings = new AISettings();
+        var settings = new AISettings() { Token = string.Empty };
 
         // Act & Assert
         Assert.Throws<ArgumentNullException>("ChatEndPointUrl", () => settings.ChatEndPointUrl = null!);
@@ -28,7 +26,7 @@ public class AISettingsTest
     public void ModelId_ShouldThrowArgumentNullException_WhenSetToNull()
     {
         // Arrange
-        var settings = new AISettings();
+        var settings = new AISettings() { Token = string.Empty };
 
         // Act & Assert
         Assert.Throws<ArgumentNullException>("ModelId", () => settings.ModelId = null!);
@@ -40,7 +38,7 @@ public class AISettingsTest
     public void ChunkSize_ShouldThrowArgumentOutOfRangeException_WhenSetToZeroOrNegative(int value)
     {
         // Arrange
-        var settings = new AISettings();
+        var settings = new AISettings() { Token = string.Empty };
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentOutOfRangeException>("ChunkSize", () => settings.ChunkSize = value);
@@ -53,7 +51,7 @@ public class AISettingsTest
     public void MaxConcurrentRequests_ShouldThrowArgumentOutOfRangeException_WhenSetToZeroOrNegative(int value)
     {
         // Arrange
-        var settings = new AISettings();
+        var settings = new AISettings() { Token = string.Empty };
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentOutOfRangeException>("MaxConcurrentRequests", () => settings.MaxConcurrentRequests = value);

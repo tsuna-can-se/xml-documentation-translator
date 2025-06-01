@@ -1,105 +1,99 @@
-﻿using System;
-using System.IO;
-using System.Text;
+﻿using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Microsoft.Extensions.Logging;
 using TsunaCan.XmlDocumentationTranslator.Resources;
 
-namespace TsunaCan.XmlDocumentationTranslator.IntelliSense
+namespace TsunaCan.XmlDocumentationTranslator.IntelliSense;
+
+/// <summary>
+///  Manages the reading and writing of IntelliSense XML documentation files.
+/// </summary>
+public class IntelliSenseDocumentManager : IIntelliSenseDocumentManager
 {
+    private readonly XmlSerializer serializer;
+    private readonly ILogger<IntelliSenseDocumentManager> logger;
+
     /// <summary>
-    ///  Manages the reading and writing of IntelliSense XML documentation files.
+    ///  Initializes a new instance of the <see cref="IntelliSenseDocumentManager"/> class.
     /// </summary>
-    public class IntelliSenseDocumentManager : IIntelliSenseDocumentManager
+    /// <param name="logger">The logger used for logging operations.</param>
+    public IntelliSenseDocumentManager(ILogger<IntelliSenseDocumentManager> logger)
     {
-        private readonly XmlSerializer serializer;
-        private readonly ILogger<IntelliSenseDocumentManager> logger;
+        this.serializer = new XmlSerializer(typeof(IntelliSenseDocument));
+        this.logger = logger;
+    }
 
-        /// <summary>
-        ///  Initializes a new instance of the <see cref="IntelliSenseDocumentManager"/> class.
-        /// </summary>
-        /// <param name="logger">The logger used for logging operations.</param>
-        public IntelliSenseDocumentManager(ILogger<IntelliSenseDocumentManager> logger)
+    /// <summary>
+    ///  Reads an IntelliSense XML documentation file and deserializes it into an <see cref="IntelliSenseDocument"/> object.
+    /// </summary>
+    /// <param name="intelliSenseDocumentPath">The path to the IntelliSense XML documentation file.</param>
+    /// <returns><see cref="IntelliSenseDocumentAccessor"/> object.</returns>
+    /// <exception cref="FileNotFoundException">Thrown if <paramref name="intelliSenseDocumentPath"/> file not found.</exception>
+    /// <exception cref="InvalidOperationException">
+    ///  <list type="bullet">
+    ///   <item>Thrown if <paramref name="intelliSenseDocumentPath"/> file is not valid format.</item>
+    ///   <item>Thrown if <paramref name="intelliSenseDocumentPath"/> file is empty.</item>
+    ///  </list>
+    /// </exception>
+    public IntelliSenseDocumentAccessor Read(string intelliSenseDocumentPath)
+    {
+        this.logger.LogDebug(Messages.XmlDocumentLoading, intelliSenseDocumentPath);
+
+        // XML file format check.
+        // Deserialize the XML to validate its format.
+        // The result is not used as we only care about validation here.
+        // https://github.com/tsuna-can-se/xml-documentation-translator/issues/14
+        using var reader = XmlReader.Create(intelliSenseDocumentPath);
+        _ = this.serializer.Deserialize(reader);
+
+        var document = XDocument.Load(intelliSenseDocumentPath);
+        this.logger.LogInformation(Messages.XmlDocumentLoaded, intelliSenseDocumentPath);
+        return new IntelliSenseDocumentAccessor(document);
+    }
+
+    /// <summary>
+    ///  Writes an <see cref="IntelliSenseDocument"/> object to an XML file.
+    /// </summary>
+    /// <param name="outputFilePath">The path to the output XML file.</param>
+    /// <param name="document">The <see cref="IntelliSenseDocument"/> object to serialize and write.</param>
+    /// <exception cref="ArgumentException">
+    ///  <list type="bullet">
+    ///   <item>Thrown if <paramref name="outputFilePath"/> is null or empty.</item>
+    ///  </list>
+    /// </exception>
+    public void Write(string outputFilePath, IntelliSenseDocument document)
+    {
+        if (string.IsNullOrEmpty(outputFilePath))
         {
-            this.serializer = new XmlSerializer(typeof(IntelliSenseDocument));
-            this.logger = logger;
+            throw new ArgumentException(Messages.ArgumentIsNullOrEmpty, nameof(outputFilePath));
         }
 
-        /// <summary>
-        ///  Reads an IntelliSense XML documentation file and deserializes it into an <see cref="IntelliSenseDocument"/> object.
-        /// </summary>
-        /// <param name="intelliSenseDocumentPath">The path to the IntelliSense XML documentation file.</param>
-        /// <returns><see cref="IntelliSenseDocumentAccessor"/> object.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if <paramref name="intelliSenseDocumentPath"/> file not found.</exception>
-        /// <exception cref="InvalidOperationException">
-        ///  <list type="bullet">
-        ///   <item>Thrown if <paramref name="intelliSenseDocumentPath"/> file is not valid format.</item>
-        ///   <item>Thrown if <paramref name="intelliSenseDocumentPath"/> file is empty.</item>
-        ///  </list>
-        /// </exception>
-        public IntelliSenseDocumentAccessor Read(string intelliSenseDocumentPath)
+        this.logger.LogInformation(Messages.XmlDocumentCreating, outputFilePath);
+
+        // Ensure the directory exists
+        var directory = Path.GetDirectoryName(outputFilePath);
+        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
         {
-            this.logger.LogDebug(Messages.XmlDocumentLoading, intelliSenseDocumentPath);
-
-            // XML file format check.
-            // Deserialize the XML to validate its format.
-            // The result is not used as we only care about validation here.
-            // https://github.com/tsuna-can-se/xml-documentation-translator/issues/14
-            using (var reader = XmlReader.Create(intelliSenseDocumentPath))
-            {
-                _ = this.serializer.Deserialize(reader);
-
-                var document = XDocument.Load(intelliSenseDocumentPath);
-                this.logger.LogInformation(Messages.XmlDocumentLoaded, intelliSenseDocumentPath);
-                return new IntelliSenseDocumentAccessor(document);
-            }
+            Directory.CreateDirectory(directory);
+            this.logger.LogInformation(Messages.DirectoryCreated, directory);
         }
 
-        /// <summary>
-        ///  Writes an <see cref="IntelliSenseDocument"/> object to an XML file.
-        /// </summary>
-        /// <param name="outputFilePath">The path to the output XML file.</param>
-        /// <param name="document">The <see cref="IntelliSenseDocument"/> object to serialize and write.</param>
-        /// <exception cref="ArgumentException">
-        ///  <list type="bullet">
-        ///   <item>Thrown if <paramref name="outputFilePath"/> is null or empty.</item>
-        ///  </list>
-        /// </exception>
-        public void Write(string outputFilePath, IntelliSenseDocument document)
+        var settings = new XmlWriterSettings
         {
-            if (string.IsNullOrEmpty(outputFilePath))
-            {
-                throw new ArgumentException(Messages.ArgumentIsNullOrEmpty, nameof(outputFilePath));
-            }
+            Indent = true,
+            IndentChars = new string(' ', 4),
+            Encoding = Encoding.UTF8,
+        };
 
-            this.logger.LogInformation(Messages.XmlDocumentCreating, outputFilePath);
+        using var writer = XmlWriter.Create(outputFilePath, settings);
 
-            // Ensure the directory exists
-            var directory = Path.GetDirectoryName(outputFilePath);
-            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-                this.logger.LogInformation(Messages.DirectoryCreated, directory);
-            }
+        // Specify empty namespaces
+        var namespaces = new XmlSerializerNamespaces();
+        namespaces.Add(string.Empty, string.Empty);
 
-            var settings = new XmlWriterSettings
-            {
-                Indent = true,
-                IndentChars = new string(' ', 4),
-                Encoding = Encoding.UTF8,
-            };
-
-            using (var writer = XmlWriter.Create(outputFilePath, settings))
-            {
-                // Specify empty namespaces
-                var namespaces = new XmlSerializerNamespaces();
-                namespaces.Add(string.Empty, string.Empty);
-
-                this.serializer.Serialize(writer, document, namespaces);
-                this.logger.LogInformation(Messages.XmlDocumentCreated, outputFilePath);
-            }
-        }
+        this.serializer.Serialize(writer, document, namespaces);
+        this.logger.LogInformation(Messages.XmlDocumentCreated, outputFilePath);
     }
 }
