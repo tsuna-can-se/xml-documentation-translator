@@ -29,7 +29,10 @@ public partial class IntelliSenseDocument
     /// <summary>
     ///  Sets the members elements in the documentation from an XML string.
     /// </summary>
-    /// <param name="xml">XML string.</param>
+    /// <param name="xml">
+    ///  XML string.
+    ///  If null or empty, it will create an empty members element.
+    /// </param>
     /// <exception cref="ArgumentException">
     ///  <list type="bullet">
     ///   <item>XML string is invalid.</item>
