@@ -17,12 +17,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        dotnet-version: [8.0.x, 9.0.x]
-        include:
-          - dotnet-version: 8.0.x
-            framework-version: net8.0
-          - dotnet-version: 9.0.x
-            framework-version: net9.0
+        framework-version: [net8.0, net9.0]
 
     runs-on: ${{ matrix.os }}
    
@@ -30,7 +25,6 @@ jobs:
       BUILD_CONFIGURATION: Debug
       DOTNET_CLI_TELEMETRY_OPTOUT: true
       DOTNET_NOLOGO: true
-      FRAMEWORK_VERSION: ${{ matrix.framework-version }}
   
     steps:
       - name: ブランチのチェックアウト
@@ -41,7 +35,9 @@ jobs:
       - name: dotnet SDK のセットアップ
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: |
+            8.0.x
+            9.0.x
           dotnet-quality: 'ga'
 
       - name: アプリケーションのビルド
@@ -72,7 +68,7 @@ jobs:
         continue-on-error: true
         run: |
           echo '## Test Result :memo:' >> $GITHUB_STEP_SUMMARY
-          dotnet test --no-build --nologo --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ env.FRAMEWORK_VERSION }} -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename ${{ matrix.os }}-${{ matrix.framework-version }}.trx
+          dotnet test --no-build --nologo --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework-version }} -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename ${{ matrix.os }}-${{ matrix.framework-version }}.trx
 
       - id: create-test-result-report
         name: テスト結果ページの作成
