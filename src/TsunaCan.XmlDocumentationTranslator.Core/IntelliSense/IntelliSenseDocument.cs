@@ -19,7 +19,7 @@ public partial class IntelliSenseDocument
     ///  Gets or sets the assembly information in the documentation.
     /// </summary>
     [XmlElement(Constants.AssemblyElement)]
-    public Assembly Assembly { get; set; }
+    public required Assembly Assembly { get; set; }
 
     /// <summary>
     ///  Gets or sets the members element in the documentation.
@@ -36,7 +36,7 @@ public partial class IntelliSenseDocument
     ///   <item>XML string is invalid.</item>
     ///  </list>
     /// </exception>
-    public void SetMembersInnerXml(string xml)
+    public void SetMembersInnerXml(string? xml)
     {
         if (string.IsNullOrEmpty(xml))
         {
