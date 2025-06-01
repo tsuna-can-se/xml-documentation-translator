@@ -23,5 +23,5 @@ public interface ITranslator : IDisposable
     ///   <item><paramref name="targetLanguages"/> is empty.</item>
     ///  </list>
     /// </exception>
-    Task<Dictionary<CultureInfo, IntelliSenseDocument>> TranslateAsync(IntelliSenseDocumentAccessor document, CultureInfo sourceLanguage, IEnumerable<CultureInfo> targetLanguages);
+    Task<Dictionary<CultureInfo, IntelliSenseDocument>> TranslateAsync(IntelliSenseDocumentAccessor document, CultureInfo? sourceLanguage, IEnumerable<CultureInfo> targetLanguages);
 }

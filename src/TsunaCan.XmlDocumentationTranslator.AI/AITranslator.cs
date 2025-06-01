@@ -60,7 +60,7 @@ public partial class AITranslator : ITranslator, IDisposable
     /// <inheritdoc />
     public async Task<Dictionary<CultureInfo, IntelliSenseDocument>> TranslateAsync(
         IntelliSenseDocumentAccessor document,
-        CultureInfo sourceLanguage,
+        CultureInfo? sourceLanguage,
         IEnumerable<CultureInfo> targetLanguages)
     {
         if (targetLanguages == null || !targetLanguages.Any())
@@ -103,7 +103,7 @@ public partial class AITranslator : ITranslator, IDisposable
                 this.chatClient.Dispose();
             }
 
-            this.chatClient = null;
+            this.chatClient = null!;
             this.disposedValue = true;
         }
     }
@@ -150,7 +150,7 @@ public partial class AITranslator : ITranslator, IDisposable
         return translatedXmlDic;
     }
 
-    private static TextContent CreatePrompt(CultureInfo sourceLanguage, CultureInfo targetLanguage)
+    private static TextContent CreatePrompt(CultureInfo? sourceLanguage, CultureInfo targetLanguage)
     {
         if (sourceLanguage == null)
         {
@@ -173,7 +173,7 @@ public partial class AITranslator : ITranslator, IDisposable
 
     private List<Task<TranslateResult>> StartTranslationTasks(
         IntelliSenseDocumentAccessor document,
-        CultureInfo sourceLanguage,
+        CultureInfo? sourceLanguage,
         IEnumerable<CultureInfo> targetLanguages)
     {
         var tasks = new List<Task<TranslateResult>>();
@@ -189,7 +189,7 @@ public partial class AITranslator : ITranslator, IDisposable
         return tasks;
     }
 
-    private Task<TranslateResult> TranslateXmlAsync(string xml, CultureInfo sourceLanguage, CultureInfo targetLanguage)
+    private Task<TranslateResult> TranslateXmlAsync(string xml, CultureInfo? sourceLanguage, CultureInfo targetLanguage)
     {
         return Task.Run<TranslateResult>(async () =>
         {
