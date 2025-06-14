@@ -44,9 +44,10 @@ public class TranslationService
         var translatedDocument = await this.translator.TranslateAsync(document, sourceDocumentLanguage, outputFileCultures);
 
         List<string> outputFiles = [];
+        string sourceFileName = Path.GetFileName(sourceDocumentPath);
         foreach (var result in translatedDocument)
         {
-            var outputFilePath = Path.Combine(outputDirectoryPath, result.Key.Name, sourceDocumentPath);
+            var outputFilePath = Path.Combine(outputDirectoryPath, result.Key.Name, sourceFileName);
             outputFiles.Add(outputFilePath);
             this.documentManager.Write(outputFilePath, result.Value);
         }
