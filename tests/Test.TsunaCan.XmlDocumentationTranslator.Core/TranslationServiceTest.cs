@@ -11,8 +11,10 @@ public class TranslationServiceTest(ITestOutputHelper testOutputHelper)
 {
     private readonly TestLoggerManager loggerManager = new(testOutputHelper);
 
-    [Fact]
-    public async Task ExecuteAsync_OutputFilesArePlacedInLanguageSpecificDirectories()
+    [Theory]
+    [InlineData("source.xml")]
+    [InlineData("dic/source.xml")]
+    public async Task ExecuteAsync_OutputFilesArePlacedInLanguageSpecificDirectories(string sourceDocumentPath)
     {
         // Arrange
         var documentManagerMock = new Mock<IIntelliSenseDocumentManager>();
@@ -42,7 +44,6 @@ public class TranslationServiceTest(ITestOutputHelper testOutputHelper)
                 [new CultureInfo("fr")] = new IntelliSenseDocument() { Assembly = new Assembly() { Name = "TestAssembly" } },
                 [new CultureInfo("es")] = new IntelliSenseDocument() { Assembly = new Assembly() { Name = "TestAssembly" } },
             });
-        string sourceDocumentPath = "source.xml";
         var sourceDocumentLanguage = new CultureInfo("en");
         string outputDirectoryPath = "output";
         IEnumerable<CultureInfo> outputFileLanguages = [new CultureInfo("fr"), new CultureInfo("es")];
