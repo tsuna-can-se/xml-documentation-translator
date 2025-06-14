@@ -7,9 +7,13 @@ namespace Test.TsunaCan.XmlDocumentationTranslator.AI;
 /// <summary>
 ///  Stub class for <see cref="IChatClient"/>.
 /// </summary>
-internal partial class ChatClientStub : IChatClient
+internal class ChatClientStub : IChatClient
 {
-    private static readonly Regex TargetLanguage = TargetLanguageRegex();
+    private static readonly Regex TargetLanguage =
+        new Regex(
+            @"Please translate this XML document into (?<lang>[^\.]+)\.",
+            RegexOptions.Singleline | RegexOptions.Compiled);
+
     private readonly int delayMilliseconds = 0;
     private readonly bool respondInCodeBlock;
     private readonly ILogger logger;
@@ -87,9 +91,6 @@ internal partial class ChatClientStub : IChatClient
     {
         throw new NotImplementedException();
     }
-
-    [GeneratedRegex(@"Please translate this XML document into (?<lang>[^\.]+)\.", RegexOptions.Singleline)]
-    private static partial Regex TargetLanguageRegex();
 
     private void IncrementParallelCount()
     {
