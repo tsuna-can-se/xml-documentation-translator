@@ -19,7 +19,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         framework-version: [net472, net8.0, net9.0]
         exclude:
-          - vm_image: ubuntu-latest
+          - os: ubuntu-latest
             framework-version: net472
         include:
           - framework-version: net8.0
