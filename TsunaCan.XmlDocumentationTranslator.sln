@@ -36,7 +36,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{05F9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{2350FECD-56C4-461F-8F5D-254049A4D295}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\build-pr.yml = .github\workflows\build-pr.yml
+		.github\workflows\build.ci.yml = .github\workflows\build.ci.yml
 		.github\workflows\lint-documents.yml = .github\workflows\lint-documents.yml
 	EndProjectSection
 EndProject
