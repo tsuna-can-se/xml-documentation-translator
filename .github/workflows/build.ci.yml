@@ -17,7 +17,13 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        framework-version: [net8.0, net9.0]
+        framework_version: [net472, net8.0, net9.0]
+        exclude:
+          - vm_image: ubuntu-latest
+            framework_version: net472
+        include:
+          - framework_version: net8.0
+          - framework_version: net9.0
 
     runs-on: ${{ matrix.os }}
    
