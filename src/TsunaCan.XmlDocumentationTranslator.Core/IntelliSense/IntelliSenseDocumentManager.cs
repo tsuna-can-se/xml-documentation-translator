@@ -41,16 +41,22 @@ public class IntelliSenseDocumentManager : IIntelliSenseDocumentManager
     {
         this.logger.LogDebug(Messages.XmlDocumentLoading, intelliSenseDocumentPath);
 
-        // XML file format check.
-        // Deserialize the XML to validate its format.
-        // The result is not used as we only care about validation here.
-        // https://github.com/tsuna-can-se/xml-documentation-translator/issues/14
-        using var reader = XmlReader.Create(intelliSenseDocumentPath);
-        _ = this.serializer.Deserialize(reader);
+        try
+        {
+            // Load and validate XML format in a single operation.
+            var document = XDocument.Load(intelliSenseDocumentPath);
 
-        var document = XDocument.Load(intelliSenseDocumentPath);
-        this.logger.LogInformation(Messages.XmlDocumentLoaded, intelliSenseDocumentPath);
-        return new IntelliSenseDocumentAccessor(document);
+            // Validate that this is a proper IntelliSense XML document format
+            ValidateIntelliSenseDocumentFormat(document);
+
+            this.logger.LogInformation(Messages.XmlDocumentLoaded, intelliSenseDocumentPath);
+            return new IntelliSenseDocumentAccessor(document);
+        }
+        catch (XmlException ex)
+        {
+            // Convert XmlException to InvalidOperationException to maintain API compatibility
+            throw new InvalidOperationException(ex.Message, ex);
+        }
     }
 
     /// <summary>
@@ -95,5 +101,32 @@ public class IntelliSenseDocumentManager : IIntelliSenseDocumentManager
 
         this.serializer.Serialize(writer, document, namespaces);
         this.logger.LogInformation(Messages.XmlDocumentCreated, outputFilePath);
+    }
+
+    /// <summary>
+    ///  Validates that the XML document conforms to the expected IntelliSense XML format.
+    /// </summary>
+    /// <param name="document">The XML document to validate.</param>
+    /// <exception cref="InvalidOperationException">Thrown when the document format is invalid.</exception>
+    private static void ValidateIntelliSenseDocumentFormat(XDocument document)
+    {
+        // Check for root element
+        if (document.Root == null)
+        {
+            throw new InvalidOperationException("XML document is empty or has no root element.");
+        }
+
+        // Check that root element is 'doc'
+        if (document.Root.Name.LocalName != Constants.DocElement)
+        {
+            throw new InvalidOperationException($"Root element must be '{Constants.DocElement}', but found '{document.Root.Name.LocalName}'.");
+        }
+
+        // Check for required 'assembly' element
+        var assemblyElement = document.Root.Element(Constants.AssemblyElement);
+        if (assemblyElement == null)
+        {
+            throw new InvalidOperationException($"Required '{Constants.AssemblyElement}' element is missing.");
+        }
     }
 }
