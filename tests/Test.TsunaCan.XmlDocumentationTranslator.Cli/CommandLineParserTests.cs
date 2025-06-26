@@ -127,4 +127,29 @@ public class CommandLineParserTests
         var ex = Assert.Throws<CommandLineParseException>(() => CommandLineParser.ParseAndOverride(args, options));
         Assert.Contains("--chat-endpoint-url must be set to an absolute URL", ex.Message);
     }
+
+    [Theory]
+    [InlineData("--source-document-path")]
+    [InlineData("-s")]
+    [InlineData("--output-directory-path")]
+    [InlineData("--source-document-language")]
+    [InlineData("--output-file-languages")]
+    [InlineData("-l")]
+    [InlineData("--token")]
+    [InlineData("-t")]
+    [InlineData("--chat-endpoint-url")]
+    [InlineData("--model-id")]
+    [InlineData("--chunk-size")]
+    [InlineData("--max-concurrent-requests")]
+    [InlineData("--log-level")]
+    public void ParseAndOverride_ThrowsException_WhenValueIsMissing(string arg)
+    {
+        // Arrange
+        var args = new[] { arg };
+        var options = new Options();
+
+        // Act & Assert
+        var ex = Assert.Throws<CommandLineParseException>(() => CommandLineParser.ParseAndOverride(args, options));
+        Assert.Contains($"The value for parameter {arg} is not set.", ex.Message);
+    }
 }

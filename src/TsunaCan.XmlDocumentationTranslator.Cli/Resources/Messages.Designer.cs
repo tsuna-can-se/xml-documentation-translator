@@ -143,5 +143,14 @@ namespace TsunaCan.XmlDocumentationTranslator.Cli.Resources {
                 return ResourceManager.GetString("ParameterNotSet", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   The value for parameter {0} is not set. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ParameterValueNotSet {
+            get {
+                return ResourceManager.GetString("ParameterValueNotSet", resourceCulture);
+            }
+        }
     }
 }

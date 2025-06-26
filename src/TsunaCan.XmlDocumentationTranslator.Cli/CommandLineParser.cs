@@ -26,18 +26,33 @@ internal class CommandLineParser
         {
             if (args[i].StartsWith("--source-document-path") || args[i].StartsWith("-s"))
             {
+                if (i + 1 >= args.Length)
+                {
+                    throw new CommandLineParseException(string.Format(Messages.ParameterValueNotSet, args[i]));
+                }
+
                 var value = args[++i];
                 ThrowIfParameterName(value);
                 options.SourceDocumentPath = value;
             }
             else if (args[i].StartsWith("--output-directory-path"))
             {
+                if (i + 1 >= args.Length)
+                {
+                    throw new CommandLineParseException(string.Format(Messages.ParameterValueNotSet, args[i]));
+                }
+
                 var value = args[++i];
                 ThrowIfParameterName(value);
                 options.OutputDirectoryPath = value;
             }
             else if (args[i].StartsWith("--source-document-language"))
             {
+                if (i + 1 >= args.Length)
+                {
+                    throw new CommandLineParseException(string.Format(Messages.ParameterValueNotSet, args[i]));
+                }
+
                 var value = args[++i];
                 ThrowIfParameterName(value);
                 try
@@ -51,6 +66,11 @@ internal class CommandLineParser
             }
             else if (args[i].StartsWith("--output-file-languages") || args[i].StartsWith("-l"))
             {
+                if (i + 1 >= args.Length)
+                {
+                    throw new CommandLineParseException(string.Format(Messages.ParameterValueNotSet, args[i]));
+                }
+
                 var value = args[++i];
                 ThrowIfParameterName(value);
                 var cultures = value.Split(',').Select(c => c.Trim()).ToArray();
@@ -68,12 +88,22 @@ internal class CommandLineParser
             }
             else if (args[i].StartsWith("--token") || args[i].StartsWith("-t"))
             {
+                if (i + 1 >= args.Length)
+                {
+                    throw new CommandLineParseException(string.Format(Messages.ParameterValueNotSet, args[i]));
+                }
+
                 var value = args[++i];
                 ThrowIfParameterName(value);
                 options.Token = value;
             }
             else if (args[i].StartsWith("--chat-endpoint-url"))
             {
+                if (i + 1 >= args.Length)
+                {
+                    throw new CommandLineParseException(string.Format(Messages.ParameterValueNotSet, args[i]));
+                }
+
                 var value = args[++i];
                 ThrowIfParameterName(value);
                 if (Uri.TryCreate(value, UriKind.Absolute, out var uri))
@@ -87,12 +117,22 @@ internal class CommandLineParser
             }
             else if (args[i].StartsWith("--model-id"))
             {
+                if (i + 1 >= args.Length)
+                {
+                    throw new CommandLineParseException(string.Format(Messages.ParameterValueNotSet, args[i]));
+                }
+
                 var value = args[++i];
                 ThrowIfParameterName(value);
                 options.ModelId = value;
             }
             else if (args[i].StartsWith("--chunk-size"))
             {
+                if (i + 1 >= args.Length)
+                {
+                    throw new CommandLineParseException(string.Format(Messages.ParameterValueNotSet, args[i]));
+                }
+
                 var value = args[++i];
                 ThrowIfParameterName(value);
                 if (int.TryParse(value, out var chunkSize) && chunkSize > 0)
@@ -106,6 +146,11 @@ internal class CommandLineParser
             }
             else if (args[i].StartsWith("--max-concurrent-requests"))
             {
+                if (i + 1 >= args.Length)
+                {
+                    throw new CommandLineParseException(string.Format(Messages.ParameterValueNotSet, args[i]));
+                }
+
                 var value = args[++i];
                 ThrowIfParameterName(value);
                 if (int.TryParse(value, out var maxConcurrentRequests) && maxConcurrentRequests > 0)
@@ -119,6 +164,11 @@ internal class CommandLineParser
             }
             else if (args[i].StartsWith("--log-level"))
             {
+                if (i + 1 >= args.Length)
+                {
+                    throw new CommandLineParseException(string.Format(Messages.ParameterValueNotSet, args[i]));
+                }
+
                 var value = args[++i];
                 ThrowIfParameterName(value);
                 if (Enum.TryParse<LogLevel>(value, out var logLevel))
