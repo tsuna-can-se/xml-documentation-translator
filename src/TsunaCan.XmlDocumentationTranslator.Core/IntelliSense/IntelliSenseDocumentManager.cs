@@ -41,14 +41,24 @@ public class IntelliSenseDocumentManager : IIntelliSenseDocumentManager
     {
         this.logger.LogDebug(Messages.XmlDocumentLoading, intelliSenseDocumentPath);
 
-        // XML file format check.
-        // Deserialize the XML to validate its format.
-        // The result is not used as we only care about validation here.
-        // https://github.com/tsuna-can-se/xml-documentation-translator/issues/14
-        using var reader = XmlReader.Create(intelliSenseDocumentPath);
-        _ = this.serializer.Deserialize(reader);
+        // Load and validate XML document format in a single operation
+        XDocument document;
+        try
+        {
+            document = XDocument.Load(intelliSenseDocumentPath);
+        }
+        catch (XmlException ex)
+        {
+            // Convert XmlException to InvalidOperationException to maintain compatibility with existing tests
+            throw new InvalidOperationException(ex.Message, ex);
+        }
 
-        var document = XDocument.Load(intelliSenseDocumentPath);
+        // Validate basic structure - must have root element 'doc'
+        if (document.Root?.Name.LocalName != Constants.DocElement)
+        {
+            throw new InvalidOperationException("Invalid IntelliSense document format. Expected 'doc' root element.");
+        }
+
         this.logger.LogInformation(Messages.XmlDocumentLoaded, intelliSenseDocumentPath);
         return new IntelliSenseDocumentAccessor(document);
     }
