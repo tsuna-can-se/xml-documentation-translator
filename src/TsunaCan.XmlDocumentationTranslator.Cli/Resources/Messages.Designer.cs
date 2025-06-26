@@ -61,11 +61,77 @@ namespace TsunaCan.XmlDocumentationTranslator.Cli.Resources {
         }
         
         /// <summary>
-        ///   Invalid culture name: {CultureName}. に類似しているローカライズされた文字列を検索します。
+        ///   Description:
+        ///  XML document file translator.
+        ///
+        ///Usage:
+        ///  dotnet xml-document-translate [required settings] [options]
+        ///
+        ///required settings:
+        ///  -s, --source-document-path &lt;Source xml document path&gt; XML document file path.
+        ///  -l, --output-file-languages &lt;Output file languages&gt;   Comma-separated string of languages to be translated, e.g. en,ja,es.
+        ///  -t, --token &lt;PAT&gt;                                     PAT of chat services to be used.
+        ///
+        ///options:
+        ///  --source-document-language &lt;Source document language&gt; Langu [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string HelpMessage {
+            get {
+                return ResourceManager.GetString("HelpMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   --chat-endpoint-url must be set to an absolute URL. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InvalidChatEndpointUrl {
+            get {
+                return ResourceManager.GetString("InvalidChatEndpointUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   --chunk-size must be set to integer value. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InvalidChunkSize {
+            get {
+                return ResourceManager.GetString("InvalidChunkSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Invalid culture name: {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InvalidCultureName {
             get {
                 return ResourceManager.GetString("InvalidCultureName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   --log-level must be set to Microsoft.Extensions.Logging.LogLevel value. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InvalidLogLevel {
+            get {
+                return ResourceManager.GetString("InvalidLogLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   --max-concurrent-requests must be set to integer value. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InvalidMaxConcurrentRequests {
+            get {
+                return ResourceManager.GetString("InvalidMaxConcurrentRequests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Value was expected, but the variable {0} is set. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InvalidVariableIsSet {
+            get {
+                return ResourceManager.GetString("InvalidVariableIsSet", resourceCulture);
             }
         }
         
@@ -75,6 +141,15 @@ namespace TsunaCan.XmlDocumentationTranslator.Cli.Resources {
         internal static string ParameterNotSet {
             get {
                 return ResourceManager.GetString("ParameterNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The value for parameter {0} is not set. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ParameterValueNotSet {
+            get {
+                return ResourceManager.GetString("ParameterValueNotSet", resourceCulture);
             }
         }
     }
