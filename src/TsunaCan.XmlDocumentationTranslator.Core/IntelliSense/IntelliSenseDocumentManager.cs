@@ -113,20 +113,20 @@ public class IntelliSenseDocumentManager : IIntelliSenseDocumentManager
         // Check for root element
         if (document.Root == null)
         {
-            throw new InvalidOperationException("XML document is empty or has no root element.");
+            throw new InvalidOperationException(Messages.XmlDocumentEmptyOrNoRoot);
         }
 
         // Check that root element is 'doc'
         if (document.Root.Name.LocalName != Constants.DocElement)
         {
-            throw new InvalidOperationException($"Root element must be '{Constants.DocElement}', but found '{document.Root.Name.LocalName}'.");
+            throw new InvalidOperationException(string.Format(Messages.RootElementMustBeDoc, Constants.DocElement, document.Root.Name.LocalName));
         }
 
         // Check for required 'assembly' element
         var assemblyElement = document.Root.Element(Constants.AssemblyElement);
         if (assemblyElement == null)
         {
-            throw new InvalidOperationException($"Required '{Constants.AssemblyElement}' element is missing.");
+            throw new InvalidOperationException(string.Format(Messages.RequiredAssemblyElementMissing, Constants.AssemblyElement));
         }
     }
 }
