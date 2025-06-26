@@ -140,5 +140,32 @@ namespace TsunaCan.XmlDocumentationTranslator.Resources {
                 return ResourceManager.GetString("XmlDocumentLoading", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   XML document is empty or has no root element. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string XmlDocumentEmptyOrNoRoot {
+            get {
+                return ResourceManager.GetString("XmlDocumentEmptyOrNoRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Root element must be &apos;{ExpectedElement}&apos;, but found &apos;{ActualElement}&apos;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string RootElementMustBeDoc {
+            get {
+                return ResourceManager.GetString("RootElementMustBeDoc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Required &apos;{RequiredElement}&apos; element is missing. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string RequiredAssemblyElementMissing {
+            get {
+                return ResourceManager.GetString("RequiredAssemblyElementMissing", resourceCulture);
+            }
+        }
     }
 }

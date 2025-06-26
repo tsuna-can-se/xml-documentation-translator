@@ -144,4 +144,13 @@
   <data name="XmlDocumentLoading" xml:space="preserve">
     <value>Loading '{XmlDocumentPath}' file.</value>
   </data>
+  <data name="XmlDocumentEmptyOrNoRoot" xml:space="preserve">
+    <value>XML document is empty or has no root element.</value>
+  </data>
+  <data name="RootElementMustBeDoc" xml:space="preserve">
+    <value>Root element must be '{0}', but found '{1}'.</value>
+  </data>
+  <data name="RequiredAssemblyElementMissing" xml:space="preserve">
+    <value>Required '{0}' element is missing.</value>
+  </data>
 </root>
