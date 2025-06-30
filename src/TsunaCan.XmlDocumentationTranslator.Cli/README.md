@@ -58,7 +58,7 @@ dotnet xml-document-translate --source-document-path "path/to/source.xml" --outp
 
 - `--output-directory-path`: Output directory for translated files (default: current directory)
 - `--source-document-language`: Source document language code (auto-detected if not specified)
-- `--chat-endpoint-url`: Custom AI service endpoint URL (default: <https://models.inference.ai.azure.com>)
+- `--chat-endpoint-url`: Custom AI service endpoint URL (default: `https://models.inference.ai.azure.com` )
 - `--model-id`: AI model ID to use for translation (default: gpt-4.1-mini)
 - `--chunk-size`: Size of text chunks for translation (default: 4000)
 - `--max-concurrent-requests`: Maximum number of concurrent AI requests (default: 5)
