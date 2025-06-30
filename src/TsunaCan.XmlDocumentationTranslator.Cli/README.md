@@ -12,7 +12,8 @@
 
 ## About
 
-`TsunaCan.XmlDocumentationTranslator.Cli` is a .NET global tool that uses AI to translate .NET IntelliSense documentation files in your projects.
+`TsunaCan.XmlDocumentationTranslator.Cli` is a .NET global tool that uses AI to translate .NET IntelliSense documentation.
+This tool helps translate code documentation in your projects.
 It provides a command-line interface to automate and streamline the translation of code documentation.
 This makes your codebase more accessible to global developers, regardless of any language used.
 
@@ -61,7 +62,7 @@ dotnet xml-document-translate --source-document-path "path/to/source.xml" --outp
 - `--model-id`: AI model ID to use for translation
 - `--chunk-size`: Size of text chunks for translation
 - `--max-concurrent-requests`: Maximum number of concurrent AI requests
-- `--log-level`: Logging level (Trace, Debug, Information, Warning, Error, Critical, None)
+- `--log-level`: Logging level (Trace, Debug, Information or other levels)
 
 ### Examples
 
@@ -77,7 +78,7 @@ Translation with custom output directory:
 dotnet xml-document-translate \
   --source-document-path "Documentation/MyProject.xml" \
   --output-directory-path "Documentation/Translations" \
-  --output-file-languages "ja,es,fr,de" \
+  --output-file-languages "ja,es,fr" \
   --token "your-ai-token"
 ```
 
