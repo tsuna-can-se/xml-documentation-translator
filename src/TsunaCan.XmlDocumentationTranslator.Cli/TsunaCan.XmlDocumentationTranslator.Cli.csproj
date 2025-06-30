@@ -1,9 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <IsPackable>false</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>xml-document-translate</ToolCommandName>
+    <PackageId>TsunaCan.XmlDocumentationTranslator.Cli</PackageId>
+    <Authors>masatsuna</Authors>
+    <Description>
+      XML documentation translator CLI tool.
+    </Description>
+    <Copyright>Copyright (c) 2025 masatsuna</Copyright>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/tsuna-can-se/xml-documentation-translator/tree/main/src/TsunaCan.XmlDocumentationTranslator.Cli</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>https://github.com/tsuna-can-se/xml-documentation-translator/releases</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/tsuna-can-se/xml-documentation-translator.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryBranch>main</RepositoryBranch>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +28,10 @@
   <ItemGroup>
     <ProjectReference Include="..\TsunaCan.XmlDocumentationTranslator.AI\TsunaCan.XmlDocumentationTranslator.AI.csproj" />
     <ProjectReference Include="..\TsunaCan.XmlDocumentationTranslator.Core\TsunaCan.XmlDocumentationTranslator.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
   <ItemGroup>
