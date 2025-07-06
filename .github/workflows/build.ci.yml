@@ -46,6 +46,10 @@ jobs:
             9.0.x
           dotnet-quality: 'ga'
 
+      - name: dotnet ツールの復元
+        shell: bash
+        run: dotnet tool restore
+
       - name: アプリケーションのビルド
         id: application-build
         shell: bash
