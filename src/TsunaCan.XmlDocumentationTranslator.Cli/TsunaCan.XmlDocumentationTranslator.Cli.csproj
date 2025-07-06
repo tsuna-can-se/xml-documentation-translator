@@ -32,6 +32,10 @@
 
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="/" />
+
+    <!-- The LICENSES folder is created by the running release workflow. -->
+    <None Include="LICENSES\**\*" Pack="true" PackagePath="LICENSES/" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,4 +57,8 @@
     <InternalsVisibleTo Include="Test.TsunaCan.XmlDocumentationTranslator.Cli" />
   </ItemGroup>
 
+  <Target Name="GenerateThirdPartyNotices" AfterTargets="Build">
+    <Message Text="IsPacking: $(IsPacking)" Importance="high" />
+    <Exec Command="dotnet nuget-license --include-transitive --ignored-packages $(ProjectDir)IgnoreLicenses.json -i $(ProjectDir)TsunaCan.XmlDocumentationTranslator.Cli.csproj --file-output $(ProjectDir)THIRD-PARTY-NOTICES.txt" />
+  </Target>
 </Project>
