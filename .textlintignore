@@ -1,3 +1,7 @@
 # dotnet アプリケーションのビルド成果物フォルダーは検査を除外
 src/**/@(obj|bin)/**
 tests/**/@(obj|bin)/**
+
+# ignore auto generated files.
+.vs/**
+**/THIRD-PARTY-NOTICES.txt

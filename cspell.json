@@ -26,6 +26,7 @@
         ".textlintrc",
         ".vscode",
         "cspell.json",
+        "THIRD-PARTY-NOTICES.txt",
         "xml-documentation-translator.code-workspace",
         "package.json",
         "package-lock.json",
