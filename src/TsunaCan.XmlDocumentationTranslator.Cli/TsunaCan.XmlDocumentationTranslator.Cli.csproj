@@ -35,7 +35,7 @@
     <None Include="THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="/" />
 
     <!-- The LICENSES folder is created by the running release workflow. -->
-    <None Include="LICENSES\**\*" Pack="true" PackagePath="LICENSES/" />
+    <None Include="LICENSES/**/*" Pack="true" PackagePath="LICENSES/" />
   </ItemGroup>
 
   <ItemGroup>
