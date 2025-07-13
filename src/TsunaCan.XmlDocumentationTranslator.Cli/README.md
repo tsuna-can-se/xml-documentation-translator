@@ -94,6 +94,16 @@ dotnet xml-document-translate \
   --max-concurrent-requests 5
 ```
 
+## Third-Party Licenses
+
+This tool bundles license texts of third-party open source libraries it depends on.
+When distributed as a NuGet package, these license texts are included in the `LICENSES` directory inside the nupkg file.
+The bundled third-party packages and their license information are listed in the `THIRD-PARTY-NOTICES.txt` file.
+This file is included in the nupkg package.
+Note: The `THIRD-PARTY-NOTICES.txt` in this repository always reflects the latest information.
+The file included in each nupkg corresponds to the OSS libraries bundled in that specific version.
+For full license texts, see the files in the `LICENSES` directory of the nupkg.
+
 ## License
 
 This project is licensed under the MIT License.
