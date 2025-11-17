@@ -82,7 +82,7 @@ jobs:
 
       - id: create-test-result-report
         name: テスト結果ページの作成
-        uses: dorny/test-reporter@dc3a92680fcc15842eef52e8c4606ea7ce6bd3f3 # v2
+        uses: dorny/test-reporter@7b7927aa7da8b82e81e755810cb51f39941a2cc7 # v2
         with:
           name: 'Test results ${{ matrix.framework-version }} on ${{ matrix.os }}'
           path: '**/TestResults/${{ matrix.os }}-${{ matrix.framework-version }}.trx'
