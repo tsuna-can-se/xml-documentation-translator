@@ -16,14 +16,17 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        framework-version: [net472, net8.0, net9.0]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        framework-version: [net472, net8.0, net9.0, net10.0]
         exclude:
           - os: ubuntu-latest
+            framework-version: net472
+          - os: macos-latest
             framework-version: net472
         include:
           - framework-version: net8.0
           - framework-version: net9.0
+          - framework-version: net10.0
 
     runs-on: ${{ matrix.os }}
    
@@ -44,6 +47,7 @@ jobs:
           dotnet-version: |
             8.0.x
             9.0.x
+            10.0.x
           dotnet-quality: 'ga'
 
       - name: dotnet ツールの復元
