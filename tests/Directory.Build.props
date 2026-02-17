@@ -7,7 +7,7 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-    <TestingPlatformDotnetTestSupport>false</TestingPlatformDotnetTestSupport>
+    <EnableMicrosoftTestingPlatformCIMode>true</EnableMicrosoftTestingPlatformCIMode>
   </PropertyGroup>
 
   <ItemGroup>
