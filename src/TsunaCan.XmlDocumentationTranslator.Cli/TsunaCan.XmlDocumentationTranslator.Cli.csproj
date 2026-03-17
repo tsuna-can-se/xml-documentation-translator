@@ -59,6 +59,6 @@
 
   <Target Name="GenerateThirdPartyNotices" AfterTargets="Build">
     <Message Text="IsPacking: $(IsPacking)" Importance="high" />
-    <Exec Command="dotnet nuget-license --include-transitive --ignored-packages $(ProjectDir)IgnoreLicenses.json -i $(ProjectDir)TsunaCan.XmlDocumentationTranslator.Cli.csproj --file-output $(ProjectDir)THIRD-PARTY-NOTICES.txt" />
+    <Exec Command="nuget-license --include-transitive --ignored-packages $(ProjectDir)IgnoreLicenses.json -i $(ProjectDir)TsunaCan.XmlDocumentationTranslator.Cli.csproj --file-output $(ProjectDir)THIRD-PARTY-NOTICES.txt" />
   </Target>
 </Project>
