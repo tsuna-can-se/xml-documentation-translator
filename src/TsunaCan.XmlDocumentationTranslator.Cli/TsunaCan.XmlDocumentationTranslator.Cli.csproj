@@ -57,8 +57,8 @@
     <InternalsVisibleTo Include="Test.TsunaCan.XmlDocumentationTranslator.Cli" />
   </ItemGroup>
 
-  <Target Name="GenerateThirdPartyNotices" AfterTargets="Build">
+  <Target Name="GenerateThirdPartyNotices" AfterTargets="Build" Condition="'$(GITHUB_ACTIONS)' != 'true'">
     <Message Text="IsPacking: $(IsPacking)" Importance="high" />
-    <Exec Command="dotnet nuget-license --include-transitive --ignored-packages $(ProjectDir)IgnoreLicenses.json -i $(ProjectDir)TsunaCan.XmlDocumentationTranslator.Cli.csproj --file-output $(ProjectDir)THIRD-PARTY-NOTICES.txt" />
+    <Exec Command="nuget-license --include-transitive --ignored-packages $(ProjectDir)IgnoreLicenses.json -i $(ProjectDir)TsunaCan.XmlDocumentationTranslator.Cli.csproj --file-output $(ProjectDir)THIRD-PARTY-NOTICES.txt" />
   </Target>
 </Project>

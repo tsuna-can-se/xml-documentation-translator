@@ -17,13 +17,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        framework-version: [net472, net8.0, net9.0]
+        framework-version: [net472, net8.0, net9.0, net10.0]
         exclude:
           - os: ubuntu-latest
             framework-version: net472
         include:
           - framework-version: net8.0
           - framework-version: net9.0
+          - framework-version: net10.0
 
     runs-on: ${{ matrix.os }}
    
@@ -44,6 +45,7 @@ jobs:
           dotnet-version: |
             8.0.x
             9.0.x
+            10.0.x
           dotnet-quality: 'ga'
 
       - name: dotnet ツールの復元
@@ -78,7 +80,18 @@ jobs:
         continue-on-error: true
         run: |
           echo '## Test Result :memo:' >> $GITHUB_STEP_SUMMARY
-          dotnet test --no-build --nologo --verbosity normal --configuration ${{ env.BUILD_CONFIGURATION }} --framework ${{ matrix.framework-version }} -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename ${{ matrix.os }}-${{ matrix.framework-version }}.trx
+          # Run tests for the specified framework by executing test assemblies directly
+          # This is required because MTP with global.json has limitations with dotnet test --solution
+          for dll in tests/**/bin/${{ env.BUILD_CONFIGURATION }}/${{ matrix.framework-version }}/Test.*.dll tests/**/bin/${{ env.BUILD_CONFIGURATION }}/${{ matrix.framework-version }}/Test.*.exe; do
+            if [ -f "$dll" ]; then
+              echo "Running tests: $dll"
+              if [[ "$dll" == *.exe ]]; then
+                "$dll" -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename ${{ matrix.os }}-${{ matrix.framework-version }}.trx
+              else
+                dotnet exec "$dll" -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml --report-xunit-trx --report-xunit-trx-filename ${{ matrix.os }}-${{ matrix.framework-version }}.trx
+              fi
+            fi
+          done
 
       - id: create-test-result-report
         name: テスト結果ページの作成
